@@ -16,7 +16,7 @@ export const Header: React.FC = () => {
         <span className="status-dot" aria-hidden="true" />
         <strong>CONCEPT BUILD</strong>
         <span>
-          Educational drafts are under review. Brand identity is not final.
+          Educational drafts are under mechanic review. Brand identity is approved. Site not yet relaunched.
         </span>
       </div>
       <header className="site-header" id="top">
@@ -36,7 +36,7 @@ export const Header: React.FC = () => {
             <strong>
               THE <em>DIAGNOSTIC BAY</em>
             </strong>
-            <small>READ THE SIGNAL. TEST THE THEORY.</small>
+            <small>WE HELP YOU FIND THE FAULT - OR TEACH YOU TO FIND IT</small>
           </span>
         </a>
         <button
