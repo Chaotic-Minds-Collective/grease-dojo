@@ -172,7 +172,7 @@ export const SiteFooter: React.FC = () => {
             <strong>
               THE <em>DIAGNOSTIC BAY</em>
             </strong>
-            <small>READ THE SIGNAL. TEST THE THEORY.</small>
+            <small>WE HELP YOU FIND THE FAULT - OR TEACH YOU TO FIND IT</small>
           </span>
         </a>
         <p>
