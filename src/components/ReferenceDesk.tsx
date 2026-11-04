@@ -3,15 +3,6 @@ import './ReferenceDesk.css';
 
 const RESOURCES = [
   {
-    category: 'VEHICLE-SPECIFIC REPAIR INFORMATION',
-    title: 'Manufacturer service information',
-    description:
-      'Find participating automakers’ official repair-information portals. Procedures, wiring diagrams, technical service bulletins, and specifications vary by vehicle and may require a separate account or paid access.',
-    link: 'https://oem1stop.com/node/2',
-    linkLabel: 'Find OEM service portals',
-    note: 'Use the exact year, make, model, engine, and configuration.',
-  },
-  {
     category: 'SAFETY RECALLS',
     title: 'NHTSA recalls and investigations',
     description:

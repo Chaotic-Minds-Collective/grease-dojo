@@ -371,6 +371,7 @@ export const CaseWorksheet: React.FC = () => {
                 value={reportText}
                 onFocus={(event) => event.currentTarget.select()}
               />
+              <div className="case-report-print">{reportText}</div>
             </div>
           )}
           <p className="case-status" role="status" aria-live="polite">

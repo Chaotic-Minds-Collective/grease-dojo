@@ -17,7 +17,7 @@
 | Repair and field guides | Starter set implemented on main | Six local draft guides; review gate remains. |
 | Diagnostic Case Worksheet | Implemented on feature branch | Local-only, no persistence or server transmission; copy and print/share report. Not yet merged or tested. |
 | Content review procedure | Implemented on feature branch | Three supplied review rounds inventoried; all remain pending. |
-| Reference Desk with primary external resources | Implemented on feature branch | Links to OEM service-information directory, NHTSA recalls, EPA repair-information guidance, and ASE repair-center locator. |
+| Reference Desk with primary external resources | Implemented on feature branch | Links to NHTSA recalls, EPA repair-information guidance, and ASE repair-center locator. The OEM directory card is temporarily unavailable pending a working URL. |
 | Educational, safety, privacy, and third-party-link notices | Draft on feature branch | Legal/hosting review required before launch. |
 | Technical references and item-level mechanic approvals | Not complete | Release blocker. |
 | Spanish review and approved translations | Not started | Begins after mechanic approval. |

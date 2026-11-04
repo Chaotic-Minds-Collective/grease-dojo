@@ -220,6 +220,10 @@
   font-size: 0.8rem;
 }
 
+.case-report-print {
+  display: none;
+}
+
 .case-status {
   min-height: 1.4rem;
   margin: 0;
@@ -271,18 +275,31 @@
     margin: 16mm;
   }
 
-  body * {
-    visibility: hidden !important;
+  body > :not(#root),
+  #root > :not(main),
+  main > :not(.case-worksheet-section),
+  .case-worksheet-section > :not(.section-wrap),
+  .case-worksheet-section > .section-wrap > :not(.case-form),
+  .case-form > :not(.case-report) {
+    display: none !important;
   }
 
-  .case-report,
-  .case-report * {
-    visibility: visible !important;
+  .case-worksheet-section {
+    border: 0;
+    background: #fff;
+  }
+
+  .case-worksheet-section > .section-wrap {
+    max-width: none;
+    padding: 0;
+  }
+
+  .case-form {
+    display: block;
+    max-width: none;
   }
 
   .case-report {
-    position: absolute;
-    inset: 0;
     width: 100%;
     max-width: none;
     padding: 0;
@@ -307,13 +324,16 @@
   }
 
   .case-report-text {
-    width: 100%;
-    min-height: 0;
-    border: 0;
-    background: #fff !important;
-    color: #111 !important;
+    display: none !important;
+  }
+
+  .case-report-print {
+    display: block;
+    color: #111;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: 10pt;
-    overflow: visible;
-    resize: none;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
   }
 }
