@@ -45,6 +45,31 @@ export const App: React.FC = () => {
 
   const isContactRoute = route.startsWith('#/contact');
 
+  // Native fragment scrolling fires the moment the hash changes, before
+  // React has swapped the route's content in. Navigating between pages
+  // (for example #/contact -> #guides) would otherwise land at the top of
+  // the newly mounted page instead of the target section. This effect
+  // scrolls to the URL fragment's target after the home branch mounts.
+  useEffect(() => {
+    if (isContactRoute) {
+      return;
+    }
+    const targetId = route.startsWith('#') ? route.slice(1) : route;
+    if (!targetId || targetId.startsWith('/contact')) {
+      return;
+    }
+    const frame = requestAnimationFrame(() => {
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({
+          behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+          block: 'start',
+        });
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [route, isContactRoute]);
+
   const handleRunSearch = useCallback(
     (queryValue: string, resultsEl?: HTMLDivElement | null) => {
       const { status, results } = searchDiagnosticLibrary(queryValue);
