@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ContactPage } from './components/ContactPage';
 import { DetailDialog } from './components/DetailDialog';
 import { DiagnosticLab } from './components/DiagnosticLab';
@@ -36,11 +36,23 @@ export const App: React.FC = () => {
   const [searchStatus, setSearchStatus] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResultItem[]>([]);
   const [activeDetail, setActiveDetail] = useState<DetailSelection | null>(null);
+  const ignoreNextFragmentScroll = useRef(false);
 
   useEffect(() => {
+    // Back/forward traversal also fires popstate (plain link clicks do
+    // not, and popstate fires before hashchange). Let the browser restore
+    // its saved scroll position on traversal instead of forcing a
+    // fragment scroll.
+    const handlePopState = () => {
+      ignoreNextFragmentScroll.current = true;
+    };
     const handleHashChange = () => setRoute(readRoute());
+    window.addEventListener('popstate', handlePopState);
     window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('hashchange', handleHashChange);
+    };
   }, []);
 
   const isContactRoute = route.startsWith('#/contact');
@@ -59,13 +71,26 @@ export const App: React.FC = () => {
       return;
     }
     const frame = requestAnimationFrame(() => {
-      const target = document.getElementById(targetId);
-      if (target) {
-        target.scrollIntoView({
-          behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-          block: 'start',
-        });
+      if (ignoreNextFragmentScroll.current) {
+        // History traversal: the browser already restored the saved
+        // position; do not override it.
+        ignoreNextFragmentScroll.current = false;
+        return;
       }
+      const target = document.getElementById(targetId);
+      if (!target) {
+        return;
+      }
+      if (!target.hasAttribute('tabindex')) {
+        // Make the section programmatically focusable (excluded from the
+        // normal Tab order) so keyboard focus can follow the scroll.
+        target.setAttribute('tabindex', '-1');
+      }
+      target.scrollIntoView({
+        behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+        block: 'start',
+      });
+      target.focus({ preventScroll: true });
     });
     return () => cancelAnimationFrame(frame);
   }, [route, isContactRoute]);
