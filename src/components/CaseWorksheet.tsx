@@ -50,6 +50,7 @@ const EMPTY_CASE: CaseDetails = {
   observations: '',
 };
 
+/** Returns a new selection with the value appended when checked, or matching values removed when unchecked. */
 function toggleSelection(current: string[], value: string, checked: boolean) {
   return checked
     ? [...current, value]
