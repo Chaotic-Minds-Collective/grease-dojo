@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 
-// Tally embed URL for the contact form.
-// Create the form at https://tally.so (free plan), then paste its share
-// link here, e.g. 'https://tally.so/r/n0PrxV'. Leave empty until then -
-// the page shows a "form is being set up" panel while empty.
-const TALLY_FORM_URL = '';
+// Tally embed URL for the contact form (free plan, unlimited responses).
+// Form: "Contact Grease Dojo" at https://tally.so/r/M1Xj4p
+// To swap forms later, replace the URL with the new Tally share link.
+const TALLY_FORM_URL = 'https://tally.so/r/M1Xj4p';
 
 export const ContactPage: React.FC = () => {
   useEffect(() => {
