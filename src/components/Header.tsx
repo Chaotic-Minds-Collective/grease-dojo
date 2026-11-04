@@ -72,6 +72,9 @@ export const Header: React.FC = () => {
           <a href="#learning" onClick={handleLinkClick}>
             Learning
           </a>
+          <a href="#/contact" onClick={handleLinkClick}>
+            Contact
+          </a>
           <a className="nav-cta" href="#search" onClick={handleLinkClick}>
             Start diagnosis <span aria-hidden="true">↗</span>
           </a>

@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ContactPage } from './components/ContactPage';
 import { DetailDialog } from './components/DetailDialog';
 import { DiagnosticLab } from './components/DiagnosticLab';
 import { GuidedTriage } from './components/GuidedTriage';
@@ -25,11 +26,24 @@ function prefersReducedMotion(): boolean {
   );
 }
 
+function readRoute(): string {
+  return typeof window === 'undefined' ? '' : window.location.hash;
+}
+
 export const App: React.FC = () => {
+  const [route, setRoute] = useState<string>(readRoute);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchStatus, setSearchStatus] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResultItem[]>([]);
   const [activeDetail, setActiveDetail] = useState<DetailSelection | null>(null);
+
+  useEffect(() => {
+    const handleHashChange = () => setRoute(readRoute());
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const isContactRoute = route.startsWith('#/contact');
 
   const handleRunSearch = useCallback(
     (queryValue: string, resultsEl?: HTMLDivElement | null) => {
@@ -68,23 +82,29 @@ export const App: React.FC = () => {
     <>
       <Header />
       <main id="main">
-        <HeroSection />
-        <SearchSection
-          query={searchQuery}
-          onQueryChange={setSearchQuery}
-          onRunSearch={handleRunSearch}
-          statusMessage={searchStatus}
-          results={searchResults}
-          onOpenDetail={setActiveDetail}
-        />
-        <DiagnosticLab onOpenDetail={setActiveDetail} />
-        <SymptomsSection onSelectSymptom={handleSelectSymptom} />
-        <GuidedTriage />
-        <GuidesSection onOpenDetail={setActiveDetail} />
-        <LearningSection />
-        <SafetyLessonQuiz />
-        <SafetySection />
-        <AboutSection />
+        {isContactRoute ? (
+          <ContactPage />
+        ) : (
+          <>
+            <HeroSection />
+            <SearchSection
+              query={searchQuery}
+              onQueryChange={setSearchQuery}
+              onRunSearch={handleRunSearch}
+              statusMessage={searchStatus}
+              results={searchResults}
+              onOpenDetail={setActiveDetail}
+            />
+            <DiagnosticLab onOpenDetail={setActiveDetail} />
+            <SymptomsSection onSelectSymptom={handleSelectSymptom} />
+            <GuidedTriage />
+            <GuidesSection onOpenDetail={setActiveDetail} />
+            <LearningSection />
+            <SafetyLessonQuiz />
+            <SafetySection />
+            <AboutSection />
+          </>
+        )}
       </main>
       <SiteFooter />
       <DetailDialog
