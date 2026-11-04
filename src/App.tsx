@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { CaseWorksheet } from './components/CaseWorksheet';
 import { ContactPage } from './components/ContactPage';
 import { DetailDialog } from './components/DetailDialog';
 import { DiagnosticLab } from './components/DiagnosticLab';
@@ -12,8 +13,10 @@ import {
   SafetySection,
   SiteFooter,
 } from './components/InfoSections';
+import { ReferenceDesk } from './components/ReferenceDesk';
 import { SearchSection } from './components/SearchSection';
 import { SafetyLessonQuiz } from './components/SafetyLessonQuiz';
+import { SiteNotices } from './components/SiteNotices';
 import { SymptomsSection } from './components/SymptomsSection';
 import { searchDiagnosticLibrary } from './data/diagnosticsData';
 import { DetailSelection, SearchResultItem } from './types/diagnostics';
@@ -148,10 +151,13 @@ export const App: React.FC = () => {
             <DiagnosticLab onOpenDetail={setActiveDetail} />
             <SymptomsSection onSelectSymptom={handleSelectSymptom} />
             <GuidedTriage />
+            <CaseWorksheet />
             <GuidesSection onOpenDetail={setActiveDetail} />
             <LearningSection />
             <SafetyLessonQuiz />
             <SafetySection />
+            <ReferenceDesk />
+            <SiteNotices />
             <AboutSection />
           </>
         )}
