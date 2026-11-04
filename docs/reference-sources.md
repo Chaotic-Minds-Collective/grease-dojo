@@ -7,11 +7,12 @@
 
 | Resource | URL | What the source supports | Limits / how the site describes it |
 |---|---|---|---|
-| OEM1Stop — participating manufacturers | https://oem1stop.com/node/2 | Describes OEM1Stop as a directory to participating automakers' repair-information websites. | Each manufacturer operates its own portal; registration and subscription fees may apply. The website directs users to the exact manufacturer's information. |
 | NHTSA — recalls | https://www.nhtsa.gov/recalls | Allows recall searches by VIN and broader searches by year, make, and model; includes investigations, complaints, and manufacturer communications. | NHTSA lists limits to VIN results, including already repaired recalls and certain recently announced or older recalls. The site labels this as a safety-recall resource, not a diagnostic tool. |
 | U.S. EPA — Freedom to Fix | https://www.epa.gov/ve-certification/freedom-fix | EPA describes manufacturers' obligations to provide emissions-related service information, OBD data, training materials, and related repair resources. | This is a policy/resource overview, not a vehicle-specific diagnostic procedure or a guarantee that every item is free. |
 | ASE — Blue Seal repair-center locator | https://ase.com/repair-centers/ | Search tool for participating Blue Seal recognized repair businesses. | Do not imply that every listed employee holds an individual ASE credential. |
 | ASE — driver resources | https://ase.com/drivers/ | ASE explains its technician certification and Blue Seal repair-shop resources. | The website advises drivers to ask service professionals to show their credentials; certification applies to technicians, not businesses. |
+
+The OEM1Stop directory card is temporarily unavailable pending a working directory URL.
 
 ## Editorial rules
 

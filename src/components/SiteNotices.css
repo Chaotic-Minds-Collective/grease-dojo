@@ -1,0 +1,73 @@
+.site-notices-section {
+  background: #141416;
+  border-block: 1px solid #342d2e;
+}
+
+.notice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.notice-card {
+  padding: 1.3rem;
+  border: 1px solid #39434d;
+  border-radius: 10px;
+  background: #191f25;
+}
+
+.notice-card-warning {
+  border-color: #744347;
+  background: linear-gradient(145deg, #261b1d, #191a1e);
+}
+
+.notice-label {
+  color: #32e6e6;
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.notice-card-warning .notice-label {
+  color: #f08a8a;
+}
+
+.notice-card h3 {
+  margin: 0.75rem 0 0.65rem;
+  color: #e8edf2;
+  font-size: 1.15rem;
+}
+
+.notice-card p {
+  margin: 0.65rem 0 0;
+  color: #b5c0c8;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+.notice-review-note {
+  max-width: 900px;
+  margin: 1.3rem 0 0;
+  padding: 1rem 1.1rem;
+  border-left: 3px solid #e2bc58;
+  background: #1b1c1e;
+  color: #aeb9c1;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.notice-review-note strong {
+  color: #e2bc58;
+}
+
+@media (max-width: 760px) {
+  .notice-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .notice-card {
+    padding: 1.05rem;
+  }
+}
