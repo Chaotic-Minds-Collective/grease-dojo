@@ -20,9 +20,9 @@
   flex: none;
   width: 25px;
   height: 25px;
-  border: 1px solid #32e6e6;
+  border: 1px solid #ff7a18;
   border-radius: 50%;
-  color: #32e6e6;
+  color: #ff7a18;
   font-weight: 900;
 }
 
@@ -102,7 +102,7 @@
 .case-field-grid select:focus-visible,
 .case-wide-field textarea:focus-visible,
 .case-report-text:focus-visible {
-  outline: 2px solid #32e6e6;
+  outline: 2px solid #ff7a18;
   outline-offset: 2px;
 }
 
@@ -138,11 +138,11 @@
   width: 18px;
   height: 18px;
   margin: 0.05rem 0 0;
-  accent-color: #32e6e6;
+  accent-color: #ff7a18;
 }
 
 .case-check:focus-within {
-  outline: 2px solid #32e6e6;
+  outline: 2px solid #ff7a18;
   outline-offset: 2px;
 }
 
