@@ -1,5 +1,5 @@
 /*
- * THE DIAGNOSTIC BAY - BRAND REFRESH THEME OVERRIDE
+ * GREASY DOJO - BRAND REFRESH THEME OVERRIDE
  * Loaded AFTER index.css. Original theme file untouched; delete this
  * import in src/main.tsx to revert to the previous look entirely.
  *
@@ -211,4 +211,28 @@
   border-left: 3px solid var(--red);
   padding-left: 0.85rem;
   max-width: 70ch;
+}
+
+/* ---- Hardcoded teal remnants (Nov 5, 2026 audit) ----
+ * These index.css rules hardcode #32e6e6 instead of using the theme
+ * variables, so the palette swap above did not reach them. Found by
+ * inspecting the compiled live stylesheet.
+ */
+
+.triage-kicker {
+  color: var(--fire);
+}
+
+.triage-detail h4 {
+  color: var(--fire);
+}
+
+.triage-choice:hover,
+.triage-choice.is-active {
+  border-color: var(--fire);
+  background: #2a1a0d;
+}
+
+.hero-portrait:before {
+  border-color: #ff7a1833;
 }
