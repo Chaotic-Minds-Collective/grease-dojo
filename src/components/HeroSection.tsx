@@ -37,16 +37,17 @@ export const HeroSection: React.FC = () => {
 
       <div
         className="hero-console"
-        aria-label="Original mechanic character concept and illustrative diagnostic console; not connected to a vehicle"
+        aria-label="Illustrative garage concept art and diagnostic console; not connected to a vehicle"
       >
         <div className="hero-portrait">
-          <span className="portrait-label">ORIGINAL CHARACTER STUDY / 001</span>
+          <span className="portrait-label">CONCEPT VISUAL / 001</span>
           <img
             className="hero-mascot"
-            src={`${import.meta.env.BASE_URL}assets/brand-mascot-concept.svg`}
-            alt="Original hooded mechanic character holding a diagnostic scanner and ratchet, with restrained gold and orange energy details"
+            src={`${import.meta.env.BASE_URL}assets/hero-banner.png`}
+            alt="Garage workshop concept art with warm light over a workbench; illustrative, not connected to a vehicle"
             width="560"
             height="580"
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
           />
           <span className="portrait-caption">THE SIGNAL ISN'T THE SOLUTION.</span>
         </div>
