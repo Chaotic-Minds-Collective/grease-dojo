@@ -136,3 +136,14 @@ h2 .text-gold {
     padding: 0.4rem 0.8rem;
   }
 }
+
+/* Hero background: re-point the hardcoded warm gradients from
+   index.css at the navy-black palette; the blue glow comes from
+   .hero-glow-cyan (var(--cyan)) and stays intact. */
+.hero {
+  border-bottom-color: #1D2B3E;
+  background:
+    radial-gradient(ellipse at 82% 44%, #0d2338 0, transparent 36%),
+    radial-gradient(ellipse at 90% 90%, #1a2f4d 0, transparent 30%),
+    linear-gradient(125deg, #05070C 15%, #0a1526 70%, #0E1A30);
+}
