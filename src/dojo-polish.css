@@ -2,27 +2,51 @@
   Greasy Dojo visual polish.
   Layered after index.css and brand-refresh.css.
 
-  1. Retires the leftover Diagnostic Bay teal: the --cyan custom property
-     drives most accent rules, so re-pointing it at the approved fire
-     orange recolors the surface without touching every rule. The class
-     name .text-cyan stays (renaming it would touch many files) but now
-     renders fire orange.
-  2. Colombian identity: tricolor accent lines (yellow, blue, red) on the
-     eyebrow rules and result cards; Colombian yellow for search feedback.
-  3. Phone spacing: result cards go single-column on small phones and
-     sections gain vertical breathing room.
-  4. Navigation: replaces the hamburger drawer with an always-visible
-     tab strip inside the sticky header. Tabs scroll sideways on small
-     screens; the active tab is highlighted in fire orange.
+  Theme direction (from the Greasy Dojo hero artwork):
+  1. Electric blue is the primary accent (the artwork's device glow,
+     eye glow, and circuit lines). The --cyan custom property drives
+     most accent rules, so re-pointing it recolors the surface without
+     touching every rule. The class name .text-cyan stays but now
+     renders electric blue.
+  2. Backgrounds deepen to the artwork's navy-black (#05070C family)
+     instead of warm charcoal.
+  3. Headlines are silver-white with a soft blue glow; the accent span
+     inside a headline renders electric blue like the artwork subtitle.
+  4. Fire orange is demoted to small highlights (Start-diagnosis CTA,
+     warning accents) - in the artwork orange only appears as the
+     flame hair.
+  5. Colombian identity: tricolor accent lines (yellow, blue, red) on
+     the eyebrow rules and result cards; Colombian yellow for search
+     feedback. Tab navigation: always-visible strip, active tab
+     highlighted in electric blue; scrolls sideways on small screens.
 */
 
 :root {
-  --cyan: #FF7A18;
+  --cyan: #33AFFF;
   --gold: #FCD116;
+  --ember: #FF7A18;
+  --bg: #05070C;
+  --panel: #0B1220;
+  --panel2: #101A2A;
+  --line: #1D2B3E;
+}
+
+/* Silver-white headlines with a blue glow; headline accent spans go
+   electric blue, matching the artwork title/subtitle treatment. */
+h1,
+h2 {
+  color: #E9EEF4;
+  text-shadow: 0 0 22px rgba(51, 175, 255, 0.35);
+}
+
+h1 .text-gold,
+h2 .text-gold {
+  color: var(--cyan);
+  text-shadow: 0 0 24px rgba(51, 175, 255, 0.5);
 }
 
 .button-primary {
-  box-shadow: 0 10px 30px #ff7a1826;
+  box-shadow: 0 10px 30px #33afff33;
 }
 
 .eyebrow-line {
@@ -67,9 +91,9 @@
   align-items: center;
   min-height: 44px;
   padding: 0.45rem 0.95rem;
-  border: 1px solid #2c3742;
+  border: 1px solid #22303f;
   border-radius: 999px;
-  color: #c7ced6;
+  color: #c7d3dd;
   font-size: 0.85rem;
   white-space: nowrap;
   transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
@@ -77,24 +101,25 @@
 
 .tab-nav a:hover {
   color: var(--cyan);
-  border-color: #4a3527;
+  border-color: #2b5f8a;
 }
 
 .tab-nav a.is-active {
   background: var(--cyan);
   border-color: var(--cyan);
-  color: #10131a;
+  color: #05070C;
   font-weight: 600;
 }
 
+/* Fire orange survives as the small highlight on the CTA tab. */
 .tab-nav .tab-cta {
-  color: var(--gold);
-  border-color: #4d4420;
+  color: var(--ember);
+  border-color: #5a3d22;
 }
 
 .tab-nav .tab-cta:hover {
-  color: var(--gold);
-  border-color: var(--gold);
+  color: var(--ember);
+  border-color: var(--ember);
 }
 
 @media (max-width: 480px) {
