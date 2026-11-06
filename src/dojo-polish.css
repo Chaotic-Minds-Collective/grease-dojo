@@ -11,6 +11,9 @@
      eyebrow rules and result cards; Colombian yellow for search feedback.
   3. Phone spacing: result cards go single-column on small phones and
      sections gain vertical breathing room.
+  4. Navigation: replaces the hamburger drawer with an always-visible
+     tab strip inside the sticky header. Tabs scroll sideways on small
+     screens; the active tab is highlighted in fire orange.
 */
 
 :root {
@@ -37,6 +40,63 @@
   color: var(--gold);
 }
 
+/* --- Tab navigation (replaces hamburger menu) --- */
+
+.site-header {
+  flex-wrap: wrap;
+  row-gap: 0;
+}
+
+.tab-nav {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0.55rem 0 0.6rem;
+}
+
+.tab-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-nav a {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid #2c3742;
+  border-radius: 999px;
+  color: #c7ced6;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.tab-nav a:hover {
+  color: var(--cyan);
+  border-color: #4a3527;
+}
+
+.tab-nav a.is-active {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: #10131a;
+  font-weight: 600;
+}
+
+.tab-nav .tab-cta {
+  color: var(--gold);
+  border-color: #4d4420;
+}
+
+.tab-nav .tab-cta:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
 @media (max-width: 480px) {
   .result-grid {
     grid-template-columns: 1fr;
@@ -44,5 +104,10 @@
 
   .section-wrap {
     padding: 3rem 1.2rem;
+  }
+
+  .tab-nav a {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
   }
 }
