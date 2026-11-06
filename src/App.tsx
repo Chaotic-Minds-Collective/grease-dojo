@@ -24,7 +24,7 @@ import { SearchSection } from './components/SearchSection';
 import { SafetyLessonQuiz } from './components/SafetyLessonQuiz';
 import { SiteNotices } from './components/SiteNotices';
 import { SymptomsSection } from './components/SymptomsSection';
-import { searchDiagnosticLibrary } from './data/diagnosticsData';
+import { searchWithFallback } from './data/searchFallback';
 import { DetailSelection, SearchResultItem } from './types/diagnostics';
 
 function prefersReducedMotion(): boolean {
@@ -251,11 +251,15 @@ export const App: React.FC = () => {
 
   const handleRunSearch = useCallback(
     (queryValue: string, resultsEl?: HTMLDivElement | null) => {
-      const { status, results } = searchDiagnosticLibrary(queryValue);
+      const { status, results } = searchWithFallback(queryValue);
       setSearchStatus(status);
       setSearchResults(results);
 
-      if (results.length > 0 && resultsEl) {
+      // Always bring the feedback into view, even when there are no
+      // results: the status message is the answer, and on a phone the
+      // results area sits below the fold, so a silent page read as
+      // "search does nothing".
+      if (resultsEl) {
         requestAnimationFrame(() => {
           resultsEl.scrollIntoView({
             behavior: prefersReducedMotion() ? 'auto' : 'smooth',
@@ -269,7 +273,7 @@ export const App: React.FC = () => {
 
   const handleSelectSymptom = useCallback((symptomQuery: string) => {
     setSearchQuery(symptomQuery);
-    const { status, results } = searchDiagnosticLibrary(symptomQuery);
+    const { status, results } = searchWithFallback(symptomQuery);
     setSearchStatus(status);
     setSearchResults(results);
 
