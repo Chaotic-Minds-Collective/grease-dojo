@@ -40,6 +40,26 @@ function isPageRoute(route: string): boolean {
   return route.startsWith('#/');
 }
 
+// Scroll to an in-page fragment target after React has (re)rendered the
+// section that owns the id.
+function scrollToFragment(targetId: string, ignoreRestored: boolean): boolean {
+  const target = document.getElementById(targetId);
+  if (!target) {
+    return false;
+  }
+  if (!target.hasAttribute('tabindex')) {
+    // Make the section programmatically focusable (excluded from the
+    // normal Tab order) so keyboard focus can follow the scroll.
+    target.setAttribute('tabindex', '-1');
+  }
+  target.scrollIntoView({
+    behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+    block: 'start',
+  });
+  target.focus({ preventScroll: true });
+  return true;
+}
+
 export const App: React.FC = () => {
   const [route, setRoute] = useState<string>(readRoute);
   const [searchQuery, setSearchQuery] = useState('');
@@ -47,6 +67,8 @@ export const App: React.FC = () => {
   const [searchResults, setSearchResults] = useState<SearchResultItem[]>([]);
   const [activeDetail, setActiveDetail] = useState<DetailSelection | null>(null);
   const ignoreNextFragmentScroll = useRef(false);
+  const routeRef = useRef(route);
+  routeRef.current = route;
 
   useEffect(() => {
     // Back/forward traversal also fires popstate (plain link clicks do
@@ -56,7 +78,24 @@ export const App: React.FC = () => {
     const handlePopState = () => {
       ignoreNextFragmentScroll.current = true;
     };
-    const handleHashChange = () => setRoute(readRoute());
+    const handleHashChange = () => {
+      const next = readRoute();
+      if (!isPageRoute(next) && isPageRoute(routeRef.current)) {
+        // A bare fragment hash (for example "#safety-lesson" from the
+        // learning page) while a page route is active is an in-page
+        // anchor, not navigation. Keep the current page mounted and let
+        // the browser's native fragment jump (plus the smooth scroll
+        // below) move to the section.
+        const targetId = next.startsWith('#') ? next.slice(1) : next;
+        if (targetId) {
+          requestAnimationFrame(() => {
+            scrollToFragment(targetId, false);
+          });
+        }
+        return;
+      }
+      setRoute(next);
+    };
     window.addEventListener('popstate', handlePopState);
     window.addEventListener('hashchange', handleHashChange);
     return () => {
@@ -82,12 +121,10 @@ export const App: React.FC = () => {
       });
       return () => cancelAnimationFrame(frame);
     }
-    // Native fragment scrolling fires the moment the hash changes, before
-    // React has swapped the route's content in. Navigating between pages
-    // (for example #/contact -> #search) would otherwise land at the top
-    // of the newly mounted page instead of the target section. This
-    // effect scrolls to the URL fragment's target after the home branch
-    // mounts.
+    // Fragment navigation to the home page (for example "#search" from
+    // another page, or a legacy section anchor). The browser's native
+    // fragment scroll fires before React swaps the content in, so scroll
+    // to the target after the home branch mounts.
     const targetId = route.startsWith('#') ? route.slice(1) : route;
     if (!targetId) {
       return;
@@ -99,20 +136,7 @@ export const App: React.FC = () => {
         ignoreNextFragmentScroll.current = false;
         return;
       }
-      const target = document.getElementById(targetId);
-      if (!target) {
-        return;
-      }
-      if (!target.hasAttribute('tabindex')) {
-        // Make the section programmatically focusable (excluded from the
-        // normal Tab order) so keyboard focus can follow the scroll.
-        target.setAttribute('tabindex', '-1');
-      }
-      target.scrollIntoView({
-        behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-        block: 'start',
-      });
-      target.focus({ preventScroll: true });
+      scrollToFragment(targetId, true);
     });
     return () => cancelAnimationFrame(frame);
   }, [route, isContactRoute]);
