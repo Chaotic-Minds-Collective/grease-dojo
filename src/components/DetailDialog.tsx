@@ -19,6 +19,11 @@ export const DetailDialog:React.FC<DetailDialogProps> = ({selection,onClose,onOp
         if(typeof dialog.showModal==='function')dialog.showModal();
         else dialog.setAttribute('open','');
       }
+      // The dialog element is the scroll container and persists across
+      // content swaps, so a related-reference navigation would otherwise
+      // land mid-scroll. Return the viewport to the top so the new title
+      // and warning are visible from the start.
+      dialog.scrollTop=0;
     }else if(dialog.open)dialog.close();
   },[isOpen,selection]);
 
