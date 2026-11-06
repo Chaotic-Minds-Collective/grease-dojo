@@ -1,52 +1,62 @@
-# The Diagnostic Bay
+# The Greasy Dojo
 
-A React and TypeScript web application for an evidence-led automotive diagnostic and repair learning resource. **The Diagnostic Bay is the current project label, not a finalized commercial brand identity.**
+**Where diagnostic logic meets grease-monkey know-how.**
 
-## Public educational experience
+The Greasy Dojo is an educational automotive-diagnostic concept build from [Chaotic Minds Collective](https://github.com/Chaotic-Minds-Collective): a plain-language library of OBD-II trouble codes, field guides, symptom starting points, and a safety lesson - written for people who want to understand what their car is telling them, not just clear a light.
 
-The current public-facing build includes:
+**Live site:** https://chaotic-minds-collective.github.io/grease-dojo/
 
-- Responsive dark-industrial homepage, sticky navigation, skip link, and mobile navigation.
-- Original diagnostic emblem and an original, unnamed mechanic character concept.
-- Homepage diagnostic console clearly labelled as illustrative and not connected to a vehicle.
-- Search across draft trouble-code pages, symptoms, and field guides.
-- Filterable Diagnostic Lab with 12 source-aligned draft pages covering P0300, P0301–P0306, P0171, P0172, P0174, P0562, P0563, P0101, P0102, P0103, P0128, and P0133.
-- Symptom-based troubleshooting cards and a guided intake experience for recording observations and recognizing stop-work warnings.
-- Six structured field guides: battery drain, no-crank/clicking, overheating, rough idle, check-engine-light first steps, and OBD-II scanner use.
-- Detail views with possible causes, ordered next checks, safety warnings, related references, and explicit review/source status.
-- Learning-path preview plus an interactive 15-question automotive-safety knowledge check drawn from the supplied Rounds 1–3 drafts.
+> ## Status: concept build, drafts under mechanic review
+> Every code entry, guide, and quiz answer in this repository is an **educational draft**. The first library rounds came from supplied mechanic-review drafts; the transmission entries (P0700, P0715, P0730 and the shifting guide) were drafted without a mechanic and are explicitly marked *review pending*.
+>
+> **Nothing here is a repair instruction.** Vehicle-specific specifications and authoritative service references have not been supplied or verified. Always confirm against factory service information and a qualified technician before acting on anything in this library.
 
-## Local development
+## What's inside
 
-Install dependencies and start the Vite development server on port 3000:
+| Area | Content |
+|---|---|
+| Diagnostic Lab | 15 trouble codes across engine, air/fuel, electrical, temperature, and transmission - each with meaning, symptoms, possible causes, and sensible next checks |
+| Fix Database | 7 field guides (battery, clicking/no-start, overheating, rough idle, check-engine basics, scan-tool basics, won't-shift/slipping) |
+| Symptoms | 4 quick-start symptom cards that pre-load a search |
+| Guided Intake | A question-driven intake flow that narrows toward a search |
+| Learning | The safety lesson with a 9-question quiz |
+| Reference | Glossary and reference desk |
 
-```sh
+Search handles exact codes and phrases first, then falls back to the closest-ranked topics so natural-language questions like *"car won't shift"* still land somewhere useful.
+
+## Site behavior
+
+- **Nine pages** via hash routing (`#/lab`, `#/symptoms`, `#/triage`, `#/guides`, `#/learning`, `#/reference`, `#/about`, `#/contact`), with an always-visible tab strip in the sticky header - no hamburger menu, the active tab stays highlighted, and legacy section anchors (for example `#guides`) still resolve to the right page.
+- **Detail dialogs** open from every search result, lab card, and guide card; related references inside a dialog link across the library and reset the scroll to the top.
+- **Theme:** electric blue on navy-black, sampled from the Greasy Dojo key art, with silver headlines, a soft blue glow, Colombian yellow/red tricolor accents, and fire orange kept for the start-diagnosis call-to-action.
+
+## Tech
+
+- React + TypeScript + Vite, static output - no backend, no tracking
+- Deployed automatically to **GitHub Pages** from `main` via `deploy-pages.yml`
+- CI: `quality-checks.yml` (typecheck + build) and CodeQL security scanning on every PR
+- Content lives in typed data modules: `src/data/diagnosticsData.ts`, `src/data/transmissionData.ts`, and friends; `src/data/searchFallback.ts` exports the combined library view and the search implementation
+- The visual theme layers in `src/dojo-polish.css`, imported last so it can retune base styles without forking them
+
+## Development
+
+```bash
 npm install
-npm run dev
+npm run dev       # local dev server
+npm run build     # production build (typecheck + bundle)
+npm run preview   # serve the production build locally
 ```
 
-Build for production or run TypeScript validation:
+Changes land through feature branches and pull requests; merging to `main` triggers the Pages deployment.
 
-```sh
-npm run lint
-npm run build
-```
+## Roadmap
 
-## Important limitations
+1. **Mechanic review** of all draft content - especially the transmission entries - plus authoritative references for every claim
+2. Refresh the in-app content set alongside review (library grows per approved draft rounds)
+3. Domain decision (`greasydojo.com`, ~$10-15/year - not approved yet)
+4. Choose the AI assistant name for the diagnostic helper
+5. Rename `package.json` to match the project name (deferred while a lockfile relay risk exists)
 
-- All supplied automotive content remains draft and requires qualified mechanic review and authoritative references. The review register is in `docs/content-review-register.md`.
-- Vehicle-specific specifications, torque values, wiring details, and procedures are not invented. Values and references absent from the source drafts remain outstanding.
-- A diagnostic trouble code is evidence, not proof that a component has failed. Vehicle-specific service information takes precedence.
-- The safety knowledge check contains the 15 supplied draft questions from Rounds 1–3. Questions 16–20 are absent; the planned 20-question assessment and 19/20 (95%) unlock requirement are not implemented. The current self-check does not unlock content or certify training.
-- Guided Intake organizes observations and identifies stop-work warnings; it does not diagnose a fault.
-- Related code and guide references link to matching entries already present in the local library; unavailable references are labelled as not yet available. Search and guides use a local curated draft library. There is no live vehicle connection, VIN decoding, external code database, or AI diagnosis.
-- The frontend is not connected to Supabase or an external backend. Existing Supabase security findings remain separately tracked; no database remediation is included in this public-experience branch.
-- My Garage, user accounts, saved histories, Parts Finder, community, admin tools, translations, and billing are not implemented.
-- Browser interaction, responsive, accessibility, automotive-content, security, and end-to-end release testing remain for the consolidated testing and remediation phase.
-- Deployment remains separately gated and has not been authorized.
+## Repo note
 
-## Brand and intellectual property
-
-The current emblem and mascot are original concept assets, not approved final brand artwork. The commercial name, tagline, mascot/helper names, and production identity remain undecided. See `docs/brand-identity-direction.md` for the identity direction, asset inventory, and project decisions.
-
-The creative direction uses original anime-horror automotive energy without reproducing recognizable franchise characters, costumes, logos, weapons, or promotional compositions. Preliminary trademark/common-law review and final owner approval are required before identity finalization.
+The repository is named `grease-dojo` and the project site URL keeps the historical `/grease-dojo/` path; the public brand is **The Greasy Dojo**.
