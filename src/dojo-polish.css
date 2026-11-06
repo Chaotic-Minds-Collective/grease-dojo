@@ -1,0 +1,48 @@
+/*
+  Greasy Dojo visual polish.
+  Layered after index.css and brand-refresh.css.
+
+  1. Retires the leftover Diagnostic Bay teal: the --cyan custom property
+     drives most accent rules, so re-pointing it at the approved fire
+     orange recolors the surface without touching every rule. The class
+     name .text-cyan stays (renaming it would touch many files) but now
+     renders fire orange.
+  2. Colombian identity: tricolor accent lines (yellow, blue, red) on the
+     eyebrow rules and result cards; Colombian yellow for search feedback.
+  3. Phone spacing: result cards go single-column on small phones and
+     sections gain vertical breathing room.
+*/
+
+:root {
+  --cyan: #FF7A18;
+  --gold: #FCD116;
+}
+
+.button-primary {
+  box-shadow: 0 10px 30px #ff7a1826;
+}
+
+.eyebrow-line {
+  background: linear-gradient(90deg, #FCD116 0 50%, #003893 50% 75%, #CE1126 75% 100%);
+}
+
+.result-card {
+  background-image: linear-gradient(90deg, #FCD116 0 50%, #003893 50% 75%, #CE1126 75% 100%);
+  background-size: 100% 3px;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+}
+
+.search-status {
+  color: var(--gold);
+}
+
+@media (max-width: 480px) {
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-wrap {
+    padding: 3rem 1.2rem;
+  }
+}
