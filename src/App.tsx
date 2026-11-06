@@ -361,7 +361,7 @@ export const App: React.FC = () => {
 
   return (
     <>
-      <Header />
+      <Header route={route} />
       <main id="main">{pageContent}</main>
       <SiteFooter />
       <DetailDialog

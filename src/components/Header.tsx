@@ -17,17 +17,34 @@ const TABS = [
 ];
 
 // Same page-route contract App uses: routes under "#/" are pages; any
-// other fragment is an in-page anchor or legacy hash, which renders the
-// home fallback.
+// other fragment is an in-page anchor or legacy hash.
 function isPageRoute(route: string): boolean {
   return route.startsWith('#/');
 }
 
 /**
- * Decide which tab matches App's committed route. The route is resolved
- * first (a bare fragment falls back to the home page), then compared to
- * the tab href, so in-page anchors and legacy fragments keep the home
- * tab highlighted instead of leaving the strip without an active tab.
+ * Resolve App's committed route to the page whose tab should be active.
+ * Page routes map to themselves; the legacy section fragments App still
+ * renders content for ("#guides", "#learning", "#safety-lesson") map to
+ * their matching page tabs; every other fragment (in-page anchors such
+ * as "#search", unknown routes) falls back to the home tab, matching
+ * App's home fallback render.
+ */
+function resolvePage(route: string): string {
+  if (isPageRoute(route)) {
+    return route;
+  }
+  if (route === '#guides') {
+    return '#/guides';
+  }
+  if (route === '#learning' || route === '#safety-lesson') {
+    return '#/learning';
+  }
+  return '#/';
+}
+
+/**
+ * Decide whether a tab matches the resolved page.
  */
 function isTabActive(resolvedPage: string, href: string): boolean {
   return resolvedPage === href;
@@ -44,7 +61,7 @@ interface HeaderProps {
  * down, so the highlight always agrees with the rendered page.
  */
 export const Header: React.FC<HeaderProps> = ({ route }) => {
-  const resolvedPage = isPageRoute(route) ? route : '#/';
+  const resolvedPage = resolvePage(route);
 
   return (
     <>
