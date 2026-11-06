@@ -1,4 +1,4 @@
-import { CodeCategory, DetailKind, SearchResultItem, TroubleCode, FieldGuide } from '../types/diagnostics';
+import { DetailKind, SearchResultItem, TroubleCode, FieldGuide } from '../types/diagnostics';
 import { FIELD_GUIDES, TROUBLE_CODES, normalizeQuery } from './diagnosticsData';
 import { SHIFT_GUIDES, TRANSMISSION_CODES } from './transmissionData';
 
