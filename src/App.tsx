@@ -33,6 +33,13 @@ function readRoute(): string {
   return typeof window === 'undefined' ? '' : window.location.hash;
 }
 
+// Page routes live under "#/". Bare fragment hashes (for example
+// "#search" or legacy section anchors) keep their old meaning: show the
+// home page and scroll to that section if it exists there.
+function isPageRoute(route: string): boolean {
+  return route.startsWith('#/');
+}
+
 export const App: React.FC = () => {
   const [route, setRoute] = useState<string>(readRoute);
   const [searchQuery, setSearchQuery] = useState('');
@@ -60,17 +67,29 @@ export const App: React.FC = () => {
 
   const isContactRoute = route.startsWith('#/contact');
 
-  // Native fragment scrolling fires the moment the hash changes, before
-  // React has swapped the route's content in. Navigating between pages
-  // (for example #/contact -> #guides) would otherwise land at the top of
-  // the newly mounted page instead of the target section. This effect
-  // scrolls to the URL fragment's target after the home branch mounts.
   useEffect(() => {
     if (isContactRoute) {
+      // ContactPage scrolls itself to the top on mount.
       return;
     }
+    if (isPageRoute(route)) {
+      // Navigating to a page: start at the top of the new page.
+      const frame = requestAnimationFrame(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+        });
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+    // Native fragment scrolling fires the moment the hash changes, before
+    // React has swapped the route's content in. Navigating between pages
+    // (for example #/contact -> #search) would otherwise land at the top
+    // of the newly mounted page instead of the target section. This
+    // effect scrolls to the URL fragment's target after the home branch
+    // mounts.
     const targetId = route.startsWith('#') ? route.slice(1) : route;
-    if (!targetId || targetId.startsWith('/contact')) {
+    if (!targetId) {
       return;
     }
     const frame = requestAnimationFrame(() => {
@@ -122,6 +141,8 @@ export const App: React.FC = () => {
     setSearchStatus(status);
     setSearchResults(results);
 
+    // The search section is rendered on the symptoms page itself, so the
+    // results appear right below the symptom the visitor chose.
     const searchSectionEl = document.getElementById('search');
     if (searchSectionEl) {
       searchSectionEl.scrollIntoView({
@@ -131,37 +152,70 @@ export const App: React.FC = () => {
     }
   }, []);
 
+  const searchSection = (
+    <SearchSection
+      query={searchQuery}
+      onQueryChange={setSearchQuery}
+      onRunSearch={handleRunSearch}
+      statusMessage={searchStatus}
+      results={searchResults}
+      onOpenDetail={setActiveDetail}
+    />
+  );
+
+  let pageContent: React.ReactNode;
+  if (isContactRoute) {
+    pageContent = <ContactPage />;
+  } else if (route === '#/lab') {
+    pageContent = (
+      <>
+        <DiagnosticLab onOpenDetail={setActiveDetail} />
+        <CaseWorksheet />
+      </>
+    );
+  } else if (route === '#/symptoms') {
+    pageContent = (
+      <>
+        {searchSection}
+        <SymptomsSection onSelectSymptom={handleSelectSymptom} />
+      </>
+    );
+  } else if (route === '#/triage') {
+    pageContent = <GuidedTriage />;
+  } else if (route === '#/guides') {
+    pageContent = <GuidesSection onOpenDetail={setActiveDetail} />;
+  } else if (route === '#/learning') {
+    pageContent = (
+      <>
+        <LearningSection />
+        <SafetyLessonQuiz />
+        <SafetySection />
+      </>
+    );
+  } else if (route === '#/reference') {
+    pageContent = <ReferenceDesk />;
+  } else if (route === '#/about') {
+    pageContent = (
+      <>
+        <SiteNotices />
+        <AboutSection />
+      </>
+    );
+  } else {
+    // Home: also the fallback for legacy section fragments and unknown
+    // routes, so old links keep working instead of dead-ending.
+    pageContent = (
+      <>
+        <HeroSection />
+        {searchSection}
+      </>
+    );
+  }
+
   return (
     <>
       <Header />
-      <main id="main">
-        {isContactRoute ? (
-          <ContactPage />
-        ) : (
-          <>
-            <HeroSection />
-            <SearchSection
-              query={searchQuery}
-              onQueryChange={setSearchQuery}
-              onRunSearch={handleRunSearch}
-              statusMessage={searchStatus}
-              results={searchResults}
-              onOpenDetail={setActiveDetail}
-            />
-            <DiagnosticLab onOpenDetail={setActiveDetail} />
-            <SymptomsSection onSelectSymptom={handleSelectSymptom} />
-            <GuidedTriage />
-            <CaseWorksheet />
-            <GuidesSection onOpenDetail={setActiveDetail} />
-            <LearningSection />
-            <SafetyLessonQuiz />
-            <SafetySection />
-            <ReferenceDesk />
-            <SiteNotices />
-            <AboutSection />
-          </>
-        )}
-      </main>
+      <main id="main">{pageContent}</main>
       <SiteFooter />
       <DetailDialog
         selection={activeDetail}

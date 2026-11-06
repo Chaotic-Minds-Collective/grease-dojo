@@ -16,14 +16,14 @@ export const Header: React.FC = () => {
         <span className="status-dot" aria-hidden="true" />
         <strong>CONCEPT BUILD</strong>
         <span>
-          Educational drafts are under mechanic review. Brand identity is approved. Site not yet relaunched.
+          Educational drafts are under mechanic review. The Greasy Dojo relaunch is in progress.
         </span>
       </div>
       <header className="site-header" id="top">
         <a
           className="brand"
-          href="#top"
-          aria-label="The Diagnostic Bay home"
+          href="#/"
+          aria-label="The Greasy Dojo home"
           onClick={handleLinkClick}
         >
           <img
@@ -34,7 +34,7 @@ export const Header: React.FC = () => {
           />
           <span className="brand-copy">
             <strong>
-              THE <em>DIAGNOSTIC BAY</em>
+              THE <em>GREASY DOJO</em>
             </strong>
             <small>WE HELP YOU FIND THE FAULT - OR TEACH YOU TO FIND IT</small>
           </span>
@@ -54,31 +54,34 @@ export const Header: React.FC = () => {
           className={`main-nav${menuOpen ? ' is-open' : ''}`}
           aria-label="Main navigation"
         >
-          <a href="#top" onClick={handleLinkClick}>
+          <a href="#/" onClick={handleLinkClick}>
             Home
           </a>
-          <a href="#diagnostic-lab" onClick={handleLinkClick}>
+          <a href="#/lab" onClick={handleLinkClick}>
             Diagnostic Lab
           </a>
-          <a href="#symptoms" onClick={handleLinkClick}>
+          <a href="#/symptoms" onClick={handleLinkClick}>
             Symptoms
           </a>
-          <a href="#guided-triage" onClick={handleLinkClick}>
+          <a href="#/triage" onClick={handleLinkClick}>
             Guided Intake
           </a>
-          <a href="#case-worksheet" onClick={handleLinkClick}>
-            Case Notes
-          </a>
-          <a href="#guides" onClick={handleLinkClick}>
+          <a href="#/guides" onClick={handleLinkClick}>
             Fix Database
           </a>
-          <a href="#learning" onClick={handleLinkClick}>
+          <a href="#/learning" onClick={handleLinkClick}>
             Learning
+          </a>
+          <a href="#/reference" onClick={handleLinkClick}>
+            Reference
+          </a>
+          <a href="#/about" onClick={handleLinkClick}>
+            About
           </a>
           <a href="#/contact" onClick={handleLinkClick}>
             Contact
           </a>
-          <a className="nav-cta" href="#search" onClick={handleLinkClick}>
+          <a className="nav-cta" href="#/symptoms" onClick={handleLinkClick}>
             Start diagnosis <span aria-hidden="true">↗</span>
           </a>
         </nav>
