@@ -24,7 +24,7 @@ export const HeroSection: React.FC = () => {
           <a className="button button-primary" href="#search">
             Enter the Diagnostic Lab <span aria-hidden="true">↗</span>
           </a>
-          <a className="button button-ghost" href="#guides">
+          <a className="button button-ghost" href="#/guides">
             Browse the Fix Database
           </a>
         </div>
@@ -44,14 +44,14 @@ export const HeroSection: React.FC = () => {
           <img
             className="hero-mascot"
             src={`${import.meta.env.BASE_URL}assets/brand-mascot-concept.svg`}
-            alt="Original hooded mechanic character holding a diagnostic scanner and ratchet, with restrained gold and cyan energy details"
+            alt="Original hooded mechanic character holding a diagnostic scanner and ratchet, with restrained gold and orange energy details"
             width="560"
             height="580"
           />
           <span className="portrait-caption">THE SIGNAL ISN'T THE SOLUTION.</span>
         </div>
         <div className="console-top">
-          <span><i className="status-dot" /> BAY SYSTEM / CONCEPT</span>
+          <span><i className="status-dot" /> DOJO SYSTEM / CONCEPT</span>
           <span className="console-version">SYS. 001</span>
         </div>
         <div className="scan-screen">
@@ -62,7 +62,7 @@ export const HeroSection: React.FC = () => {
           <div className="scan-symbol" aria-hidden="true">
             <svg viewBox="0 0 160 120">
               <path d="M25 29h110v62H25z" fill="none" stroke="currentColor" strokeWidth="3" />
-              <path d="M39 45h30m-30 13h17m-17 13h25" stroke="#32e6e6" strokeWidth="3" strokeLinecap="round" />
+              <path d="M39 45h30m-30 13h17m-17 13h25" stroke="#ff7a18" strokeWidth="3" strokeLinecap="round" />
               <path d="M91 27 74 61h20l-8 32 28-43H95z" fill="#e2bc58" />
               <circle cx="125" cy="44" r="5" fill="#e94b4b" />
             </svg>

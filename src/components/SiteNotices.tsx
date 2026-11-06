@@ -8,7 +8,7 @@ export const SiteNotices: React.FC = () => {
         <div className="section-heading">
           <div>
             <div className="eyebrow">
-              <span className="eyebrow-line" /> BEFORE YOU USE THE BAY
+              <span className="eyebrow-line" /> BEFORE YOU USE THE DOJO
             </div>
             <h2>
               Clear limits. <span className="text-gold">No guesswork.</span>
@@ -26,7 +26,7 @@ export const SiteNotices: React.FC = () => {
             <span className="notice-label">EDUCATIONAL USE</span>
             <h3>Not a vehicle-specific diagnosis</h3>
             <p>
-              The Diagnostic Bay provides general educational information and
+              The Greasy Dojo provides general educational information and
               tools for organizing observations. It cannot inspect your
               vehicle, verify a trouble code, read live data, or confirm a
               failed component. A trouble code is evidence, not proof of a

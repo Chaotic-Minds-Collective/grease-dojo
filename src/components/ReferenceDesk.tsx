@@ -78,7 +78,7 @@ export const ReferenceDesk: React.FC = () => {
         <p className="reference-disclaimer">
           External resources are operated by their respective organizations.
           Their availability, access requirements, and content may change.
-          Linking to a resource does not mean The Diagnostic Bay has reviewed
+          Linking to a resource does not mean The Greasy Dojo has reviewed
           or endorsed every service it offers.
         </p>
       </div>
