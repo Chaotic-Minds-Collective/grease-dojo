@@ -1,5 +1,5 @@
 import React from 'react';
-import { FIELD_GUIDES } from '../data/diagnosticsData';
+import { ALL_GUIDES } from '../data/searchFallback';
 import { DetailKind, DetailSelection } from '../types/diagnostics';
 
 interface GuidesSectionProps {
@@ -29,7 +29,7 @@ export const GuidesSection: React.FC<GuidesSectionProps> = ({ onOpenDetail }) =>
         </div>
 
         <div className="guide-grid" id="guideGrid">
-          {FIELD_GUIDES.map((guide) => (
+          {ALL_GUIDES.map((guide) => (
             <button
               key={guide.id}
               type="button"
