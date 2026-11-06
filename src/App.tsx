@@ -35,7 +35,7 @@ function readRoute(): string {
 
 // Page routes live under "#/". Bare fragment hashes (for example
 // "#search" or legacy section anchors) keep their old meaning: show the
-// home page and scroll to that section if it exists there.
+// matching page content when one exists, and scroll to that section.
 function isPageRoute(route: string): boolean {
   return route.startsWith('#/');
 }
@@ -59,8 +59,20 @@ function scrollToFragment(targetId: string): void {
   target.focus({ preventScroll: true });
 }
 
+// Scroll back to the top of the current page.
+function scrollToTop(): void {
+  window.scrollTo({
+    top: 0,
+    behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+  });
+}
+
 export const App: React.FC = () => {
   const [route, setRoute] = useState<string>(readRoute);
+  // Bumped on every user-initiated navigation to a page route (not on
+  // history traversal), so re-activating a page route always re-runs the
+  // scroll effect below even when the route string does not change.
+  const [pageNavCounter, setPageNavCounter] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchStatus, setSearchStatus] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResultItem[]>([]);
@@ -72,8 +84,7 @@ export const App: React.FC = () => {
   useEffect(() => {
     // Back/forward traversal also fires popstate (plain link clicks do
     // not, and popstate fires before hashchange). Let the browser restore
-    // its saved scroll position on traversal instead of forcing a
-    // fragment scroll.
+    // its saved scroll position on traversal instead of forcing a scroll.
     const handlePopState = () => {
       ignoreNextFragmentScroll.current = true;
     };
@@ -84,7 +95,12 @@ export const App: React.FC = () => {
         // learning page) while a page route is active is an in-page
         // anchor, not navigation. Keep the current page mounted and let
         // the browser's native fragment jump (plus the smooth scroll
-        // below) move to the section.
+        // below) move to the section. On history traversal the browser
+        // has already restored the saved position.
+        if (ignoreNextFragmentScroll.current) {
+          ignoreNextFragmentScroll.current = false;
+          return;
+        }
         const targetId = next.startsWith('#') ? next.slice(1) : next;
         if (targetId) {
           requestAnimationFrame(() => {
@@ -92,6 +108,11 @@ export const App: React.FC = () => {
           });
         }
         return;
+      }
+      if (isPageRoute(next) && !ignoreNextFragmentScroll.current) {
+        // User-initiated page navigation: signal the scroll effect even
+        // when the route string ends up unchanged.
+        setPageNavCounter((count) => count + 1);
       }
       setRoute(next);
     };
@@ -103,6 +124,42 @@ export const App: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // A click on a link that points at the page route already active
+    // (re-selecting "Diagnostic Lab" while on #/lab, the footer "back to
+    // top" while on #/, and similar) fires no hashchange event, so handle
+    // it here: scroll back to the top of the page.
+    const handleAnchorClick = (event: MouseEvent) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+      const anchor =
+        event.target instanceof Element
+          ? event.target.closest('a')
+          : null;
+      if (!anchor) {
+        return;
+      }
+      const href = anchor.getAttribute('href');
+      if (!href || !isPageRoute(href)) {
+        return;
+      }
+      if (href === routeRef.current) {
+        event.preventDefault();
+        scrollToTop();
+      }
+    };
+    document.addEventListener('click', handleAnchorClick);
+    return () => document.removeEventListener('click', handleAnchorClick);
+  }, []);
+
   const isContactRoute = route.startsWith('#/contact');
 
   useEffect(() => {
@@ -111,19 +168,21 @@ export const App: React.FC = () => {
       return;
     }
     if (isPageRoute(route)) {
-      // Navigating to a page: start at the top of the new page.
-      const frame = requestAnimationFrame(() => {
-        window.scrollTo({
-          top: 0,
-          behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-        });
-      });
+      if (ignoreNextFragmentScroll.current) {
+        // History traversal: the browser already restored the saved
+        // position; do not override it.
+        ignoreNextFragmentScroll.current = false;
+        return;
+      }
+      // Navigating to a page (route change or re-activation): start at
+      // the top of the page.
+      const frame = requestAnimationFrame(scrollToTop);
       return () => cancelAnimationFrame(frame);
     }
-    // Fragment navigation to the home page (for example "#search" from
-    // another page, or a legacy section anchor). The browser's native
-    // fragment scroll fires before React swaps the content in, so scroll
-    // to the target after the home branch mounts.
+    // Fragment navigation (for example "#search" or a legacy section
+    // anchor). The browser's native fragment scroll fires before React
+    // swaps the content in, so scroll to the target after the matching
+    // branch mounts.
     const targetId = route.startsWith('#') ? route.slice(1) : route;
     if (!targetId) {
       return;
@@ -138,7 +197,7 @@ export const App: React.FC = () => {
       scrollToFragment(targetId);
     });
     return () => cancelAnimationFrame(frame);
-  }, [route, isContactRoute]);
+  }, [route, isContactRoute, pageNavCounter]);
 
   const handleRunSearch = useCallback(
     (queryValue: string, resultsEl?: HTMLDivElement | null) => {
@@ -222,6 +281,18 @@ export const App: React.FC = () => {
       <>
         <SiteNotices />
         <AboutSection />
+      </>
+    );
+  } else if (route === '#guides') {
+    // Legacy section fragment: render the matching page content so the
+    // fragment scroll below can reach its target.
+    pageContent = <GuidesSection onOpenDetail={setActiveDetail} />;
+  } else if (route === '#learning') {
+    pageContent = (
+      <>
+        <LearningSection />
+        <SafetyLessonQuiz />
+        <SafetySection />
       </>
     );
   } else {
