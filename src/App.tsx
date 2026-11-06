@@ -70,26 +70,50 @@ function scrollToTop(): void {
 export const App: React.FC = () => {
   const [route, setRoute] = useState<string>(readRoute);
   // Bumped on every user-initiated navigation to a page route (not on
-  // history traversal), so re-activating a page route always re-runs the
-  // scroll effect below even when the route string does not change.
+  // history traversal), so re-activating or changing pages always re-runs
+  // the scroll effect below.
   const [pageNavCounter, setPageNavCounter] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchStatus, setSearchStatus] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResultItem[]>([]);
   const [activeDetail, setActiveDetail] = useState<DetailSelection | null>(null);
-  const ignoreNextFragmentScroll = useRef(false);
+
+  // Set by the document-level click handler when the visitor activates a
+  // page-route link (mouse or keyboard both dispatch click). Consumed by
+  // handleHashChange: a user-initiated navigation always takes precedence
+  // over a pending popstate mark, so back/forward bookkeeping can never
+  // swallow a link click's scroll.
+  const pendingUserNavRef = useRef(false);
+
+  // Set by handlePopState (history traversal only fires popstate) and
+  // consumed either by handleHashChange or by the scroll effect. While it
+  // is set, the app does not force a scroll, letting the browser restore
+  // the saved position for back/forward.
+  const pendingTraversalRef = useRef(false);
+
   const routeRef = useRef(route);
   routeRef.current = route;
 
   useEffect(() => {
-    // Back/forward traversal also fires popstate (plain link clicks do
-    // not, and popstate fires before hashchange). Let the browser restore
-    // its saved scroll position on traversal instead of forcing a scroll.
     const handlePopState = () => {
-      ignoreNextFragmentScroll.current = true;
+      // History traversal (back/forward) fires popstate; same-document
+      // link clicks do not. Mark the traversal so the following hashchange
+      // preserves the browser-restored position, and schedule a clear so
+      // a popstate without a following hashchange (for example traversal
+      // between entries with the same hash) cannot suppress a later
+      // user-initiated navigation. The timer runs after the hashchange
+      // task, which the traversal dispatches synchronously.
+      pendingTraversalRef.current = true;
+      window.setTimeout(() => {
+        pendingTraversalRef.current = false;
+      }, 0);
     };
     const handleHashChange = () => {
       const next = readRoute();
+      const userInitiated = pendingUserNavRef.current;
+      pendingUserNavRef.current = false;
+      const traversal = pendingTraversalRef.current;
+
       if (!isPageRoute(next) && isPageRoute(routeRef.current)) {
         // A bare fragment hash (for example "#safety-lesson" from the
         // learning page) while a page route is active is an in-page
@@ -97,8 +121,8 @@ export const App: React.FC = () => {
         // the browser's native fragment jump (plus the smooth scroll
         // below) move to the section. On history traversal the browser
         // has already restored the saved position.
-        if (ignoreNextFragmentScroll.current) {
-          ignoreNextFragmentScroll.current = false;
+        if (traversal) {
+          pendingTraversalRef.current = false;
           return;
         }
         const targetId = next.startsWith('#') ? next.slice(1) : next;
@@ -109,11 +133,27 @@ export const App: React.FC = () => {
         }
         return;
       }
-      if (isPageRoute(next) && !ignoreNextFragmentScroll.current) {
-        // User-initiated page navigation: signal the scroll effect even
-        // when the route string ends up unchanged.
-        setPageNavCounter((count) => count + 1);
+      if (isPageRoute(next)) {
+        if (userInitiated) {
+          // Link click: always run the page-navigation scroll, even if a
+          // popstate happened to precede this event.
+          pendingTraversalRef.current = false;
+          setPageNavCounter((count) => count + 1);
+        } else if (traversal) {
+          // Back/forward: leave the mark for the scroll effect to consume
+          // so the browser-restored position is preserved. If the route is
+          // unchanged the effect does not run and no mark lingers beyond
+          // the popstate timer.
+        } else {
+          // Any other hash source (address-bar edit, programmatic set) is
+          // user-facing navigation: scroll like a link click.
+          setPageNavCounter((count) => count + 1);
+        }
+        setRoute(next);
+        return;
       }
+      // Bare fragment with no page route active (home fallback renders
+      // below); the scroll effect scrolls to the fragment after render.
       setRoute(next);
     };
     window.addEventListener('popstate', handlePopState);
@@ -125,10 +165,9 @@ export const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // A click on a link that points at the page route already active
-    // (re-selecting "Diagnostic Lab" while on #/lab, the footer "back to
-    // top" while on #/, and similar) fires no hashchange event, so handle
-    // it here: scroll back to the top of the page.
+    // Anchor activation (mouse or keyboard) fires click even when the
+    // browser handles the navigation itself, so this handler is the
+    // reliable place to distinguish link clicks from history traversal.
     const handleAnchorClick = (event: MouseEvent) => {
       if (
         event.defaultPrevented ||
@@ -152,8 +191,15 @@ export const App: React.FC = () => {
         return;
       }
       if (href === routeRef.current) {
+        // Re-activating the current page (re-selecting "Diagnostic Lab"
+        // while on #/lab, the footer back-to-top while on #/) fires no
+        // hashchange event: scroll back to the top directly.
         event.preventDefault();
         scrollToTop();
+      } else {
+        // Navigation to a different page: mark it so handleHashChange can
+        // tell this click apart from back/forward traversal.
+        pendingUserNavRef.current = true;
       }
     };
     document.addEventListener('click', handleAnchorClick);
@@ -168,10 +214,10 @@ export const App: React.FC = () => {
       return;
     }
     if (isPageRoute(route)) {
-      if (ignoreNextFragmentScroll.current) {
+      if (pendingTraversalRef.current) {
         // History traversal: the browser already restored the saved
         // position; do not override it.
-        ignoreNextFragmentScroll.current = false;
+        pendingTraversalRef.current = false;
         return;
       }
       // Navigating to a page (route change or re-activation): start at
@@ -188,10 +234,10 @@ export const App: React.FC = () => {
       return;
     }
     const frame = requestAnimationFrame(() => {
-      if (ignoreNextFragmentScroll.current) {
+      if (pendingTraversalRef.current) {
         // History traversal: the browser already restored the saved
         // position; do not override it.
-        ignoreNextFragmentScroll.current = false;
+        pendingTraversalRef.current = false;
         return;
       }
       scrollToFragment(targetId);
@@ -245,6 +291,14 @@ export const App: React.FC = () => {
     />
   );
 
+  const learningContent = (
+    <>
+      <LearningSection />
+      <SafetyLessonQuiz />
+      <SafetySection />
+    </>
+  );
+
   let pageContent: React.ReactNode;
   if (isContactRoute) {
     pageContent = <ContactPage />;
@@ -267,13 +321,7 @@ export const App: React.FC = () => {
   } else if (route === '#/guides') {
     pageContent = <GuidesSection onOpenDetail={setActiveDetail} />;
   } else if (route === '#/learning') {
-    pageContent = (
-      <>
-        <LearningSection />
-        <SafetyLessonQuiz />
-        <SafetySection />
-      </>
-    );
+    pageContent = learningContent;
   } else if (route === '#/reference') {
     pageContent = <ReferenceDesk />;
   } else if (route === '#/about') {
@@ -287,16 +335,13 @@ export const App: React.FC = () => {
     // Legacy section fragment: render the matching page content so the
     // fragment scroll below can reach its target.
     pageContent = <GuidesSection onOpenDetail={setActiveDetail} />;
-  } else if (route === '#learning') {
-    pageContent = (
-      <>
-        <LearningSection />
-        <SafetyLessonQuiz />
-        <SafetySection />
-      </>
-    );
+  } else if (route === '#learning' || route === '#safety-lesson') {
+    // Legacy section fragments for the learning page (including the
+    // safety-lesson quiz anchor): render the learning content so fragment
+    // scrolling reaches its target.
+    pageContent = learningContent;
   } else {
-    // Home: also the fallback for legacy section fragments and unknown
+    // Home: also the fallback for remaining legacy fragments and unknown
     // routes, so old links keep working instead of dead-ending.
     pageContent = (
       <>
