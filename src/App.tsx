@@ -42,10 +42,10 @@ function isPageRoute(route: string): boolean {
 
 // Scroll to an in-page fragment target after React has (re)rendered the
 // section that owns the id.
-function scrollToFragment(targetId: string, ignoreRestored: boolean): boolean {
+function scrollToFragment(targetId: string): void {
   const target = document.getElementById(targetId);
   if (!target) {
-    return false;
+    return;
   }
   if (!target.hasAttribute('tabindex')) {
     // Make the section programmatically focusable (excluded from the
@@ -57,7 +57,6 @@ function scrollToFragment(targetId: string, ignoreRestored: boolean): boolean {
     block: 'start',
   });
   target.focus({ preventScroll: true });
-  return true;
 }
 
 export const App: React.FC = () => {
@@ -89,7 +88,7 @@ export const App: React.FC = () => {
         const targetId = next.startsWith('#') ? next.slice(1) : next;
         if (targetId) {
           requestAnimationFrame(() => {
-            scrollToFragment(targetId, false);
+            scrollToFragment(targetId);
           });
         }
         return;
@@ -136,7 +135,7 @@ export const App: React.FC = () => {
         ignoreNextFragmentScroll.current = false;
         return;
       }
-      scrollToFragment(targetId, true);
+      scrollToFragment(targetId);
     });
     return () => cancelAnimationFrame(frame);
   }, [route, isContactRoute]);
