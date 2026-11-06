@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 // Always-visible tab navigation. Replaces the previous hamburger menu:
 // on a phone every destination is one glance and one tap away, and the
@@ -16,25 +16,35 @@ const TABS = [
   { href: '#/contact', label: 'Contact' },
 ];
 
-function isTabActive(hash: string, href: string): boolean {
-  if (href === '#/') {
-    return hash === '' || hash === '#' || hash === '#/';
-  }
-  return hash === href;
+// Same page-route contract App uses: routes under "#/" are pages; any
+// other fragment is an in-page anchor or legacy hash, which renders the
+// home fallback.
+function isPageRoute(route: string): boolean {
+  return route.startsWith('#/');
 }
 
-export const Header: React.FC = () => {
-  const [hash, setHash] = useState<string>(() =>
-    typeof window === 'undefined' ? '' : window.location.hash
-  );
+/**
+ * Decide which tab matches App's committed route. The route is resolved
+ * first (a bare fragment falls back to the home page), then compared to
+ * the tab href, so in-page anchors and legacy fragments keep the home
+ * tab highlighted instead of leaving the strip without an active tab.
+ */
+function isTabActive(resolvedPage: string, href: string): boolean {
+  return resolvedPage === href;
+}
 
-  // Keep the active tab in sync with hash navigation, including the
-  // browser back/forward buttons.
-  useEffect(() => {
-    const sync = () => setHash(window.location.hash);
-    window.addEventListener('hashchange', sync);
-    return () => window.removeEventListener('hashchange', sync);
-  }, []);
+interface HeaderProps {
+  /** App's committed route state, shared with the page-render logic. */
+  route: string;
+}
+
+/**
+ * Sticky site header: brand, announcement bar, and the always-visible
+ * tab navigation. The active tab is derived from the route App passes
+ * down, so the highlight always agrees with the rendered page.
+ */
+export const Header: React.FC<HeaderProps> = ({ route }) => {
+  const resolvedPage = isPageRoute(route) ? route : '#/';
 
   return (
     <>
@@ -68,8 +78,8 @@ export const Header: React.FC = () => {
             <a
               key={tab.href}
               href={tab.href}
-              className={isTabActive(hash, tab.href) ? 'is-active' : undefined}
-              aria-current={isTabActive(hash, tab.href) ? 'page' : undefined}
+              className={isTabActive(resolvedPage, tab.href) ? 'is-active' : undefined}
+              aria-current={isTabActive(resolvedPage, tab.href) ? 'page' : undefined}
             >
               {tab.label}
             </a>
