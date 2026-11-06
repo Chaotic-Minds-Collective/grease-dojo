@@ -1,4 +1,4 @@
-export enum CodeCategory { All='all', Engine='engine', AirFuel='air-fuel', Electrical='electrical', Temperature='temperature' }
+export enum CodeCategory { All='all', Engine='engine', AirFuel='air-fuel', Electrical='electrical', Temperature='temperature', Transmission='transmission' }
 export enum DetailKind { Code='code', Guide='guide' }
 export interface TroubleCode {
   code:string; searchTerms?:string[]; title:string;
