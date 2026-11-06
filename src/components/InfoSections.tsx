@@ -131,7 +131,7 @@ export const AboutSection: React.FC = () => {
         </div>
         <div>
           <div className="eyebrow">
-            <span className="eyebrow-line" /> THE RULES OF THE BAY
+            <span className="eyebrow-line" /> THE RULES OF THE DOJO
           </div>
           <h2>
             Evidence over ego.
@@ -161,7 +161,7 @@ export const SiteFooter: React.FC = () => {
   return (
     <footer className="site-footer">
       <div className="footer-main">
-        <a className="brand" href="#top">
+        <a className="brand" href="#/">
           <img
             src={`${import.meta.env.BASE_URL}assets/brand-mark.svg`}
             alt=""
@@ -170,7 +170,7 @@ export const SiteFooter: React.FC = () => {
           />
           <span className="brand-copy">
             <strong>
-              THE <em>DIAGNOSTIC BAY</em>
+              THE <em>GREASY DOJO</em>
             </strong>
             <small>WE HELP YOU FIND THE FAULT - OR TEACH YOU TO FIND IT</small>
           </span>
@@ -179,13 +179,13 @@ export const SiteFooter: React.FC = () => {
           A working concept for a clearer, safer way to learn automotive
           diagnostics.
         </p>
-        <a className="back-top" href="#top">
-          Back to top ↑
+        <a className="back-top" href="#/">
+          Back to the Dojo ↑
         </a>
       </div>
       <div className="footer-bottom">
         <span>
-          © <span id="year">{currentYear}</span> The Diagnostic Bay · Working
+          © <span id="year">{currentYear}</span> The Greasy Dojo · Working
           concept
         </span>
         <span>
