@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { CaseWorksheet } from './components/CaseWorksheet';
 import { ContactPage } from './components/ContactPage';
 import { DetailDialog } from './components/DetailDialog';
@@ -85,34 +91,40 @@ export const App: React.FC = () => {
   // swallow a link click's scroll.
   const pendingUserNavRef = useRef(false);
 
-  // Set by handlePopState (history traversal only fires popstate) and
-  // consumed either by handleHashChange or by the scroll effect. While it
-  // is set, the app does not force a scroll, letting the browser restore
-  // the saved position for back/forward.
+  // Set by handlePopState together with the hash the traversal landed on.
+  // A following hashchange counts as traversal only when its hash matches
+  // the popped location, so no timer-order assumptions are needed: a
+  // bare-fragment link click that arrives after a popstate (different
+  // hash) is still treated as user-initiated, and a mark left behind by a
+  // traversal with no following hashchange is inert for any later
+  // different-hash event and simply overwritten by the next popstate.
   const pendingTraversalRef = useRef(false);
+  const traversalHashRef = useRef('');
 
+  // True when a pending traversal mark applies to this exact hash.
+  const isTraversalFor = (hash: string): boolean =>
+    pendingTraversalRef.current && traversalHashRef.current === hash;
+
+  // Tracks the committed route only (updated after render), so handlers
+  // never observe a route value from an interrupted render.
   const routeRef = useRef(route);
-  routeRef.current = route;
+  useLayoutEffect(() => {
+    routeRef.current = route;
+  }, [route]);
 
   useEffect(() => {
     const handlePopState = () => {
       // History traversal (back/forward) fires popstate; same-document
-      // link clicks do not. Mark the traversal so the following hashchange
-      // preserves the browser-restored position, and schedule a clear so
-      // a popstate without a following hashchange (for example traversal
-      // between entries with the same hash) cannot suppress a later
-      // user-initiated navigation. The timer runs after the hashchange
-      // task, which the traversal dispatches synchronously.
+      // link clicks do not. Record the hash the traversal landed on so
+      // the following hashchange can be matched to it.
       pendingTraversalRef.current = true;
-      window.setTimeout(() => {
-        pendingTraversalRef.current = false;
-      }, 0);
+      traversalHashRef.current = readRoute();
     };
     const handleHashChange = () => {
       const next = readRoute();
       const userInitiated = pendingUserNavRef.current;
       pendingUserNavRef.current = false;
-      const traversal = pendingTraversalRef.current;
+      const traversal = isTraversalFor(next);
 
       if (!isPageRoute(next) && isPageRoute(routeRef.current)) {
         // A bare fragment hash (for example "#safety-lesson" from the
@@ -134,21 +146,16 @@ export const App: React.FC = () => {
         return;
       }
       if (isPageRoute(next)) {
-        if (userInitiated) {
-          // Link click: always run the page-navigation scroll, even if a
-          // popstate happened to precede this event.
+        if (userInitiated || !traversal) {
+          // Link click (marked by the click handler), or any other
+          // user-facing hash source (address-bar edit, programmatic set):
+          // always run the page-navigation scroll, even if a popstate
+          // happened to precede this event with an unrelated hash.
           pendingTraversalRef.current = false;
           setPageNavCounter((count) => count + 1);
-        } else if (traversal) {
-          // Back/forward: leave the mark for the scroll effect to consume
-          // so the browser-restored position is preserved. If the route is
-          // unchanged the effect does not run and no mark lingers beyond
-          // the popstate timer.
-        } else {
-          // Any other hash source (address-bar edit, programmatic set) is
-          // user-facing navigation: scroll like a link click.
-          setPageNavCounter((count) => count + 1);
         }
+        // True traversal: leave the mark for the scroll effect to consume
+        // so the browser-restored position is preserved.
         setRoute(next);
         return;
       }
@@ -188,6 +195,8 @@ export const App: React.FC = () => {
       }
       const href = anchor.getAttribute('href');
       if (!href || !isPageRoute(href)) {
+        // Bare-fragment links keep native fragment navigation; the
+        // hashchange handler performs the smooth scroll and focus.
         return;
       }
       if (href === routeRef.current) {
@@ -206,17 +215,12 @@ export const App: React.FC = () => {
     return () => document.removeEventListener('click', handleAnchorClick);
   }, []);
 
-  const isContactRoute = route.startsWith('#/contact');
-
   useEffect(() => {
-    if (isContactRoute) {
-      // ContactPage scrolls itself to the top on mount.
-      return;
-    }
     if (isPageRoute(route)) {
-      if (pendingTraversalRef.current) {
+      if (isTraversalFor(route)) {
         // History traversal: the browser already restored the saved
-        // position; do not override it.
+        // position; do not override it. This covers every page route,
+        // including contact.
         pendingTraversalRef.current = false;
         return;
       }
@@ -234,7 +238,7 @@ export const App: React.FC = () => {
       return;
     }
     const frame = requestAnimationFrame(() => {
-      if (pendingTraversalRef.current) {
+      if (isTraversalFor(route)) {
         // History traversal: the browser already restored the saved
         // position; do not override it.
         pendingTraversalRef.current = false;
@@ -243,7 +247,7 @@ export const App: React.FC = () => {
       scrollToFragment(targetId);
     });
     return () => cancelAnimationFrame(frame);
-  }, [route, isContactRoute, pageNavCounter]);
+  }, [route, pageNavCounter]);
 
   const handleRunSearch = useCallback(
     (queryValue: string, resultsEl?: HTMLDivElement | null) => {
@@ -300,7 +304,7 @@ export const App: React.FC = () => {
   );
 
   let pageContent: React.ReactNode;
-  if (isContactRoute) {
+  if (route === '#/contact') {
     pageContent = <ContactPage />;
   } else if (route === '#/lab') {
     pageContent = (
