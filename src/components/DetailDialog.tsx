@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { FIELD_GUIDES, TROUBLE_CODES } from '../data/diagnosticsData';
+import { ALL_CODES, ALL_GUIDES } from '../data/searchFallback';
 import { DetailKind, DetailSelection } from '../types/diagnostics';
 
 interface DetailDialogProps { selection:DetailSelection|null; onClose:()=>void; onOpenDetail:(selection:DetailSelection)=>void }
@@ -7,8 +7,8 @@ const DRAFT_DISCLAIMER = 'Educational draft only. Procedures and specifications 
 
 export const DetailDialog:React.FC<DetailDialogProps> = ({selection,onClose,onOpenDetail}) => {
   const dialogRef=useRef<HTMLDialogElement|null>(null);
-  const selectedCode=selection?.kind===DetailKind.Code ? TROUBLE_CODES.find(c=>c.code===selection.id)??null : null;
-  const selectedGuide=selection?.kind===DetailKind.Guide ? FIELD_GUIDES.find(g=>g.id===selection.id)??null : null;
+  const selectedCode=selection?.kind===DetailKind.Code ? ALL_CODES.find(c=>c.code===selection.id)??null : null;
+  const selectedGuide=selection?.kind===DetailKind.Guide ? ALL_GUIDES.find(g=>g.id===selection.id)??null : null;
   const isOpen=Boolean(selectedCode||selectedGuide);
 
   useEffect(()=>{
@@ -19,14 +19,19 @@ export const DetailDialog:React.FC<DetailDialogProps> = ({selection,onClose,onOp
         if(typeof dialog.showModal==='function')dialog.showModal();
         else dialog.setAttribute('open','');
       }
+      // The dialog element is the scroll container and persists across
+      // content swaps, so a related-reference navigation would otherwise
+      // land mid-scroll. Return the viewport to the top so the new title
+      // and warning are visible from the start.
+      dialog.scrollTop=0;
     }else if(dialog.open)dialog.close();
   },[isOpen,selection]);
 
   const openRelated = (label:string) => {
-    const code = TROUBLE_CODES.find(item => item.code === label || item.searchTerms?.includes(label));
+    const code = ALL_CODES.find(item => item.code === label || item.searchTerms?.includes(label));
     if (code) { onOpenDetail({kind:DetailKind.Code,id:code.code}); return true; }
     const normalized = label.toLowerCase();
-    const guide = FIELD_GUIDES.find(item => normalized.includes(item.title.toLowerCase()) || item.title.toLowerCase().includes(normalized.replace(' field guide','')));
+    const guide = ALL_GUIDES.find(item => normalized.includes(item.title.toLowerCase()) || item.title.toLowerCase().includes(normalized.replace(' field guide','')));
     if (guide) { onOpenDetail({kind:DetailKind.Guide,id:guide.id}); return true; }
     return false;
   };
@@ -49,7 +54,7 @@ export const DetailDialog:React.FC<DetailDialogProps> = ({selection,onClose,onOp
         <h3>Possible causes</h3><ul>{selectedCode.causes.map(item=><li key={item}>{item}</li>)}</ul>
         <h3>Sensible next checks</h3><ol>{selectedCode.checks.map(item=><li key={item}>{item}</li>)}</ol>
         {selectedCode.related?.length ? <><h3>Related references</h3><div className="related-links">{selectedCode.related.map(item => {
-          const available = TROUBLE_CODES.some(code => code.code === item || code.searchTerms?.includes(item)) || FIELD_GUIDES.some(guide => item.toLowerCase().includes(guide.title.toLowerCase()) || guide.title.toLowerCase().includes(item.toLowerCase().replace(' field guide','')));
+          const available = ALL_CODES.some(code => code.code === item || code.searchTerms?.includes(item)) || ALL_GUIDES.some(guide => item.toLowerCase().includes(guide.title.toLowerCase()) || guide.title.toLowerCase().includes(item.toLowerCase().replace(' field guide','')));
           return available ? <button type="button" key={item} onClick={() => openRelated(item)}>{item} <span aria-hidden="true">↗</span></button> : <span className="related-unavailable" key={item}>{item} <small>not in this library yet</small></span>;
         })}</div></>:null}
         <p><strong>Review status:</strong> {selectedCode.reviewStatus??'Pending'}.</p>

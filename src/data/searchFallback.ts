@@ -12,8 +12,11 @@ const STOP_WORDS = new Set([
   'just', 'about', 'get', 'got', 'go', 'goes', 'going', 'into',
 ]);
 
-const ALL_CODES: TroubleCode[] = [...TROUBLE_CODES, ...TRANSMISSION_CODES];
-const ALL_GUIDES: FieldGuide[] = [...FIELD_GUIDES, ...SHIFT_GUIDES];
+// The complete library across both source modules. Exported so every
+// view (search, detail dialog, lab grid, guides grid) resolves entries
+// from one shared list instead of per-module copies.
+export const ALL_CODES: TroubleCode[] = [...TROUBLE_CODES, ...TRANSMISSION_CODES];
+export const ALL_GUIDES: FieldGuide[] = [...FIELD_GUIDES, ...SHIFT_GUIDES];
 
 function codeResult(item: TroubleCode): SearchResultItem {
   return {

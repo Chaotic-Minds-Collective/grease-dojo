@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
-import { FILTER_TABS, TROUBLE_CODES } from '../data/diagnosticsData';
+import { FILTER_TABS } from '../data/diagnosticsData';
+import { ALL_CODES } from '../data/searchFallback';
 import { CodeCategory, DetailKind, DetailSelection } from '../types/diagnostics';
 
 interface DiagnosticLabProps {
   onOpenDetail: (selection: DetailSelection) => void;
 }
 
+// FILTER_TABS predates the transmission library; extend it here so the
+// new codes are filterable without touching the shared data module.
+const FILTER_TABS_EXTENDED = [
+  ...FILTER_TABS,
+  { label: 'Transmission', value: CodeCategory.Transmission },
+];
+
 export const DiagnosticLab: React.FC<DiagnosticLabProps> = ({ onOpenDetail }) => {
   const [activeFilter, setActiveFilter] = useState<CodeCategory>(CodeCategory.All);
 
   const visibleCodes =
     activeFilter === CodeCategory.All
-      ? TROUBLE_CODES
-      : TROUBLE_CODES.filter((item) => item.category === activeFilter);
+      ? ALL_CODES
+      : ALL_CODES.filter((item) => item.category === activeFilter);
 
   return (
     <section className="dark-section" id="diagnostic-lab">
@@ -41,7 +49,7 @@ export const DiagnosticLab: React.FC<DiagnosticLabProps> = ({ onOpenDetail }) =>
             role="group"
             aria-label="Filter trouble codes"
           >
-            {FILTER_TABS.map((tab) => {
+            {FILTER_TABS_EXTENDED.map((tab) => {
               const isActive = activeFilter === tab.value;
               return (
                 <button
