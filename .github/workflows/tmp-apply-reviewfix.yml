@@ -1,0 +1,43 @@
+name: Apply review-fix patch (temporary)
+
+# Temporary helper: applies the CodeRabbit review-fix patch from the
+# verified URL below, then removes itself. Path-filtered so the push
+# this workflow creates does not retrigger it.
+on:
+  push:
+    branches:
+      - feature/bilingual-es-en
+    paths:
+      - '.github/workflows/tmp-apply-reviewfix.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/bilingual-es-en
+          fetch-depth: 0
+
+      - name: Download and verify patch
+        run: |
+          curl -fsSL https://x0.at/5dbg.diff -o /tmp/reviewfix.diff
+          echo "b56d553ba51ccf1b89e066498b23d4f8cd1ce69d6f336c7ceeeeb34f991cc55d  /tmp/reviewfix.diff" | sha256sum -c -
+
+      - name: Apply review fixes and push
+        run: |
+          git apply --stat /tmp/reviewfix.diff
+          git apply /tmp/reviewfix.diff
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "Address review: language-aware search and worksheet, a11y labels, translation keys, docstrings"
+          git push origin feature/bilingual-es-en
+
+      - name: Remove temporary workflow
+        run: |
+          git rm -f .github/workflows/tmp-apply-reviewfix.yml
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "chore: remove temporary review-fix workflow"
+          git push origin feature/bilingual-es-en
