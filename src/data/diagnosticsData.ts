@@ -186,7 +186,15 @@ export const SAFETY_RULES: { icon:string; title:string; body:string }[] = [
 ];
 
 export function normalizeQuery(value:string):string {
-  return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+  // Fold Spanish diacritics (and any other accents) to their base
+  // letters so "arranque" and "arranqué" style variants match. English
+  // text is unchanged by this.
+  const folded = String(value || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/ñ/g, 'n');
+  return folded.replace(/[^a-z0-9]+/g,' ').trim();
 }
 
 export function searchDiagnosticLibrary(rawQuery:string):{status:string;results:SearchResultItem[]} {

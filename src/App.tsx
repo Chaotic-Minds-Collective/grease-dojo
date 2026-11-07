@@ -25,6 +25,7 @@ import { SafetyLessonQuiz } from './components/SafetyLessonQuiz';
 import { SiteNotices } from './components/SiteNotices';
 import { SymptomsSection } from './components/SymptomsSection';
 import { searchWithFallback } from './data/searchFallback';
+import { useLang } from './i18n/LanguageContext';
 import { DetailSelection, SearchResultItem } from './types/diagnostics';
 
 function prefersReducedMotion(): boolean {
@@ -74,6 +75,7 @@ function scrollToTop(): void {
 }
 
 export const App: React.FC = () => {
+  const { lang } = useLang();
   const [route, setRoute] = useState<string>(readRoute);
   // Bumped on every user-initiated navigation to a page route (not on
   // history traversal), so re-activating or changing pages always re-runs
@@ -251,7 +253,7 @@ export const App: React.FC = () => {
 
   const handleRunSearch = useCallback(
     (queryValue: string, resultsEl?: HTMLDivElement | null) => {
-      const { status, results } = searchWithFallback(queryValue);
+      const { status, results } = searchWithFallback(queryValue, lang);
       setSearchStatus(status);
       setSearchResults(results);
 
@@ -273,7 +275,7 @@ export const App: React.FC = () => {
 
   const handleSelectSymptom = useCallback((symptomQuery: string) => {
     setSearchQuery(symptomQuery);
-    const { status, results } = searchWithFallback(symptomQuery);
+    const { status, results } = searchWithFallback(symptomQuery, lang);
     setSearchStatus(status);
     setSearchResults(results);
 
@@ -286,7 +288,7 @@ export const App: React.FC = () => {
         block: 'start',
       });
     }
-  }, []);
+  }, [lang]);
 
   const searchSection = (
     <SearchSection
