@@ -105,7 +105,7 @@ export const TROUBLE_CODES: TroubleCode[] = [
 ];
 
 export const FIELD_GUIDES: FieldGuide[] = [
-  { id:'battery', icon:'ϟ', title:'Battery keeps dying overnight', type:'Electrical', summary:'Separate a weak battery, a charging problem, and a parasitic draw before replacing parts.', time:'8 min', search:'battery dies overnight dead battery parasitic draw alternator charging voltage',
+  { id:'battery', icon:'\u03cf', title:'Battery keeps dying overnight', type:'Electrical', summary:'Separate a weak battery, a charging problem, and a parasitic draw before replacing parts.', time:'8 min', search:'battery dies overnight dead battery parasitic draw alternator charging voltage',
     sections:[
       {heading:'The logic',body:'A battery can go flat because it is weak, because it is not being charged, or because something draws power while the vehicle is off. Test in that order. A new battery will not fix a charging fault or a parasitic draw.'},
       {heading:'Tools in the draft',body:'Multimeter, battery charger, basic hand tools, gloves, and eye protection.'},
@@ -113,15 +113,15 @@ export const FIELD_GUIDES: FieldGuide[] = [
       {heading:'Safety',body:'Remove rings and metal jewelry. Batteries can spark and release gas, so keep flames away. Never disconnect a battery while the engine is running. Do not open doors or turn the key during a parasitic-draw test if doing so would wake the modules.'},
       {heading:'Common mistakes',body:'Replacing the alternator without testing it, measuring draw before modules sleep, and overlooking aftermarket accessories such as alarms or dash cameras.'}
     ]},
-  { id:'clicking', icon:'⌁', title:'Won’t crank, only clicks', type:'Starting', summary:'Distinguish rapid clicking from one click, then check the battery and connections before suspecting the starter.', time:'7 min', search:'wont crank no crank only clicks rapid clicking single click starter battery',
+  { id:'clicking', icon:'\u2301', title:'Won\u2019t crank, only clicks', type:'Starting', summary:'Distinguish rapid clicking from one click, then check the battery and connections before suspecting the starter.', time:'7 min', search:'wont crank no crank only clicks rapid clicking single click starter battery',
     sections:[
       {heading:'The logic',body:'Rapid clicking often means there is not enough voltage, commonly from a weak battery or poor connection. A single click can involve the starter, solenoid, or a poor connection. Rule out the battery and connections first.'},
       {heading:'Tools in the draft',body:'Multimeter, jumper cables or a jump pack, basic hand tools, gloves, and eye protection.'},
-      {heading:'Diagnostic sequence',items:['Set the parking brake and make sure the vehicle is in Park or Neutral.','Turn on the headlights and attempt to start. Note whether they dim significantly or go out.','Check that battery terminals are clean and tight.','Measure battery voltage at rest and while someone attempts to start. Compare the result with the exact vehicle specification.','If appropriate, attempt a jump start while following the owner’s manual. If it then cranks normally, investigate the battery and its connections.','If it still only clicks, check battery cables and grounds for voltage drop, then check voltage reaching the starter during a start attempt using the service procedure.','If power reaches the starter but it does not turn, continue with the specified starter tests before replacing it.']},
-      {heading:'Safety',body:'Keep hands, hair, and clothing away from belts and fans. Follow the owner’s manual for jump-starting; do not jump a frozen or damaged battery. Make sure the vehicle cannot roll.'},
+      {heading:'Diagnostic sequence',items:['Set the parking brake and make sure the vehicle is in Park or Neutral.','Turn on the headlights and attempt to start. Note whether they dim significantly or go out.','Check that battery terminals are clean and tight.','Measure battery voltage at rest and while someone attempts to start. Compare the result with the exact vehicle specification.','If appropriate, attempt a jump start while following the owner\u2019s manual. If it then cranks normally, investigate the battery and its connections.','If it still only clicks, check battery cables and grounds for voltage drop, then check voltage reaching the starter during a start attempt using the service procedure.','If power reaches the starter but it does not turn, continue with the specified starter tests before replacing it.']},
+      {heading:'Safety',body:'Keep hands, hair, and clothing away from belts and fans. Follow the owner\u2019s manual for jump-starting; do not jump a frozen or damaged battery. Make sure the vehicle cannot roll.'},
       {heading:'Common mistakes',body:'Replacing the starter before testing the battery, ignoring dirty grounds, and tapping components instead of testing the circuit.'}
     ]},
-  { id:'overheating', icon:'♨', title:'Engine overheating', type:'Cooling', summary:'Protect people and the engine first; investigate coolant, airflow, circulation, and internal causes only when safe.', time:'8 min', search:'engine overheating coolant temperature steam radiator fan thermostat water pump',
+  { id:'overheating', icon:'\u2668', title:'Engine overheating', type:'Cooling', summary:'Protect people and the engine first; investigate coolant, airflow, circulation, and internal causes only when safe.', time:'8 min', search:'engine overheating coolant temperature steam radiator fan thermostat water pump',
     sections:[
       {heading:'The logic',body:'The cooling system needs enough coolant, a way to move it, a way to shed heat, and the correct operating temperature. The supplied draft proposes checking coolant level and leaks first, then airflow, circulation, and possible internal causes.'},
       {heading:'Possible causes',body:'Low coolant from a leak, failed thermostat, cooling fan not working, failing water pump, clogged radiator, faulty radiator cap, or head-gasket failure.'},
@@ -130,7 +130,7 @@ export const FIELD_GUIDES: FieldGuide[] = [
       {heading:'Safety',body:'Hot coolant is pressurized and can cause severe burns. Keep hands and hair away from fans, which may start on their own. Stop promptly if the engine overheats.'},
       {heading:'Common mistakes',body:'Opening the cap while hot, adding water without finding the leak, and continuing to drive to see whether the condition improves.'}
     ]},
-  { id:'rough-idle', icon:'≈', title:'Rough idle', type:'Engine', summary:'Use codes and operating conditions to work through air, ignition, fuel, and mechanical possibilities.', time:'8 min', search:'rough idle shaking surging misfire vacuum leak spark plugs coils',
+  { id:'rough-idle', icon:'\u2248', title:'Rough idle', type:'Engine', summary:'Use codes and operating conditions to work through air, ignition, fuel, and mechanical possibilities.', time:'8 min', search:'rough idle shaking surging misfire vacuum leak spark plugs coils',
     sections:[
       {heading:'The logic',body:'A smooth idle needs the right air-fuel mixture, good spark, and sealed engine parts. The supplied draft proposes checking codes first, then air, spark, fuel, and mechanical causes.'},
       {heading:'Possible causes',body:'Vacuum leak, worn spark plugs or weak coils, dirty throttle body or airflow sensor, stuck exhaust-gas-recirculation valve, injector problems, crankcase-ventilation problems, or low compression.'},
@@ -139,18 +139,18 @@ export const FIELD_GUIDES: FieldGuide[] = [
       {heading:'Safety',body:'Keep hands away from belts and fans. Fuel is flammable. Clean components only as the service manual directs; the wrong cleaner can damage some sensors.'},
       {heading:'Common mistakes',body:'Replacing plugs and coils without a code or test, and ignoring small vacuum leaks.'}
     ]},
-  { id:'check-engine', icon:'⚠', title:'Check-engine light: first steps', type:'Basics', summary:'Decide whether it is safe to continue, then record codes and freeze-frame data before clearing anything.', time:'6 min', search:'check engine light flashing steady warning code freeze frame gas cap',
+  { id:'check-engine', icon:'\u26a0', title:'Check-engine light: first steps', type:'Basics', summary:'Decide whether it is safe to continue, then record codes and freeze-frame data before clearing anything.', time:'6 min', search:'check engine light flashing steady warning code freeze frame gas cap',
     sections:[
       {heading:'The logic',body:'The light means the computer detected something outside its expected range. It does not, by itself, tell you how serious the condition is or which part failed. First assess whether it is safe to continue; then record evidence before clearing codes.'},
       {heading:'First steps',items:['If the light is flashing, or the vehicle has severe shaking, major power loss, smoke, fuel smell, or a high-temperature warning, avoid driving and get help.','If the light is steady, check the fuel cap if the vehicle uses one. A loose or missing cap can set a leak-related code.','Note how the vehicle feels and sounds, and when the problem started.','Read the codes with a compatible scan tool or have them read.','Write down every code and the freeze-frame data before clearing anything.','Use each code page and begin with appropriate simple checks. Do not replace the part named by a code without testing.','After a repair, complete the vehicle-specific verification procedure to confirm the result.']},
       {heading:'Safety',body:'Do not use a scan tool while driving. Avoid driving with a flashing check-engine light. If the vehicle may be unsafe, stop in a safe location and arrange qualified help.'},
       {heading:'Common mistakes',body:'Clearing codes before recording them, replacing a part named in a code without testing, and ignoring a flashing light.'}
     ]},
-  { id:'scan-tool', icon:'⌕', title:'Using an OBD-II scanner', type:'Tools', summary:'Read codes, capture freeze-frame data, and review live data without treating a scan result as a parts list.', time:'7 min', search:'OBD2 scanner scan tool diagnostic port stored pending confirmed codes freeze frame live data',
+  { id:'scan-tool', icon:'\u2315', title:'Using an OBD-II scanner', type:'Tools', summary:'Read codes, capture freeze-frame data, and review live data without treating a scan result as a parts list.', time:'7 min', search:'OBD2 scanner scan tool diagnostic port stored pending confirmed codes freeze frame live data',
     sections:[
       {heading:'The logic',body:'A scan tool is a window into what the vehicle computer sees. It helps identify where to investigate; it does not tell you what to replace.'},
       {heading:'Tools in the draft',body:'An OBD-II scan tool or Bluetooth adapter and compatible app.'},
-      {heading:'Safe use sequence',items:['Locate the diagnostic port, usually under the dashboard on the driver’s side. Check the owner’s manual if needed.','With the key off, connect the scanner.','Turn the key to the on position with the engine off, unless the vehicle manual specifies otherwise.','Read stored codes. Note which are pending and which are confirmed, where supported.','Read freeze-frame data showing the conditions when the code set.','Open live data to observe values such as fuel trims and coolant temperature.','Record the information before clearing any code.','Unplug the adapter when finished. Some adapters can slowly drain the battery.']},
+      {heading:'Safe use sequence',items:['Locate the diagnostic port, usually under the dashboard on the driver\u2019s side. Check the owner\u2019s manual if needed.','With the key off, connect the scanner.','Turn the key to the on position with the engine off, unless the vehicle manual specifies otherwise.','Read stored codes. Note which are pending and which are confirmed, where supported.','Read freeze-frame data showing the conditions when the code set.','Open live data to observe values such as fuel trims and coolant temperature.','Record the information before clearing any code.','Unplug the adapter when finished. Some adapters can slowly drain the battery.']},
       {heading:'Safety',body:'Do not use a scanner while driving. Keep cables clear of pedals and moving parts.'},
       {heading:'Common mistakes',body:'Clearing codes too soon, treating a code as proof of a failed part, and confusing generic with manufacturer-specific codes.'}
     ]}
@@ -172,23 +172,28 @@ export const FILTER_TABS: { label: string; value: CodeCategory }[] = [
 ];
 
 export const SYMPTOM_ITEMS: SymptomItem[] = [
-  {index:'SYMPTOM / 01',icon:'⌁',title:'Won’t start',subtitle:'Clicking, silence, or slow cranking',query:'clicking'},
-  {index:'SYMPTOM / 02',icon:'♨',title:'Running hot',subtitle:'Temperature warning or steam',query:'overheating'},
-  {index:'SYMPTOM / 03',icon:'≈',title:'Shaking or rough idle',subtitle:'Misfire-like symptoms and vibration',query:'rough idle'},
-  {index:'SYMPTOM / 04',icon:'ϟ',title:'Electrical trouble',subtitle:'Battery drain or low-voltage clues',query:'battery'},
+  {index:'SYMPTOM / 01',icon:'\u2301',title:'Won\u2019t start',subtitle:'Clicking, silence, or slow cranking',query:'clicking'},
+  {index:'SYMPTOM / 02',icon:'\u2668',title:'Running hot',subtitle:'Temperature warning or steam',query:'overheating'},
+  {index:'SYMPTOM / 03',icon:'\u2248',title:'Shaking or rough idle',subtitle:'Misfire-like symptoms and vibration',query:'rough idle'},
+  {index:'SYMPTOM / 04',icon:'\u03cf',title:'Electrical trouble',subtitle:'Battery drain or low-voltage clues',query:'battery'},
 ];
 
 export const SAFETY_RULES: { icon:string; title:string; body:string }[] = [
-  {icon:'⚠',title:'Never trust a jack alone',body:'Work on level, stable ground with correctly rated jack stands at approved lift points. If you cannot support the vehicle safely, stop.'},
-  {icon:'ϟ',title:'Respect electricity and fuel',body:'Short circuits can cause burns, fire, or module damage. Keep sparks and flames away from fuel and follow vehicle-specific procedures.'},
-  {icon:'◉',title:'Hot parts stay hot',body:'Let the engine and exhaust cool. Never open a hot pressurized cooling system. Never run an engine in an enclosed space.'},
-  {icon:'↗',title:'Use the right service data',body:'Pinouts, torque values, thresholds, and procedures vary by vehicle. This site will not invent specifications to fill a gap.'},
+  {icon:'\u26a0',title:'Never trust a jack alone',body:'Work on level, stable ground with correctly rated jack stands at approved lift points. If you cannot support the vehicle safely, stop.'},
+  {icon:'\u03cf',title:'Respect electricity and fuel',body:'Short circuits can cause burns, fire, or module damage. Keep sparks and flames away from fuel and follow vehicle-specific procedures.'},
+  {icon:'\u25c9',title:'Hot parts stay hot',body:'Let the engine and exhaust cool. Never open a hot pressurized cooling system. Never run an engine in an enclosed space.'},
+  {icon:'\u2197',title:'Use the right service data',body:'Pinouts, torque values, thresholds, and procedures vary by vehicle. This site will not invent specifications to fill a gap.'},
 ];
 
+/**
+ * Normalises a search string for accent-insensitive matching.
+ * Lowercases the input, applies NFD Unicode normalisation to split
+ * accented characters (\u00f1 \u2192 n + combining tilde), strips
+ * combining marks, collapses non-alphanumeric runs to single spaces,
+ * and trims. English text is unaffected; Spanish diacritics such as
+ * acute accents and tildes fold to their base letters.
+ */
 export function normalizeQuery(value:string):string {
-  // Fold Spanish diacritics (and any other accents) to their base
-  // letters so "arranque" and "arranqué" style variants match. English
-  // text is unchanged by this.
   const folded = String(value || '')
     .toLowerCase()
     .normalize('NFD')
@@ -196,6 +201,11 @@ export function normalizeQuery(value:string):string {
   return folded.replace(/[^a-z0-9]+/g,' ').trim();
 }
 
+/**
+ * Searches the draft trouble-code and field-guide library for a given
+ * query. Returns a status message and up to 9 results on exact match,
+ * or falls back to scoring candidates by meaningful-word overlap.
+ */
 export function searchDiagnosticLibrary(rawQuery:string):{status:string;results:SearchResultItem[]} {
   const q=normalizeQuery(rawQuery);
   if(!q) return {status:'Enter a trouble code, symptom, or guide topic to start investigating.',results:[]};
@@ -204,13 +214,13 @@ export function searchDiagnosticLibrary(rawQuery:string):{status:string;results:
   for(const codeItem of TROUBLE_CODES){
     const hay=normalizeQuery([codeItem.code,...(codeItem.searchTerms??[]),codeItem.title,codeItem.summary,codeItem.meaning,codeItem.category,...(codeItem.symptoms??[]),...codeItem.causes].join(' '));
     if(hay.includes(q)||words.every(word=>hay.includes(word))){
-      matches.push({kind:DetailKind.Code,id:codeItem.code,badge:codeItem.code,title:codeItem.title,summary:codeItem.summary,meta:'Trouble code · Draft'});
+      matches.push({kind:DetailKind.Code,id:codeItem.code,badge:codeItem.code,title:codeItem.title,summary:codeItem.summary,meta:'Trouble code \u00B7 Draft'});
     }
   }
   for(const guideItem of FIELD_GUIDES){
     const hay=normalizeQuery([guideItem.title,guideItem.summary,guideItem.search,guideItem.type,...guideItem.sections.map(s=>s.body??''),...guideItem.sections.flatMap(s=>s.items??[])].join(' '));
     if(hay.includes(q)||words.every(word=>hay.includes(word))){
-      matches.push({kind:DetailKind.Guide,id:guideItem.id,badge:guideItem.type,title:guideItem.title,summary:guideItem.summary,meta:`Field guide · ${guideItem.time} · Draft`});
+      matches.push({kind:DetailKind.Guide,id:guideItem.id,badge:guideItem.type,title:guideItem.title,summary:guideItem.summary,meta:`Field guide \u00B7 ${guideItem.time} \u00B7 Draft`});
     }
   }
   if(!matches.length) return {status:'No exact match in this draft library. Try a shorter symptom, a code such as P0300, or browse all guides.',results:[]};

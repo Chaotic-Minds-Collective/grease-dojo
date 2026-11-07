@@ -25,20 +25,28 @@ const STOP_WORDS_ES = new Set([
 ]);
 
 const STATUS_ES = {
-  empty: 'Ingresa un código de falla, un síntoma o un tema de guía para comenzar a investigar.',
-  none: 'Sin coincidencia exacta en esta biblioteca en borrador. Prueba un síntoma más corto, un código como P0300 o explora todas las guías.',
-  one: ' resultado encontrado. Abre un resultado para revisar la guía en borrador.',
-  many: ' resultados encontrados. Abre un resultado para revisar la guía en borrador.',
-  close: 'Sin coincidencia exacta: estos son los temas más cercanos en la biblioteca en borrador.',
+  empty: 'Ingresa un c\u00f3digo de falla, un s\u00edntoma o un tema de gu\u00eda para comenzar a investigar.',
+  none: 'Sin coincidencia exacta en esta biblioteca en borrador. Prueba un s\u00edntoma m\u00e1s corto, un c\u00f3digo como P0300 o explora todas las gu\u00edas.',
+  one: ' resultado encontrado. Abre un resultado para revisar la gu\u00eda en borrador.',
+  many: ' resultados encontrados. Abre un resultado para revisar la gu\u00eda en borrador.',
+  close: 'Sin coincidencia exacta: estos son los temas m\u00e1s cercanos en la biblioteca en borrador.',
 };
 
-// The complete library for a language, resolved from one shared list so
-// every view (search, detail dialog, lab grid, guides grid) stays in
-// sync instead of holding per-module copies.
+/**
+ * Returns every trouble code for the active language, combining engine,
+ * air-fuel, electrical, temperature, and transmission entries into one
+ * list. Every view (search, detail dialog, lab grid) calls this so they
+ * stay in sync instead of holding per-module copies.
+ */
 export function allCodes(lang: Lang): TroubleCode[] {
   return troubleCodesFor(lang);
 }
 
+/**
+ * Returns every field guide for the active language, combining the
+ * core guides and the transmission shift guide into one list. Keeps
+ * search, detail dialogs, and the guide grid in sync.
+ */
 export function allGuides(lang: Lang): FieldGuide[] {
   return fieldGuidesFor(lang);
 }
@@ -51,14 +59,14 @@ function codeResult(item: TroubleCode, lang: Lang): SearchResultItem {
     badge: item.code,
     title: item.title,
     summary: item.summary,
-    meta: lang === 'es' ? 'Código de falla \u00B7 Borrador' : 'Trouble code \u00B7 Draft',
+    meta: lang === 'es' ? 'C\u00f3digo de falla \u00B7 Borrador' : 'Trouble code \u00B7 Draft',
   };
 }
 
 /** Builds a search result card for one field guide. */
 function guideResult(item: FieldGuide, lang: Lang): SearchResultItem {
   const meta = lang === 'es'
-    ? 'Guía de campo \u00B7 ' + item.time + ' \u00B7 Borrador'
+    ? 'Gu\u00eda de campo \u00B7 ' + item.time + ' \u00B7 Borrador'
     : 'Field guide \u00B7 ' + item.time + ' \u00B7 Draft';
   return {
     kind: DetailKind.Guide,
@@ -100,13 +108,15 @@ function guideHaystack(item: FieldGuide): string {
   );
 }
 
-// Single search entry point over the whole draft library (engine,
-// air-fuel, electrical, temperature, and transmission) for the active
-// language. Exact matching first: the whole phrase, or every word
-// present. When nothing matches exactly, rank entries by how many
-// meaningful words they contain and return the closest ones, so a
-// natural-language question still lands on useful draft content instead
-// of an empty result grid.
+/**
+ * Single search entry point over the whole draft library (engine,
+ * air-fuel, electrical, temperature, and transmission) for the active
+ * language. Exact matching first: the whole phrase, or every word
+ * present. When nothing matches exactly, ranks entries by how many
+ * meaningful words they contain and returns the closest ones, so a
+ * natural-language question still lands on useful draft content instead
+ * of an empty result grid.
+ */
 export function searchWithFallback(
   rawQuery: string,
   lang: Lang = 'en'
