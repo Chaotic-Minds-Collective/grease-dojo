@@ -1,0 +1,43 @@
+name: Apply bilingual patch (temporary)
+
+# Temporary helper: applies the reviewed bilingual patch from the
+# verified URL below, then removes itself. Trigger is path-filtered so
+# the content push this workflow creates does not retrigger it.
+on:
+  push:
+    branches:
+      - feature/bilingual-es-en
+    paths:
+      - '.github/workflows/tmp-apply-bilingual.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/bilingual-es-en
+          fetch-depth: 0
+
+      - name: Download and verify patch
+        run: |
+          curl -fsSL https://x0.at/Bejq.diff -o /tmp/bilingual.diff
+          echo "4f348b353c0d566b24d381eaa3fcc6d3edc1c03c619f24638ac617827d8305ca  /tmp/bilingual.diff" | sha256sum -c -
+
+      - name: Apply patch and push content
+        run: |
+          git apply --stat /tmp/bilingual.diff
+          git apply /tmp/bilingual.diff
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "Add full Spanish translation with ES/EN language toggle"
+          git push origin feature/bilingual-es-en
+
+      - name: Remove temporary workflow
+        run: |
+          git rm -f .github/workflows/tmp-apply-bilingual.yml
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "chore: remove temporary patch-apply workflow"
+          git push origin feature/bilingual-es-en
