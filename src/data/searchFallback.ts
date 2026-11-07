@@ -1,6 +1,6 @@
 import { DetailKind, SearchResultItem, TroubleCode, FieldGuide } from '../types/diagnostics';
 import { normalizeQuery } from './diagnosticsData';
-import { Lang } from '../i18n/LanguageContext';
+import type { Lang } from '../i18n/LanguageContext';
 import { troubleCodesFor, fieldGuidesFor } from './localeData';
 
 // Everyday filler words that should not drive matching, plus single
@@ -43,6 +43,7 @@ export function allGuides(lang: Lang): FieldGuide[] {
   return fieldGuidesFor(lang);
 }
 
+/** Builds a search result card for one trouble code. */
 function codeResult(item: TroubleCode, lang: Lang): SearchResultItem {
   return {
     kind: DetailKind.Code,
@@ -54,6 +55,7 @@ function codeResult(item: TroubleCode, lang: Lang): SearchResultItem {
   };
 }
 
+/** Builds a search result card for one field guide. */
 function guideResult(item: FieldGuide, lang: Lang): SearchResultItem {
   const meta = lang === 'es'
     ? 'Guía de campo \u00B7 ' + item.time + ' \u00B7 Borrador'
@@ -68,6 +70,7 @@ function guideResult(item: FieldGuide, lang: Lang): SearchResultItem {
   };
 }
 
+/** Concatenates every searchable field of a code into one normalized haystack. */
 function codeHaystack(item: TroubleCode): string {
   return normalizeQuery(
     [
@@ -83,6 +86,7 @@ function codeHaystack(item: TroubleCode): string {
   );
 }
 
+/** Concatenates every searchable field of a guide into one normalized haystack. */
 function guideHaystack(item: FieldGuide): string {
   return normalizeQuery(
     [
@@ -135,14 +139,16 @@ export function searchWithFallback(
   }
 
   if (matches.length) {
-    if (lang === 'es') {
-      return {
-        status: matches.length + (matches.length === 1 ? STATUS_ES.one : STATUS_ES.many),
-        results: matches.slice(0, 9),
-      };
-    }
+    const suffix =
+      lang === 'es'
+        ? matches.length === 1
+          ? STATUS_ES.one
+          : STATUS_ES.many
+        : matches.length === 1
+          ? ' result found. Open a result to review draft guidance.'
+          : ' results found. Open a result to review draft guidance.';
     return {
-      status: matches.length + (matches.length === 1 ? ' result found. Open a result to review draft guidance.' : ' results found. Open a result to review draft guidance.'),
+      status: matches.length + suffix,
       results: matches.slice(0, 9),
     };
   }

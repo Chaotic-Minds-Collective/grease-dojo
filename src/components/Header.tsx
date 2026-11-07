@@ -106,11 +106,13 @@ export const Header: React.FC<HeaderProps> = ({ route }) => {
           <a className="tab-cta" href="#/symptoms">
             {t('Start diagnosis')} <span aria-hidden="true">↗</span>
           </a>
-          <span className="lang-toggle" role="group" aria-label={lang === 'es' ? 'Idioma' : 'Language'}>
+          <span className="lang-toggle" role="group" aria-label={t('Language')}>
             <button
               type="button"
               className={lang === 'en' ? 'is-on' : undefined}
               aria-pressed={lang === 'en'}
+              aria-label={t('Switch language to English')}
+              lang="en"
               onClick={() => setLang('en')}
             >
               EN
@@ -119,6 +121,8 @@ export const Header: React.FC<HeaderProps> = ({ route }) => {
               type="button"
               className={lang === 'es' ? 'is-on' : undefined}
               aria-pressed={lang === 'es'}
+              aria-label={t('Switch language to Spanish')}
+              lang="es"
               onClick={() => setLang('es')}
             >
               ES

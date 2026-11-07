@@ -192,8 +192,7 @@ export function normalizeQuery(value:string):string {
   const folded = String(value || '')
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/ñ/g, 'n');
+    .replace(/[\u0300-\u036f]/g, '');
   return folded.replace(/[^a-z0-9]+/g,' ').trim();
 }
 

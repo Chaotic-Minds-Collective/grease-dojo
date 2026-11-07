@@ -6,7 +6,7 @@ import {
 } from './diagnosticsData.es';
 import { TRANSMISSION_CODES, SHIFT_GUIDES } from './transmissionData';
 import { TRANSMISSION_CODES_ES, SHIFT_GUIDES_ES } from './transmissionData.es';
-import { Lang } from '../i18n/LanguageContext';
+import type { Lang } from '../i18n/LanguageContext';
 
 export { QUICK_SEARCHES, QUICK_SEARCHES_ES, FILTER_TABS, FILTER_TABS_ES, SAFETY_RULES, SAFETY_RULES_ES };
 
@@ -20,18 +20,22 @@ export const CATEGORY_LABELS_ES: Record<string, string> = {
   transmission: 'transmisión',
 };
 
+/** Returns the trouble-code library for the active language. */
 export function troubleCodesFor(lang: Lang) {
   return lang === 'es' ? [...TROUBLE_CODES_ES, ...TRANSMISSION_CODES_ES] : [...TROUBLE_CODES, ...TRANSMISSION_CODES];
 }
 
+/** Returns the field-guide library for the active language. */
 export function fieldGuidesFor(lang: Lang) {
   return lang === 'es' ? [...FIELD_GUIDES_ES, ...SHIFT_GUIDES_ES] : [...FIELD_GUIDES, ...SHIFT_GUIDES];
 }
 
+/** Returns the symptom shortcuts for the active language. */
 export function symptomItemsFor(lang: Lang) {
   return lang === 'es' ? SYMPTOM_ITEMS_ES : SYMPTOM_ITEMS;
 }
 
+/** Returns the safety rules for the active language. */
 export function safetyRulesFor(lang: Lang) {
   return lang === 'es' ? SAFETY_RULES_ES : SAFETY_RULES;
 }

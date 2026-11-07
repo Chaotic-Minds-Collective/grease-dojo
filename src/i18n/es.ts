@@ -53,6 +53,8 @@ export const ES: Record<string, string> = {
   'JUST GOOD TESTS': 'SOLO BUENAS PRUEBAS',
   'EVIDENCE FIRST': 'EVIDENCIA PRIMERO',
   'OBD-II': 'OBD-II',
+  'Transmission': 'Transmisión',
+  'Language': 'Idioma',
   'FIELD NOTES': 'NOTAS DE CAMPO',
   'FIELD NOTES FOR REAL-WORLD DIAGNOSIS': 'NOTAS DE CAMPO PARA DIAGNÓSTICO REAL',
   'PRE-LAUNCH': 'PRE-LANZAMIENTO',
@@ -67,6 +69,14 @@ export const ES: Record<string, string> = {
   'Search trouble codes, symptoms, and guides': 'Busca códigos de falla, síntomas y guías',
   'Try P0300, clicking noise, dead battery…': 'Prueba P0300, ruido al dar contacto, batería muerta…',
   'Search': 'Buscar',
+  'e.g. 2018': 'p. ej. 2018',
+  'e.g. Ford': 'p. ej. Ford',
+  'e.g. F-150': 'p. ej. F-150',
+  'e.g. 2.0L turbo': 'p. ej. 2.0L turbo',
+  'e.g. 124,500 miles': 'p. ej. 124.500 km',
+  'e.g. P0300, P0171 — include pending or permanent status if known.': 'p. ej. P0300, P0171 — incluye el estado pendiente o permanente si lo conoces.',
+  'What was repaired, replaced, refueled, or changed before the problem began?': '¿Qué se reparó, reemplazó, reabasteció o cambió antes de que empezara el problema?',
+  'Describe sounds, smells, warning messages, when the issue started, and anything that makes it better or worse.': 'Describe sonidos, olores, mensajes de advertencia, cuándo empezó el problema y todo lo que lo mejore o empeore.',
   'QUICK LOOKUP': 'BÚSQUEDA RÁPIDA',
   'Popular searches': 'Búsquedas populares',
 
@@ -79,6 +89,7 @@ export const ES: Record<string, string> = {
   'Filter trouble codes': 'Filtrar códigos de falla',
   'Draft library · mechanic review pending': 'Biblioteca en borrador · revisión mecánica pendiente',
   'Draft': 'Borrador',
+  'read': 'de lectura',
   'Safety first:': 'Primero la seguridad:',
   'a flashing check-engine light, severe shaking, smoke, fuel smell, overheating, or major loss of power can indicate an urgent problem. Stop somewhere safe and seek qualified help rather than continuing to drive.':
     'una luz de check engine parpadeante, sacudidas severas, humo, olor a combustible, sobrecalentamiento o una gran pérdida de potencia pueden indicar un problema urgente. Detente en un lugar seguro y busca ayuda calificada en lugar de seguir manejando.',
@@ -211,7 +222,6 @@ export const ES: Record<string, string> = {
     'The Greasy Dojo proporciona información educativa general y herramientas para organizar observaciones. No puede inspeccionar tu vehículo, verificar un código de falla, leer datos en vivo ni confirmar un componente averiado. Un código de falla es evidencia, no prueba de una falla específica.',
   'Always use the owner\'s manual and the manufacturer\'s service information for the exact vehicle. Specifications and procedures vary by year, model, engine, equipment, and market.':
     'Usa siempre el manual del propietario y la información de servicio del fabricante para el vehículo exacto. Las especificaciones y los procedimientos varían según el año, el modelo, el motor, el equipo y el mercado.',
-  'SAFETY FIRST NOTICE': 'SEGURIDAD PRIMERO',
   'Stop when the situation is unsafe': 'Detente cuando la situación no sea segura',
   'Do not use this site as a reason to keep driving or continue a repair when a vehicle may be unsafe. Stop in a safe location and arrange qualified help for severe misfire, overheating, oil pressure warnings, fuel leaks, smoke, brake or steering faults, or loss of vehicle control.':
     'No uses este sitio como razón para seguir manejando o continuar una reparación cuando un vehículo puede no ser seguro. Detente en un lugar seguro y consigue ayuda calificada ante fallos de encendido severos, sobrecalentamiento, avisos de presión de aceite, fugas de combustible, humo, fallas de frenos o dirección, o pérdida de control del vehículo.',
@@ -354,5 +364,4 @@ export const ES: Record<string, string> = {
     'Sin coincidencia exacta: estos son los temas más cercanos en la biblioteca en borrador.',
   'Trouble code': 'Código de falla',
   'Field guide': 'Guía de campo',
-  'read': 'de lectura',
 };

@@ -90,7 +90,7 @@ export const DiagnosticLab: React.FC<DiagnosticLabProps> = ({ onOpenDetail }) =>
               <span className="card-meta">
                 {lang === 'es'
                   ? `${CATEGORY_LABELS_ES[codeItem.category] ?? codeItem.category} · ${t('Draft')}`
-                  : `${codeItem.category.replace('-', ' & ')} · Draft`}
+                  : `${codeItem.category.replace('-', ' & ')} · ${t('Draft')}`}
               </span>
             </button>
           ))}

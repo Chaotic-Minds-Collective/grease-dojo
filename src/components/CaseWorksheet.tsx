@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLang } from '../i18n/LanguageContext';
 import './CaseWorksheet.css';
 
@@ -14,19 +14,18 @@ const OPERATING_CONDITIONS = [
   'Intermittently',
 ];
 
-// Spanish mirror of OPERATING_CONDITIONS. Values are what get recorded,
-// so the checklist must stay consistent within one language session.
-const OPERATING_CONDITIONS_ES = [
-  'Arranque en frío',
-  'Arranque en caliente',
-  'En ralentí',
-  'Al acelerar',
-  'A velocidad constante',
-  'Al frenar',
-  'Al girar',
-  'En baches',
-  'De forma intermitente',
-];
+// Spanish labels keyed by the language-neutral OPERATING_CONDITIONS ids.
+const OPERATING_CONDITIONS_ES: Record<string, string> = {
+  'Cold start': 'Arranque en frío',
+  'Hot start': 'Arranque en caliente',
+  'At idle': 'En ralentí',
+  'During acceleration': 'Al acelerar',
+  'At steady speed': 'A velocidad constante',
+  'During braking': 'Al frenar',
+  'While turning': 'Al girar',
+  'Over bumps': 'En baches',
+  'Intermittently': 'De forma intermitente',
+};
 
 const SAFETY_FLAGS = [
   'Flashing check-engine light or severe engine shaking',
@@ -37,15 +36,15 @@ const SAFETY_FLAGS = [
   'Smoke or burning-electrical smell',
 ];
 
-// Spanish mirror of SAFETY_FLAGS.
-const SAFETY_FLAGS_ES = [
-  'Luz de check engine parpadeante o sacudidas severas del motor',
-  'Advertencia de alta temperatura, sobrecalentamiento o vapor',
-  'Advertencia de presión de aceite',
-  'Problema de frenos o dirección',
-  'Olor a combustible o fuga visible',
-  'Humo u olor a electricidad quemada',
-];
+// Spanish labels keyed by the language-neutral SAFETY_FLAGS ids.
+const SAFETY_FLAGS_ES: Record<string, string> = {
+  'Flashing check-engine light or severe engine shaking': 'Luz de check engine parpadeante o sacudidas severas del motor',
+  'High temperature warning, overheating, or steam': 'Advertencia de alta temperatura, sobrecalentamiento o vapor',
+  'Oil-pressure warning': 'Advertencia de presión de aceite',
+  'Brake or steering problem': 'Problema de frenos o dirección',
+  'Fuel smell or visible fuel leak': 'Olor a combustible o fuga visible',
+  'Smoke or burning-electrical smell': 'Humo u olor a electricidad quemada',
+};
 
 const CONCERN_OPTIONS = [
   'Will not start',
@@ -57,16 +56,23 @@ const CONCERN_OPTIONS = [
   'Other / not sure',
 ];
 
-// Spanish mirror of CONCERN_OPTIONS.
-const CONCERN_OPTIONS_ES = [
-  'No arranca',
-  'Funciona mal o pierde potencia',
-  'Luz o mensaje de advertencia',
-  'Sobrecalentamiento',
-  'Ruido, olor o fuga',
-  'Inquietud de frenos o dirección',
-  'Otro / no estoy seguro',
-];
+// Spanish labels keyed by the language-neutral CONCERN_OPTIONS ids.
+const CONCERN_OPTIONS_ES: Record<string, string> = {
+  'Will not start': 'No arranca',
+  'Runs rough or loses power': 'Funciona mal o pierde potencia',
+  'Warning light or message': 'Luz o mensaje de advertencia',
+  'Overheating': 'Sobrecalentamiento',
+  'Noise, smell, or leak': 'Ruido, olor o fuga',
+  'Braking or steering concern': 'Inquietud de frenos o dirección',
+  'Other / not sure': 'Otro / no estoy seguro',
+};
+
+/** All Spanish labels keyed by their language-neutral selection id. */
+const LABELS_ES: Record<string, string> = {
+  ...OPERATING_CONDITIONS_ES,
+  ...SAFETY_FLAGS_ES,
+  ...CONCERN_OPTIONS_ES,
+};
 
 type CaseDetails = {
   year: string;
@@ -109,10 +115,18 @@ export const CaseWorksheet: React.FC = () => {
   const [copyStatus, setCopyStatus] = useState('');
   const { t, lang } = useLang();
 
-  const operatingConditions = lang === 'es' ? OPERATING_CONDITIONS_ES : OPERATING_CONDITIONS;
-  const safetyFlagsList = lang === 'es' ? SAFETY_FLAGS_ES : SAFETY_FLAGS;
-  const concernOptions = lang === 'es' ? CONCERN_OPTIONS_ES : CONCERN_OPTIONS;
+  /** Resolves a language-neutral selection id to the active language's label. */
+  const labelFor = (id: string) => (lang === 'es' ? LABELS_ES[id] ?? id : id);
 
+  // Selections are language-neutral ids, so they survive a language
+  // switch. Only the prepared report is language-bound: drop it on a
+  // language change so a stale-language report is never shared.
+  useEffect(() => {
+    setReportText('');
+    setCopyStatus('');
+  }, [lang]);
+
+/** Updates one text field and invalidates any prepared report. */
   const updateField = (
     field:
       | 'year'
@@ -131,6 +145,7 @@ export const CaseWorksheet: React.FC = () => {
     setCopyStatus('');
   };
 
+/** Updates one checkbox list and invalidates any prepared report. */
   const updateSelection = (
     field: 'conditions' | 'safetyFlags',
     value: string,
@@ -144,6 +159,7 @@ export const CaseWorksheet: React.FC = () => {
     setCopyStatus('');
   };
 
+/** Builds the shareable case report in the active language. */
   const prepareReport = () => {
     const vehicle = [
       details.year,
@@ -159,11 +175,11 @@ export const CaseWorksheet: React.FC = () => {
       '',
       `${t('Vehicle:')} ${vehicle.length ? vehicle.join(' · ') : notProvided}`,
       `${t('Odometer:')} ${details.mileage.trim() || notProvided}`,
-      `${t('Main concern:')} ${details.concern || notProvided}`,
-      `${t('When it happens:')} ${details.conditions.length ? details.conditions.join(', ') : notProvided}`,
+      `${t('Main concern:')} ${details.concern ? labelFor(details.concern) : notProvided}`,
+      `${t('When it happens:')} ${details.conditions.length ? details.conditions.map(labelFor).join(', ') : notProvided}`,
       '',
       t('SAFETY WARNINGS REPORTED'),
-      ...(details.safetyFlags.length ? details.safetyFlags.map((item) => `- ${item}`) : [`- ${t('None selected / not reported')}`]),
+      ...(details.safetyFlags.length ? details.safetyFlags.map((item) => `- ${labelFor(item)}`) : [`- ${t('None selected / not reported')}`]),
       '',
       t('TROUBLE CODES'),
       details.troubleCodes.trim() || notProvided,
@@ -181,6 +197,7 @@ export const CaseWorksheet: React.FC = () => {
     setCopyStatus(t('Your case notes are ready. Review them before sharing.'));
   };
 
+/** Copies the prepared report to the clipboard when the browser allows it. */
   const copyReport = async () => {
     if (!reportText) return;
 
@@ -195,10 +212,12 @@ export const CaseWorksheet: React.FC = () => {
     }
   };
 
+/** Opens the browser print dialog for the prepared report. */
   const printReport = () => {
     if (reportText) window.print();
   };
 
+/** Clears every field, selection, and prepared report. */
   const resetWorksheet = () => {
     setDetails(EMPTY_CASE);
     setReportText('');
@@ -239,7 +258,7 @@ export const CaseWorksheet: React.FC = () => {
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
-                  placeholder={lang === 'es' ? 'p. ej. 2018' : 'e.g. 2018'}
+                  placeholder={t('e.g. 2018')}
                   value={details.year}
                   onChange={(event) => updateField('year', event.target.value)}
                 />
@@ -249,7 +268,7 @@ export const CaseWorksheet: React.FC = () => {
                 <input
                   type="text"
                   autoComplete="off"
-                  placeholder={lang === 'es' ? 'p. ej. Ford' : 'e.g. Ford'}
+                  placeholder={t('e.g. Ford')}
                   value={details.make}
                   onChange={(event) => updateField('make', event.target.value)}
                 />
@@ -259,7 +278,7 @@ export const CaseWorksheet: React.FC = () => {
                 <input
                   type="text"
                   autoComplete="off"
-                  placeholder={lang === 'es' ? 'p. ej. F-150' : 'e.g. F-150'}
+                  placeholder={t('e.g. F-150')}
                   value={details.model}
                   onChange={(event) => updateField('model', event.target.value)}
                 />
@@ -269,7 +288,7 @@ export const CaseWorksheet: React.FC = () => {
                 <input
                   type="text"
                   autoComplete="off"
-                  placeholder={lang === 'es' ? 'p. ej. 2.0L turbo' : 'e.g. 2.0L turbo'}
+                  placeholder={t('e.g. 2.0L turbo')}
                   value={details.engine}
                   onChange={(event) => updateField('engine', event.target.value)}
                 />
@@ -280,7 +299,7 @@ export const CaseWorksheet: React.FC = () => {
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
-                  placeholder={lang === 'es' ? 'p. ej. 124.500 km' : 'e.g. 124,500 miles'}
+                  placeholder={t('e.g. 124,500 miles')}
                   value={details.mileage}
                   onChange={(event) => updateField('mileage', event.target.value)}
                 />
@@ -292,8 +311,8 @@ export const CaseWorksheet: React.FC = () => {
                   onChange={(event) => updateField('concern', event.target.value)}
                 >
                   <option value="">{t('Choose the closest description')}</option>
-                  {concernOptions.map((option) => (
-                    <option key={option}>{option}</option>
+                  {CONCERN_OPTIONS.map((option) => (
+                    <option key={option}>{labelFor(option)}</option>
                   ))}
                 </select>
               </label>
@@ -304,7 +323,7 @@ export const CaseWorksheet: React.FC = () => {
             <legend>{t('02 / When does it happen?')}</legend>
             <p className="case-field-help">{t('Select every condition that applies.')}</p>
             <div className="case-check-grid">
-              {operatingConditions.map((condition) => (
+              {OPERATING_CONDITIONS.map((condition) => (
                 <label className="case-check" key={condition}>
                   <input
                     type="checkbox"
@@ -313,7 +332,7 @@ export const CaseWorksheet: React.FC = () => {
                       updateSelection('conditions', condition, event.target.checked)
                     }
                   />
-                  <span>{condition}</span>
+                  <span>{labelFor(condition)}</span>
                 </label>
               ))}
             </div>
@@ -325,7 +344,7 @@ export const CaseWorksheet: React.FC = () => {
               {t('Select any warning sign you have noticed. Do not approach smoke, fuel leaks, hot coolant, or moving parts to investigate.')}
             </p>
             <div className="case-check-grid">
-              {safetyFlagsList.map((flag) => (
+              {SAFETY_FLAGS.map((flag) => (
                 <label className="case-check" key={flag}>
                   <input
                     type="checkbox"
@@ -334,7 +353,7 @@ export const CaseWorksheet: React.FC = () => {
                       updateSelection('safetyFlags', flag, event.target.checked)
                     }
                   />
-                  <span>{flag}</span>
+                  <span>{labelFor(flag)}</span>
                 </label>
               ))}
             </div>
@@ -352,7 +371,7 @@ export const CaseWorksheet: React.FC = () => {
               <span>{t('Trouble codes (write them exactly as displayed)')}</span>
               <textarea
                 rows={3}
-                placeholder={lang === 'es' ? 'p. ej. P0300, P0171 — incluye el estado pendiente o permanente si lo conoces.' : 'e.g. P0300, P0171 — include pending or permanent status if known.'}
+                placeholder={t('e.g. P0300, P0171 — include pending or permanent status if known.')}
                 value={details.troubleCodes}
                 onChange={(event) => updateField('troubleCodes', event.target.value)}
               />
@@ -361,7 +380,7 @@ export const CaseWorksheet: React.FC = () => {
               <span>{t('Recent repairs, maintenance, or changes')}</span>
               <textarea
                 rows={3}
-                placeholder={lang === 'es' ? '¿Qué se reparó, reemplazó, reabasteció o cambió antes de que empezara el problema?' : 'What was repaired, replaced, refueled, or changed before the problem began?'}
+                placeholder={t('What was repaired, replaced, refueled, or changed before the problem began?')}
                 value={details.recentWork}
                 onChange={(event) => updateField('recentWork', event.target.value)}
               />
@@ -370,7 +389,7 @@ export const CaseWorksheet: React.FC = () => {
               <span>{t('Other observations')}</span>
               <textarea
                 rows={4}
-                placeholder={lang === 'es' ? 'Describe sonidos, olores, mensajes de advertencia, cuándo empezó el problema y todo lo que lo mejore o empeore.' : 'Describe sounds, smells, warning messages, when the issue started, and anything that makes it better or worse.'}
+                placeholder={t('Describe sounds, smells, warning messages, when the issue started, and anything that makes it better or worse.')}
                 value={details.observations}
                 onChange={(event) => updateField('observations', event.target.value)}
               />

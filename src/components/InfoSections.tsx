@@ -94,7 +94,7 @@ export const SafetySection: React.FC = () => {
           <h2>
             {t('Some problems')}
             <br />
-            {t("aren't")} <span className="text-red">DIY.</span>
+            {t("aren't")} <span className="text-red">{t('DIY.')}</span>
           </h2>
           <p className="safety-intro">
             {t('Confidence is useful. Knowing when to stop is a diagnostic skill, too.')}
@@ -134,7 +134,7 @@ export const AboutSection: React.FC = () => {
             <span className="eyebrow-line" /> {t('THE RULES OF THE DOJO')}
           </div>
           <h2>
-            Evidence over ego.
+            {t('Evidence over ego.')}
             <br />
             <span className="text-gold">{t('Every time.')}</span>
           </h2>

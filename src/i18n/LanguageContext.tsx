@@ -42,6 +42,7 @@ const LanguageContext = createContext<LangContextValue>({
   t: (en) => en,
 });
 
+/** Supplies the active language and t() to the whole app. */
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLangState] = useState<Lang>(detectLang);
 
@@ -72,6 +73,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** Returns the active language, its setter, and the t() translator. */
 export function useLang(): LangContextValue {
   return useContext(LanguageContext);
 }

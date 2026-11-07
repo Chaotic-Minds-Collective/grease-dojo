@@ -49,7 +49,7 @@ export const GuidesSection: React.FC<GuidesSectionProps> = ({ onOpenDetail }) =>
               </div>
               <h3>{guide.title}</h3>
               <p>{guide.summary}</p>
-              <span className="card-meta">{lang === 'es' ? `${guide.time} de lectura · Borrador` : `${guide.time} read · Draft`}</span>
+              <span className="card-meta">{`${guide.time} ${t('read')} · ${t('Draft')}`}</span>
             </button>
           ))}
         </div>

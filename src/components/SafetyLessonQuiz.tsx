@@ -56,7 +56,7 @@ export const SafetyLessonQuiz:React.FC=()=>{
  const next=()=>{if(choice===null)return;if(index===questions.length-1){setComplete(true);return;}setIndex(v=>v+1);setChoice(null);};
  const reset=()=>{setIndex(0);setChoice(null);setScore(0);setComplete(false);};
  return <section className="safety-lesson-section" id="safety-lesson"><div className="section-wrap">
-  <div className="section-heading"><div><div className="eyebrow"><span className="eyebrow-line"/> KNOWLEDGE CHECK / 01</div><h2>{t('Automotive')} <span className="text-gold">{t('safety basics.')}</span></h2></div><p>{t('Test your understanding of the safety topics in the supplied lesson drafts. Review the explanation after each answer.')}</p></div>
+  <div className="section-heading"><div><div className="eyebrow"><span className="eyebrow-line"/> {t('KNOWLEDGE CHECK / 01')}</div><h2>{t('Automotive')} <span className="text-gold">{t('safety basics.')}</span></h2></div><p>{t('Test your understanding of the safety topics in the supplied lesson drafts. Review the explanation after each answer.')}</p></div>
   <div className="lesson-status" role="note"><strong>{t('Draft preview — 15 of 20 questions available.')}</strong><span>{t('The remaining five questions have not been supplied. This is a self-check only; it does not unlock another lesson or certify training.')}</span></div>
   <div className="lesson-quiz" aria-live="polite">
    <div className="lesson-quiz-top"><span>{complete?t('KNOWLEDGE CHECK COMPLETE'):`${t('QUESTION')} ${index+1} / ${questions.length}`}</span><span>{complete?`${score} / ${questions.length} ${t('CORRECT')}`:`${score} ${t('CORRECT SO FAR')}`}</span></div>
