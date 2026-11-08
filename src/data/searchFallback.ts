@@ -81,7 +81,7 @@ export function searchWithFallback(
     if (guideResults.length >= MAX_RESULTS) break;
 
     const haystack = normalizeQuery(
-      [guide.title, guide.subtitle, guide.category].join(' ')
+      [guide.title, guide.subtitle, guide.category, guide.search, guide.summary].join(' ')
     );
 
     let score = 0;
@@ -134,7 +134,7 @@ export function searchWithFallback(
     .filter((item) => {
       const text = normalizeQuery(
         'id' in item
-          ? item.title
+          ? [item.title, item.subtitle, item.category, item.search, item.summary].join(' ')
           : [item.code, item.symptom].join(' ')
       );
       return text && q.length >= 3 && text.includes(q.slice(0, 3));

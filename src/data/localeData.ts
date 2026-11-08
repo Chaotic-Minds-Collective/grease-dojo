@@ -25,23 +25,29 @@ export function troubleCodesFor(lang: Lang): DiagnosticCode[] {
   const codes = allCodes().filter((code) => code.category !== 'transmission');
   const identifiers = new Set(codes.map((code) => code.code));
 
-  const translate = (translation: TroubleCode, code?: DiagnosticCode): DiagnosticCode => ({
-    ...code,
-    code: code?.code ?? translation.code,
-    category: code?.category ?? translation.category,
-    title: translation.title,
-    summary: translation.summary,
-    symptom: translation.symptoms?.join('; ') ?? code?.symptomEs ?? code?.symptom ?? translation.summary,
-    related: code?.related ?? translation.related,
-    reviewStatus: code?.reviewStatus ?? translation.reviewStatus,
-    sourceStatus: code?.sourceStatus ?? translation.sourceStatus,
-    sections: [
-      { heading: 'Significado', body: translation.meaning },
-      { heading: 'Posibles causas', items: translation.causes },
-      { heading: 'Qué comprobar', items: translation.checks },
-      { heading: 'Seguridad', body: translation.warning },
-    ],
-  });
+  const translate = (translation: TroubleCode, code?: DiagnosticCode): DiagnosticCode => {
+    const symptom = [...new Set([...(translation.symptoms ?? []), code?.symptomEs]
+      .filter((text): text is string => Boolean(text)))].join('; ')
+      || code?.symptom || translation.summary;
+    return {
+      ...code,
+      code: code?.code ?? translation.code,
+      category: code?.category ?? translation.category,
+      title: translation.title,
+      summary: translation.summary,
+      symptom,
+      symptomEs: symptom,
+      related: code?.related ?? translation.related,
+      reviewStatus: code?.reviewStatus ?? translation.reviewStatus,
+      sourceStatus: code?.sourceStatus ?? translation.sourceStatus,
+      sections: [
+        { heading: 'Significado', body: translation.meaning },
+        { heading: 'Posibles causas', items: translation.causes },
+        { heading: 'Qué comprobar', items: translation.checks },
+        { heading: 'Seguridad', body: translation.warning },
+      ],
+    };
+  };
 
   // Keep stable English identifiers, including members of translated code groups.
   return [
@@ -58,7 +64,12 @@ export function troubleCodesFor(lang: Lang): DiagnosticCode[] {
 export function fieldGuidesFor(lang: Lang) {
   if (lang === 'en') return allGuides();
   const localized = new Map([...FIELD_GUIDES_ES, ...transmissionGuidesEs()].map((guide) => [guide.id, guide]));
-  return allGuides().map((guide) => localized.get(guide.id) ?? guide);
+  const guides = allGuides();
+  const baseIds = new Set(guides.map((guide) => guide.id));
+  return [
+    ...guides.map((guide) => localized.get(guide.id) ?? guide),
+    ...[...localized.values()].filter((guide) => !baseIds.has(guide.id)),
+  ];
 }
 
 /** Returns the symptom shortcuts for the active language. */
