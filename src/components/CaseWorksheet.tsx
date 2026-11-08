@@ -109,11 +109,21 @@ function toggleSelection(current: string[], value: string, checked: boolean) {
     : current.filter((item) => item !== value);
 }
 
+/** Renders the local-only worksheet and prepares case notes for copying or printing. */
 export const CaseWorksheet: React.FC = () => {
   const [details, setDetails] = useState<CaseDetails>(EMPTY_CASE);
   const [reportText, setReportText] = useState('');
   const [copyStatus, setCopyStatus] = useState('');
   const { t, lang } = useLang();
+
+  useEffect(() => {
+    const clearWorksheetPrintState = () => {
+      document.body.classList.remove('worksheet-print');
+    };
+
+    window.addEventListener('afterprint', clearWorksheetPrintState);
+    return () => window.removeEventListener('afterprint', clearWorksheetPrintState);
+  }, []);
 
   /** Resolves a language-neutral selection id to the active language's label. */
   const labelFor = (id: string) => (lang === 'es' ? LABELS_ES[id] ?? id : id);
@@ -214,7 +224,10 @@ export const CaseWorksheet: React.FC = () => {
 
 /** Opens the browser print dialog for the prepared report. */
   const printReport = () => {
-    if (reportText) window.print();
+    if (!reportText) return;
+
+    document.body.classList.add('worksheet-print');
+    window.print();
   };
 
 /** Clears every field, selection, and prepared report. */
