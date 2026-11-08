@@ -21,10 +21,8 @@ import {
   SafetySection,
   SiteFooter,
 } from './components/InfoSections';
-import { ReferenceDesk } from './components/ReferenceDesk';
 import { SearchSection } from './components/SearchSection';
 import { SafetyLessonQuiz } from './components/SafetyLessonQuiz';
-import { SiteNotices } from './components/SiteNotices';
 import { SymptomsSection } from './components/SymptomsSection';
 import { searchWithFallback } from './data/searchFallback';
 import { useLang } from './i18n/LanguageContext';
