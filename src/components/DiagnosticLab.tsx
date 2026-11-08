@@ -63,9 +63,6 @@ export const DiagnosticLab: React.FC<DiagnosticLabProps> = ({ onOpenDetail }) =>
               );
             })}
           </div>
-          <span className="draft-note">
-            <span className="status-dot" /> {t('Draft library · mechanic review pending')}
-          </span>
         </div>
 
         <div className="code-grid" id="codeGrid">
@@ -89,8 +86,8 @@ export const DiagnosticLab: React.FC<DiagnosticLabProps> = ({ onOpenDetail }) =>
               <p>{codeItem.summary}</p>
               <span className="card-meta">
                 {lang === 'es'
-                  ? `${CATEGORY_LABELS_ES[codeItem.category] ?? codeItem.category} · ${t('Draft')}`
-                  : `${codeItem.category.replace('-', ' & ')} · ${t('Draft')}`}
+                  ? `${CATEGORY_LABELS_ES[codeItem.category] ?? codeItem.category}`
+                  : `${codeItem.category.replace('-', ' & ')}`}
               </span>
             </button>
           ))}
