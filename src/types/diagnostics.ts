@@ -16,7 +16,7 @@ export interface DiagnosticCode {
 }
 export interface GuideSection extends DiagnosticSection {}
 export interface FieldGuide {
-  id:string; category:Exclude<CodeCategory,CodeCategory.All>; icon:string;
+  id:string; category?:Exclude<CodeCategory,CodeCategory.All>; icon:string;
   title:string; type:string; summary:string; time:string;
   subtitle?:string; subtitleEs?:string; search?:string; sections?:GuideSection[];
 }
