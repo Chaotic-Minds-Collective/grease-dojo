@@ -2,6 +2,8 @@
 
 **Last updated:** 2026-10-30
 
+> Historical snapshot (2026-10-30): the provisional palette and placeholder mark described below were superseded on Nov 1-3 by the approved skull-badge identity and fire-orange/Colombia palette (see docs/BRAND.md). Statuses below are historical.
+
 | Asset | Location | Current use | Status / restrictions |
 |---|---|---|---|
 | Mechanical gear and diagnostic spark mark | public/assets/brand-mark.svg | Header, learning card, about section, footer | Existing original placeholder mark; provisional, not a final approved logo. |

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLang } from '../i18n/LanguageContext';
 import './CaseWorksheet.css';
 
 const OPERATING_CONDITIONS = [
@@ -13,6 +14,19 @@ const OPERATING_CONDITIONS = [
   'Intermittently',
 ];
 
+// Spanish labels keyed by the language-neutral OPERATING_CONDITIONS ids.
+const OPERATING_CONDITIONS_ES: Record<string, string> = {
+  'Cold start': 'Arranque en frío',
+  'Hot start': 'Arranque en caliente',
+  'At idle': 'En ralentí',
+  'During acceleration': 'Al acelerar',
+  'At steady speed': 'A velocidad constante',
+  'During braking': 'Al frenar',
+  'While turning': 'Al girar',
+  'Over bumps': 'En baches',
+  'Intermittently': 'De forma intermitente',
+};
+
 const SAFETY_FLAGS = [
   'Flashing check-engine light or severe engine shaking',
   'High temperature warning, overheating, or steam',
@@ -21,6 +35,44 @@ const SAFETY_FLAGS = [
   'Fuel smell or visible fuel leak',
   'Smoke or burning-electrical smell',
 ];
+
+// Spanish labels keyed by the language-neutral SAFETY_FLAGS ids.
+const SAFETY_FLAGS_ES: Record<string, string> = {
+  'Flashing check-engine light or severe engine shaking': 'Luz de check engine parpadeante o sacudidas severas del motor',
+  'High temperature warning, overheating, or steam': 'Advertencia de alta temperatura, sobrecalentamiento o vapor',
+  'Oil-pressure warning': 'Advertencia de presión de aceite',
+  'Brake or steering problem': 'Problema de frenos o dirección',
+  'Fuel smell or visible fuel leak': 'Olor a combustible o fuga visible',
+  'Smoke or burning-electrical smell': 'Humo u olor a electricidad quemada',
+};
+
+const CONCERN_OPTIONS = [
+  'Will not start',
+  'Runs rough or loses power',
+  'Warning light or message',
+  'Overheating',
+  'Noise, smell, or leak',
+  'Braking or steering concern',
+  'Other / not sure',
+];
+
+// Spanish labels keyed by the language-neutral CONCERN_OPTIONS ids.
+const CONCERN_OPTIONS_ES: Record<string, string> = {
+  'Will not start': 'No arranca',
+  'Runs rough or loses power': 'Funciona mal o pierde potencia',
+  'Warning light or message': 'Luz o mensaje de advertencia',
+  'Overheating': 'Sobrecalentamiento',
+  'Noise, smell, or leak': 'Ruido, olor o fuga',
+  'Braking or steering concern': 'Inquietud de frenos o dirección',
+  'Other / not sure': 'Otro / no estoy seguro',
+};
+
+/** All Spanish labels keyed by their language-neutral selection id. */
+const LABELS_ES: Record<string, string> = {
+  ...OPERATING_CONDITIONS_ES,
+  ...SAFETY_FLAGS_ES,
+  ...CONCERN_OPTIONS_ES,
+};
 
 type CaseDetails = {
   year: string;
@@ -50,19 +102,31 @@ const EMPTY_CASE: CaseDetails = {
   observations: '',
 };
 
-/** Adds or removes a checkbox value while preserving the other selections. */
+/** Returns a new selection with the value appended when checked, or matching values removed when unchecked. */
 function toggleSelection(current: string[], value: string, checked: boolean) {
   return checked
     ? [...current, value]
     : current.filter((item) => item !== value);
 }
 
-/** Collects local observations and prepares notes for copying or printing. */
 export const CaseWorksheet: React.FC = () => {
   const [details, setDetails] = useState<CaseDetails>(EMPTY_CASE);
   const [reportText, setReportText] = useState('');
   const [copyStatus, setCopyStatus] = useState('');
+  const { t, lang } = useLang();
 
+  /** Resolves a language-neutral selection id to the active language's label. */
+  const labelFor = (id: string) => (lang === 'es' ? LABELS_ES[id] ?? id : id);
+
+  // Selections are language-neutral ids, so they survive a language
+  // switch. Only the prepared report is language-bound: drop it on a
+  // language change so a stale-language report is never shared.
+  useEffect(() => {
+    setReportText('');
+    setCopyStatus('');
+  }, [lang]);
+
+/** Updates one text field and invalidates any prepared report. */
   const updateField = (
     field:
       | 'year'
@@ -81,6 +145,7 @@ export const CaseWorksheet: React.FC = () => {
     setCopyStatus('');
   };
 
+/** Updates one checkbox list and invalidates any prepared report. */
   const updateSelection = (
     field: 'conditions' | 'safetyFlags',
     value: string,
@@ -94,44 +159,45 @@ export const CaseWorksheet: React.FC = () => {
     setCopyStatus('');
   };
 
-  /** Formats reported observations with explicit defaults for missing details. */
+/** Builds the shareable case report in the active language. */
   const prepareReport = () => {
     const vehicle = [
       details.year,
       details.make,
       details.model,
-      details.engine ? `Engine: ${details.engine}` : '',
+      details.engine ? `${t('Engine:')} ${details.engine}` : '',
     ].filter(Boolean);
+    const notProvided = t('Not provided');
 
     const lines = [
-      'DIAGNOSTIC CASE NOTES',
-      'For discussion with a qualified automotive technician',
+      t('DIAGNOSTIC CASE NOTES'),
+      t('For discussion with a qualified automotive technician'),
       '',
-      `Vehicle: ${vehicle.length ? vehicle.join(' · ') : 'Not provided'}`,
-      `Odometer: ${details.mileage.trim() || 'Not provided'}`,
-      `Main concern: ${details.concern || 'Not provided'}`,
-      `When it happens: ${details.conditions.length ? details.conditions.join(', ') : 'Not provided'}`,
+      `${t('Vehicle:')} ${vehicle.length ? vehicle.join(' · ') : notProvided}`,
+      `${t('Odometer:')} ${details.mileage.trim() || notProvided}`,
+      `${t('Main concern:')} ${details.concern ? labelFor(details.concern) : notProvided}`,
+      `${t('When it happens:')} ${details.conditions.length ? details.conditions.map(labelFor).join(', ') : notProvided}`,
       '',
-      'SAFETY WARNINGS REPORTED',
-      ...(details.safetyFlags.length ? details.safetyFlags.map((item) => `- ${item}`) : ['- None selected / not reported']),
+      t('SAFETY WARNINGS REPORTED'),
+      ...(details.safetyFlags.length ? details.safetyFlags.map((item) => `- ${labelFor(item)}`) : [`- ${t('None selected / not reported')}`]),
       '',
-      'TROUBLE CODES',
-      details.troubleCodes.trim() || 'Not provided',
+      t('TROUBLE CODES'),
+      details.troubleCodes.trim() || notProvided,
       '',
-      'RECENT REPAIRS OR CHANGES',
-      details.recentWork.trim() || 'Not provided',
+      t('RECENT REPAIRS OR CHANGES'),
+      details.recentWork.trim() || notProvided,
       '',
-      'OBSERVATIONS',
-      details.observations.trim() || 'Not provided',
+      t('OBSERVATIONS'),
+      details.observations.trim() || notProvided,
       '',
-      'NOTE: These are reported observations, not a confirmed diagnosis. Verify all findings using the correct vehicle-specific service information. No vehicle data was automatically read or verified by this worksheet.',
+      t('NOTE: These are reported observations, not a confirmed diagnosis. Verify all findings using the correct vehicle-specific service information. No vehicle data was automatically read or verified by this worksheet.'),
     ];
 
     setReportText(lines.join('\n'));
-    setCopyStatus('Your case notes are ready. Review them before sharing.');
+    setCopyStatus(t('Your case notes are ready. Review them before sharing.'));
   };
 
-  /** Copies prepared notes, reporting a manual-copy fallback if access fails. */
+/** Copies the prepared report to the clipboard when the browser allows it. */
   const copyReport = async () => {
     if (!reportText) return;
 
@@ -140,21 +206,22 @@ export const CaseWorksheet: React.FC = () => {
         throw new Error('Clipboard access is unavailable in this browser.');
       }
       await navigator.clipboard.writeText(reportText);
-      setCopyStatus('Case notes copied. You can paste them into a message for your mechanic.');
+      setCopyStatus(t('Case notes copied. You can paste them into a message for your mechanic.'));
     } catch {
-      setCopyStatus('Copy was unavailable. Select the report text and copy it manually.');
+      setCopyStatus(t('Copy was unavailable. Select the report text and copy it manually.'));
     }
   };
 
-  /** Opens the browser print dialog only after notes have been prepared. */
+/** Opens the browser print dialog for the prepared report. */
   const printReport = () => {
     if (reportText) window.print();
   };
 
+/** Clears every field, selection, and prepared report. */
   const resetWorksheet = () => {
     setDetails(EMPTY_CASE);
     setReportText('');
-    setCopyStatus('The worksheet has been cleared.');
+    setCopyStatus(t('The worksheet has been cleared.'));
   };
 
   return (
@@ -163,107 +230,98 @@ export const CaseWorksheet: React.FC = () => {
         <div className="section-heading">
           <div>
             <div className="eyebrow">
-              <span className="eyebrow-line" /> BEFORE THE WRENCHES COME OUT
+              <span className="eyebrow-line" /> {t('BEFORE THE WRENCHES COME OUT')}
             </div>
             <h2>
-              Build a better <span className="text-gold">case file.</span>
+              {t('Build a better')} <span className="text-gold">{t('case file.')}</span>
             </h2>
           </div>
           <p>
-            Give your mechanic a clearer starting point. Record what the
-            vehicle is doing, when it happens, and what you have already
-            observed. This worksheet organizes information; it does not
-            diagnose the vehicle.
+            {t('Give your mechanic a clearer starting point. Record what the vehicle is doing, when it happens, and what you have already observed. This worksheet organizes information; it does not diagnose the vehicle.')}
           </p>
         </div>
 
         <div className="case-privacy-note">
           <span aria-hidden="true">i</span>
           <p>
-            <strong>Local-only worksheet:</strong> this version does not create an
-            account, save a history, or send entries to a server. Your
-            information remains in this page until you clear it or leave.
+            <strong>{t('Local-only worksheet:')}</strong> {t('this version does not create an account, save a history, or send entries to a server. Your information remains in this page until you clear it or leave.')}
           </p>
         </div>
 
         <div className="case-form">
           <fieldset className="case-fieldset">
-            <legend>01 / Vehicle information</legend>
+            <legend>{t('01 / Vehicle information')}</legend>
             <div className="case-field-grid">
               <label>
-                <span>Year</span>
+                <span>{t('Year')}</span>
                 <input
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
-                  placeholder="e.g. 2018"
+                  placeholder={t('e.g. 2018')}
                   value={details.year}
                   onChange={(event) => updateField('year', event.target.value)}
                 />
               </label>
               <label>
-                <span>Make</span>
+                <span>{t('Make')}</span>
                 <input
                   type="text"
                   autoComplete="off"
-                  placeholder="e.g. Ford"
+                  placeholder={t('e.g. Ford')}
                   value={details.make}
                   onChange={(event) => updateField('make', event.target.value)}
                 />
               </label>
               <label>
-                <span>Model</span>
+                <span>{t('Model')}</span>
                 <input
                   type="text"
                   autoComplete="off"
-                  placeholder="e.g. F-150"
+                  placeholder={t('e.g. F-150')}
                   value={details.model}
                   onChange={(event) => updateField('model', event.target.value)}
                 />
               </label>
               <label>
-                <span>Engine (if known)</span>
+                <span>{t('Engine (if known)')}</span>
                 <input
                   type="text"
                   autoComplete="off"
-                  placeholder="e.g. 2.0L turbo"
+                  placeholder={t('e.g. 2.0L turbo')}
                   value={details.engine}
                   onChange={(event) => updateField('engine', event.target.value)}
                 />
               </label>
               <label>
-                <span>Odometer reading (optional)</span>
+                <span>{t('Odometer reading (optional)')}</span>
                 <input
                   type="text"
                   inputMode="numeric"
                   autoComplete="off"
-                  placeholder="e.g. 124,500 miles"
+                  placeholder={t('e.g. 124,500 miles')}
                   value={details.mileage}
                   onChange={(event) => updateField('mileage', event.target.value)}
                 />
               </label>
               <label>
-                <span>Main concern</span>
+                <span>{t('Main concern')}</span>
                 <select
                   value={details.concern}
                   onChange={(event) => updateField('concern', event.target.value)}
                 >
-                  <option value="">Choose the closest description</option>
-                  <option>Will not start</option>
-                  <option>Runs rough or loses power</option>
-                  <option>Warning light or message</option>
-                  <option>Overheating</option>
-                  <option>Noise, smell, or leak</option>
-                  <option>Braking or steering concern</option>
-                  <option>Other / not sure</option>
+                  <option value="">{t('Choose the closest description')}</option>
+                  {CONCERN_OPTIONS.map((option) => (
+                    <option key={option} value={option}>{labelFor(option)}</option>
+                  ))}
                 </select>
               </label>
             </div>
           </fieldset>
 
           <fieldset className="case-fieldset">
-            <legend>02 / When does it happen?</legend>
-            <p className="case-field-help">Select every condition that applies.</p>
+            <legend>{t('02 / When does it happen?')}</legend>
+            <p className="case-field-help">{t('Select every condition that applies.')}</p>
             <div className="case-check-grid">
               {OPERATING_CONDITIONS.map((condition) => (
                 <label className="case-check" key={condition}>
@@ -274,17 +332,16 @@ export const CaseWorksheet: React.FC = () => {
                       updateSelection('conditions', condition, event.target.checked)
                     }
                   />
-                  <span>{condition}</span>
+                  <span>{labelFor(condition)}</span>
                 </label>
               ))}
             </div>
           </fieldset>
 
           <fieldset className="case-fieldset case-fieldset-warning">
-            <legend>03 / Safety warning signs</legend>
+            <legend>{t('03 / Safety warning signs')}</legend>
             <p className="case-field-help">
-              Select any warning sign you have noticed. Do not approach smoke,
-              fuel leaks, hot coolant, or moving parts to investigate.
+              {t('Select any warning sign you have noticed. Do not approach smoke, fuel leaks, hot coolant, or moving parts to investigate.')}
             </p>
             <div className="case-check-grid">
               {SAFETY_FLAGS.map((flag) => (
@@ -296,47 +353,43 @@ export const CaseWorksheet: React.FC = () => {
                       updateSelection('safetyFlags', flag, event.target.checked)
                     }
                   />
-                  <span>{flag}</span>
+                  <span>{labelFor(flag)}</span>
                 </label>
               ))}
             </div>
             {details.safetyFlags.length > 0 && (
               <div className="case-stop-alert" role="alert">
-                <strong>Pause before driving or inspecting.</strong>
-                These warning signs can indicate a hazardous condition. Stop
-                safely, follow the owner&apos;s manual, and arrange qualified
-                help. Do not drive if braking, steering, overheating, oil
-                pressure, fuel leakage, smoke, or severe misfire makes the
-                vehicle unsafe.
+                <strong>{t('Pause before driving or inspecting.')}</strong>
+                {t("These warning signs can indicate a hazardous condition. Stop safely, follow the owner's manual, and arrange qualified help. Do not drive if braking, steering, overheating, oil pressure, fuel leakage, smoke, or severe misfire makes the vehicle unsafe.")}
               </div>
             )}
           </fieldset>
 
           <fieldset className="case-fieldset">
-            <legend>04 / What have you observed?</legend>
+            <legend>{t('04 / What have you observed?')}</legend>
             <label className="case-wide-field">
-              <span>Trouble codes (write them exactly as displayed)</span>
+              <span>{t('Trouble codes (write them exactly as displayed)')}</span>
               <textarea
                 rows={3}
-                placeholder="e.g. P0300, P0171 — include pending or permanent status if known."
+                placeholder={t('e.g. P0300, P0171 — include pending or permanent status if known.')}
                 value={details.troubleCodes}
                 onChange={(event) => updateField('troubleCodes', event.target.value)}
               />
             </label>
             <label className="case-wide-field">
-              <span>Recent repairs, maintenance, or changes</span>
+              <span>{t('Recent repairs, maintenance, or changes')}</span>
               <textarea
                 rows={3}
-                placeholder="What was repaired, replaced, refueled, or changed before the problem began?"
+                placeholder={t('What was repaired, replaced, refueled, or changed before the problem began?')}
                 value={details.recentWork}
                 onChange={(event) => updateField('recentWork', event.target.value)}
               />
             </label>
             <label className="case-wide-field">
-              <span>Other observations</span>
+              <span>{t('Other observations')}</span>
               <textarea
                 rows={4}
-                placeholder="Describe sounds, smells, warning messages, when the issue started, and anything that makes it better or worse."
+                placeholder={t('Describe sounds, smells, warning messages, when the issue started, and anything that makes it better or worse.')}
                 value={details.observations}
                 onChange={(event) => updateField('observations', event.target.value)}
               />
@@ -345,10 +398,10 @@ export const CaseWorksheet: React.FC = () => {
 
           <div className="case-actions">
             <button className="button button-primary" type="button" onClick={prepareReport}>
-              Prepare case notes <span aria-hidden="true">↗</span>
+              {t('Prepare case notes')} <span aria-hidden="true">↗</span>
             </button>
             <button className="button button-ghost" type="button" onClick={resetWorksheet}>
-              Clear worksheet
+              {t('Clear worksheet')}
             </button>
           </div>
 
@@ -356,27 +409,27 @@ export const CaseWorksheet: React.FC = () => {
             <div className="case-report">
               <div className="case-report-heading">
                 <div>
-                  <span className="eyebrow">READY TO SHARE</span>
-                  <h3>Diagnostic case notes</h3>
+                  <span className="eyebrow">{t('READY TO SHARE')}</span>
+                  <h3>{t('Diagnostic case notes')}</h3>
                 </div>
                 <div className="case-report-actions">
                   <button className="button button-primary" type="button" onClick={copyReport}>
-                    Copy report
+                    {t('Copy report')}
                   </button>
                   <button className="button button-ghost" type="button" onClick={printReport}>
-                    Print / save PDF
+                    {t('Print / save PDF')}
                   </button>
                 </div>
               </div>
-              <pre className="case-report-print" aria-hidden="true">{reportText}</pre>
               <textarea
                 className="case-report-text"
-                aria-label="Prepared diagnostic case notes"
+                aria-label={t('Prepared diagnostic case notes')}
                 readOnly
                 rows={Math.max(16, reportText.split("\n").length + 2)}
                 value={reportText}
                 onFocus={(event) => event.currentTarget.select()}
               />
+              <div className="case-report-print">{reportText}</div>
             </div>
           )}
           <p className="case-status" role="status" aria-live="polite">

@@ -1,5 +1,6 @@
 import React from 'react';
-import { FIELD_GUIDES } from '../data/diagnosticsData';
+import { useLang } from '../i18n/LanguageContext';
+import { fieldGuidesFor } from '../data/localeData';
 import { DetailKind, DetailSelection } from '../types/diagnostics';
 
 interface GuidesSectionProps {
@@ -7,29 +8,29 @@ interface GuidesSectionProps {
 }
 
 export const GuidesSection: React.FC<GuidesSectionProps> = ({ onOpenDetail }) => {
+  const { lang, t } = useLang();
+  const guides = fieldGuidesFor(lang);
   return (
     <section className="dark-section" id="guides">
       <div className="section-wrap guides-section">
         <div className="section-heading">
           <div>
             <div className="eyebrow">
-              <span className="eyebrow-line" /> FIX DATABASE / FIELD GUIDES
+              <span className="eyebrow-line" /> {t('FIX DATABASE / FIELD GUIDES')}
             </div>
             <h2>
-              Follow the trail.
+              {t('Follow the trail.')}
               <br />
-              <span className="text-cyan">One test at a time.</span>
+              <span className="text-cyan">{t('One test at a time.')}</span>
             </h2>
           </div>
           <p>
-            Practical starting points for common complaints. These educational
-            drafts need qualified mechanic review and authoritative references
-            before public release.
+            {t('Practical starting points for common complaints. Each guide follows a test-before-replace approach.')}
           </p>
         </div>
 
         <div className="guide-grid" id="guideGrid">
-          {FIELD_GUIDES.map((guide) => (
+          {guides.map((guide) => (
             <button
               key={guide.id}
               type="button"
@@ -48,7 +49,7 @@ export const GuidesSection: React.FC<GuidesSectionProps> = ({ onOpenDetail }) =>
               </div>
               <h3>{guide.title}</h3>
               <p>{guide.summary}</p>
-              <span className="card-meta">{guide.time} read · Draft</span>
+              <span className="card-meta">{`${guide.time} ${t('read')}`}</span>
             </button>
           ))}
         </div>

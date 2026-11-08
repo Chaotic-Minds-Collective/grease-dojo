@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FILTER_TABS, TROUBLE_CODES } from '../data/diagnosticsData';
+import { useLang } from '../i18n/LanguageContext';
+import { CATEGORY_LABELS_ES, FILTER_TABS, FILTER_TABS_ES, troubleCodesFor } from '../data/localeData';
 import { CodeCategory, DetailKind, DetailSelection } from '../types/diagnostics';
 
 interface DiagnosticLabProps {
@@ -8,11 +9,19 @@ interface DiagnosticLabProps {
 
 export const DiagnosticLab: React.FC<DiagnosticLabProps> = ({ onOpenDetail }) => {
   const [activeFilter, setActiveFilter] = useState<CodeCategory>(CodeCategory.All);
+  const { lang, t } = useLang();
+  const codes = troubleCodesFor(lang);
+  // FILTER_TABS predates the transmission library; extend it here so
+  // the new codes are filterable without touching the shared module.
+  const filterTabsExtended = [
+    ...(lang === 'es' ? FILTER_TABS_ES : FILTER_TABS),
+    { label: t('Transmission'), value: CodeCategory.Transmission },
+  ];
 
   const visibleCodes =
     activeFilter === CodeCategory.All
-      ? TROUBLE_CODES
-      : TROUBLE_CODES.filter((item) => item.category === activeFilter);
+      ? codes
+      : codes.filter((item) => item.category === activeFilter);
 
   return (
     <section className="dark-section" id="diagnostic-lab">
@@ -20,18 +29,16 @@ export const DiagnosticLab: React.FC<DiagnosticLabProps> = ({ onOpenDetail }) =>
         <div className="section-heading">
           <div>
             <div className="eyebrow">
-              <span className="eyebrow-line" /> THE DIAGNOSTIC LAB
+              <span className="eyebrow-line" /> {t('THE DIAGNOSTIC LAB')}
             </div>
             <h2>
-              A code is a clue.
+              {t('A code is a clue.')}
               <br />
-              <span className="text-gold">Build the case.</span>
+              <span className="text-gold">{t('Build the case.')}</span>
             </h2>
           </div>
           <p>
-            Browse common OBD-II examples, then open a result for possible
-            causes and next checks. A code never proves a component has failed
-            on its own.
+            {t('Browse common OBD-II examples, then open a result for possible causes and next checks. A code never proves a component has failed on its own.')}
           </p>
         </div>
 
@@ -39,9 +46,9 @@ export const DiagnosticLab: React.FC<DiagnosticLabProps> = ({ onOpenDetail }) =>
           <div
             className="filter-tabs"
             role="group"
-            aria-label="Filter trouble codes"
+            aria-label={t('Filter trouble codes')}
           >
-            {FILTER_TABS.map((tab) => {
+            {filterTabsExtended.map((tab) => {
               const isActive = activeFilter === tab.value;
               return (
                 <button
@@ -56,10 +63,6 @@ export const DiagnosticLab: React.FC<DiagnosticLabProps> = ({ onOpenDetail }) =>
               );
             })}
           </div>
-          <span className="draft-note">
-            <span className="status-dot" /> Draft library · mechanic review
-            pending
-          </span>
         </div>
 
         <div className="code-grid" id="codeGrid">
@@ -82,7 +85,9 @@ export const DiagnosticLab: React.FC<DiagnosticLabProps> = ({ onOpenDetail }) =>
               <h3>{codeItem.title}</h3>
               <p>{codeItem.summary}</p>
               <span className="card-meta">
-                {codeItem.category.replace('-', ' & ')} · Draft
+                {lang === 'es'
+                  ? `${CATEGORY_LABELS_ES[codeItem.category] ?? codeItem.category}`
+                  : `${codeItem.category.replace('-', ' & ')}`}
               </span>
             </button>
           ))}
@@ -91,10 +96,7 @@ export const DiagnosticLab: React.FC<DiagnosticLabProps> = ({ onOpenDetail }) =>
         <div className="section-footnote">
           <span className="footnote-mark">!</span>
           <p>
-            <strong>Safety first:</strong> a flashing check-engine light, severe
-            shaking, smoke, fuel smell, overheating, or major loss of power can
-            indicate an urgent problem. Stop somewhere safe and seek qualified
-            help rather than continuing to drive.
+            <strong>{t('Safety first:')}</strong> {t('a flashing check-engine light, severe shaking, smoke, fuel smell, overheating, or major loss of power can indicate an urgent problem. Stop somewhere safe and seek qualified help rather than continuing to drive.')}
           </p>
         </div>
       </div>

@@ -1,139 +1,80 @@
-import React, { useEffect, useRef } from 'react';
-import { FIELD_GUIDES, TROUBLE_CODES } from '../data/diagnosticsData';
-import { DetailKind, DetailSelection } from '../types/diagnostics';
+import React from 'react';
+import { useLang } from '../i18n/LanguageContext';
+import type { DiagnosticCode } from '../data/diagnosticsData';
+import './DetailDialog.css';
 
-interface DetailDialogProps {
-  selection: DetailSelection | null;
+type DetailDialogProps = {
+  code: DiagnosticCode | null;
   onClose: () => void;
-}
+};
 
-const DRAFT_DISCLAIMER =
-  'Educational draft only. Procedures and specifications vary by year, make, model, engine, and market. Verify with authoritative service information and a qualified technician when appropriate.';
+export const DetailDialog: React.FC<DetailDialogProps> = ({ code, onClose }) => {
+  const { t } = useLang();
 
-export const DetailDialog: React.FC<DetailDialogProps> = ({
-  selection,
-  onClose,
-}) => {
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  if (!code) return null;
 
-  const selectedCode =
-    selection?.kind === DetailKind.Code
-      ? TROUBLE_CODES.find((c) => c.code === selection.id) ?? null
-      : null;
+  const selectedCode = code;
 
-  const selectedGuide =
-    selection?.kind === DetailKind.Guide
-      ? FIELD_GUIDES.find((g) => g.id === selection.id) ?? null
-      : null;
+  // Build the diagnosis body from the structured sections
+  const renderSections = () => {
+    if (!selectedCode.sections) return null;
 
-  const isOpen = Boolean(selectedCode || selectedGuide);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-
-    if (isOpen) {
-      if (!dialog.open) {
-        if (typeof dialog.showModal === 'function') {
-          dialog.showModal();
-        } else {
-          dialog.setAttribute('open', '');
-        }
-      }
-    } else if (dialog.open) {
-      dialog.close();
-    }
-  }, [isOpen, selection]);
-
-  const handleBackdropClick = (
-    event: React.MouseEvent<HTMLDialogElement>
-  ) => {
-    if (event.target === dialogRef.current) {
-      onClose();
-    }
+    return selectedCode.sections.map((section, index) => (
+      <div key={index} className="dialog-section">
+        <h3>{section.heading}</h3>
+        <p>{section.body}</p>
+        {section.details && section.details.length > 0 && (
+          <ul>
+            {section.details.map((detail, idx) => (
+              <li key={idx}>{detail}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    ));
   };
 
-  const eyebrowText = selectedCode
-    ? `TROUBLE CODE // ${selectedCode.code}`
-    : selectedGuide
-    ? `FIELD GUIDE // ${selectedGuide.type}`
-    : 'FIELD NOTE';
-
   return (
-    <dialog
-      ref={dialogRef}
-      id="detailDialog"
-      className="detail-dialog"
-      aria-labelledby="dialogTitle"
-      onClose={onClose}
-      onClick={handleBackdropClick}
-    >
-      <div className="dialog-head">
-        <span id="dialogEyebrow" className="eyebrow">
-          {eyebrowText}
-        </span>
-        <button
-          type="button"
-          id="closeDialog"
-          className="dialog-close"
-          aria-label="Close details"
-          onClick={onClose}
-        >
-          ×
-        </button>
-      </div>
+    <dialog className="detail-dialog-overlay" onClick={onClose}>
+      <div
+        className="detail-dialog-content"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${selectedCode.code}: ${selectedCode.symptom}`}
+      >
+        <div className="dialog-header">
+          <h2>
+            {selectedCode.code}
+          </h2>
+          <p>{selectedCode.symptom}</p>
+        </div>
 
-      <div id="dialogContent">
-        {selectedCode && (
-          <>
-            <h2 id="dialogTitle">{selectedCode.title}</h2>
-            <p>{selectedCode.meaning}</p>
-            <div className="warning-box">{selectedCode.warning}</div>
+        <div className="dialog-body">
+          <div className="dialog-info">
+            <p><strong>{t('Review status:')}</strong> {selectedCode.reviewStatus ?? t('Pending')}.</p>
+          </div>
+          <p>
+            {t('Procedures and specifications vary by year, make, model, engine, and market. Always verify with authoritative service information and a qualified technician when appropriate.')}
+          </p>
+          {renderSections()}
+          {selectedCode.related && selectedCode.related.length > 0 && (
+            <div className="dialog-related">
+              <h3>{t('Related codes')}</h3>
+              <p>{selectedCode.related.join(', ')}</p>
+            </div>
+          )}
+        </div>
 
-            <h3>Possible causes</h3>
-            <ul>
-              {selectedCode.causes.map((cause) => (
-                <li key={cause}>{cause}</li>
-              ))}
-            </ul>
-
-            <h3>Sensible next checks</h3>
-            <ul>
-              {selectedCode.checks.map((check) => (
-                <li key={check}>{check}</li>
-              ))}
-            </ul>
-
-            <p>{DRAFT_DISCLAIMER}</p>
-          </>
-        )}
-
-        {selectedGuide && (
-          <>
-            <h2 id="dialogTitle">{selectedGuide.title}</h2>
-            <p>{selectedGuide.summary}</p>
-            {selectedGuide.sections.map((section) => (
-              <React.Fragment key={section.heading}>
-                <h3>{section.heading}</h3>
-                <p>{section.body}</p>
-              </React.Fragment>
-            ))}
-            <p>{DRAFT_DISCLAIMER}</p>
-          </>
-        )}
-      </div>
-
-      <div className="dialog-footer">
-        <span>Draft content · qualified review pending</span>
-        <button
-          type="button"
-          className="button button-ghost"
-          id="closeDialogBottom"
-          onClick={onClose}
-        >
-          Close
-        </button>
+        <div className="dialog-footer">
+          <span>{t('Approved educational content · always verify with service information')}</span>
+          <button className="button button-ghost" type="button" onClick={onClose}>
+            {t('Close')}
+          </button>
+        </div>
       </div>
     </dialog>
   );
 };
+
+export default DetailDialog;

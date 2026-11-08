@@ -4,7 +4,7 @@
 
 - **Repository:** Continue using the existing Chaotic-Minds-Collective/CR-Diagnostic-Site; do not create a duplicate repository.
 - **Architecture:** Preserve the existing React 19, TypeScript, and Vite application. Do not rebuild the earlier static HTML prototype.
-- **Brand:** “The Diagnostic Bay” remains a project label. “Burning Oil Garage” and other naming concepts are not final. Mascot, logo, helper name, and tagline remain provisional.
+- **Brand:** "The Diagnostic Bay" remains a project label. "Burning Oil Garage" and other naming concepts are not final. Mascot, logo, helper name, and tagline remain provisional.
 - **Creative/IP:** Use original characters, artwork, silhouettes, props, and visual motifs. Do not reproduce recognizable franchise characters, logos, costumes, or signature designs. The earlier mascot concept file is reference material, not approved production artwork.
 - **Content:** The three supplied mechanic-review rounds are draft and unverified. Do not publish their content as approved material. Require mechanic review, references/specifications, reviewer/date, and subsequent Spanish review.
 - **Diagnostic standard:** A trouble code is evidence, not proof of a failed component. Do not claim a repair will solve a problem without sufficient evidence. Defer vehicle-specific procedures and specifications to authoritative service information.

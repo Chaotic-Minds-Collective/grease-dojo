@@ -1,6 +1,6 @@
 # Legal and Privacy Review Checklist
 
-**Status:** Draft checklist — not legal advice and not a completed legal review  
+**Status:** Draft checklist — not legal advice and not a completed legal review
 **Release gate:** Required before public launch
 
 ## Website identity and ownership

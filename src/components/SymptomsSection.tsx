@@ -1,5 +1,6 @@
 import React from 'react';
-import { SYMPTOM_ITEMS } from '../data/diagnosticsData';
+import { useLang } from '../i18n/LanguageContext';
+import { symptomItemsFor } from '../data/localeData';
 
 interface SymptomsSectionProps {
   onSelectSymptom: (symptomQuery: string) => void;
@@ -8,6 +9,8 @@ interface SymptomsSectionProps {
 export const SymptomsSection: React.FC<SymptomsSectionProps> = ({
   onSelectSymptom,
 }) => {
+  const { t, lang } = useLang();
+  const symptoms = symptomItemsFor(lang);
   const handleSymptomClick = (
     event: React.MouseEvent<HTMLAnchorElement>,
     symptomQuery: string
@@ -21,20 +24,19 @@ export const SymptomsSection: React.FC<SymptomsSectionProps> = ({
       <div className="section-heading">
         <div>
           <div className="eyebrow">
-            <span className="eyebrow-line" /> SYMPTOM-BASED TROUBLESHOOTING
+            <span className="eyebrow-line" /> {t('SYMPTOM-BASED TROUBLESHOOTING')}
           </div>
           <h2>
-            Start with what <span className="text-cyan">you noticed.</span>
+            {t('Start with what')} <span className="text-cyan">{t('you noticed.')}</span>
           </h2>
         </div>
         <p>
-          The same symptom can have several causes. Choose the closest match to
-          explore safe first observations and possible next tests.
+          {t('The same symptom can have several causes. Choose the closest match to explore safe first observations and possible next tests.')}
         </p>
       </div>
 
       <div className="symptom-grid">
-        {SYMPTOM_ITEMS.map((item) => (
+        {symptoms.map((item) => (
           <a
             key={item.index}
             className="symptom-card"

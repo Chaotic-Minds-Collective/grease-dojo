@@ -20,9 +20,9 @@
   flex: none;
   width: 25px;
   height: 25px;
-  border: 1px solid #32e6e6;
+  border: 1px solid #ff7a18;
   border-radius: 50%;
-  color: #32e6e6;
+  color: #ff7a18;
   font-weight: 900;
 }
 
@@ -102,7 +102,7 @@
 .case-field-grid select:focus-visible,
 .case-wide-field textarea:focus-visible,
 .case-report-text:focus-visible {
-  outline: 2px solid #32e6e6;
+  outline: 2px solid #ff7a18;
   outline-offset: 2px;
 }
 
@@ -138,11 +138,11 @@
   width: 18px;
   height: 18px;
   margin: 0.05rem 0 0;
-  accent-color: #32e6e6;
+  accent-color: #ff7a18;
 }
 
 .case-check:focus-within {
-  outline: 2px solid #32e6e6;
+  outline: 2px solid #ff7a18;
   outline-offset: 2px;
 }
 
@@ -220,6 +220,10 @@
   font-size: 0.8rem;
 }
 
+.case-report-print {
+  display: none;
+}
+
 .case-status {
   min-height: 1.4rem;
   margin: 0;
@@ -266,40 +270,41 @@
   gap: 0.6rem;
 }
 
-/* Keep the flowing print copy out of the screen and accessibility layouts. */
-.case-report-print {
-  display: none;
-}
-
 @media print {
   @page {
     margin: 16mm;
   }
 
-  /* Preserve normal page printing until a report has been prepared. */
-  body:has(.case-report) {
-    background: #fff;
-    color: #111;
-  }
-
-  body:has(.case-report) *:not(:has(.case-report)):not(.case-report):not(.case-report *) {
+  body > :not(#root),
+  #root > :not(main),
+  main > :not(.case-worksheet-section),
+  .case-worksheet-section > :not(.section-wrap),
+  .case-worksheet-section > .section-wrap > :not(.case-form),
+  .case-form > :not(.case-report) {
     display: none !important;
   }
 
-  /* Keep the report in normal flow so it can span printed pages. */
-  body:has(.case-report) *:has(.case-report),
-  .case-report {
-    display: block;
-    position: static;
-    width: auto;
+  .case-worksheet-section {
+    border: 0;
+    background: #fff;
+  }
+
+  .case-worksheet-section > .section-wrap {
     max-width: none;
-    height: auto;
-    min-height: 0;
-    margin: 0;
+    padding: 0;
+  }
+
+  .case-form {
+    display: block;
+    max-width: none;
+  }
+
+  .case-report {
+    width: 100%;
+    max-width: none;
     padding: 0;
     border: 0;
     border-radius: 0;
-    overflow: visible;
     background: #fff !important;
     color: #111 !important;
     box-shadow: none;
@@ -314,17 +319,21 @@
     color: #111 !important;
   }
 
-  .case-report-actions,
+  .case-report-actions {
+    display: none !important;
+  }
+
   .case-report-text {
     display: none !important;
   }
 
   .case-report-print {
     display: block;
-    margin: 0;
+    color: #111;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 10pt;
+    line-height: 1.5;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
-    font: 10pt/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    color: #111;
   }
 }
