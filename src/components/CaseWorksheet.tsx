@@ -122,7 +122,10 @@ export const CaseWorksheet: React.FC = () => {
     };
 
     window.addEventListener('afterprint', clearWorksheetPrintState);
-    return () => window.removeEventListener('afterprint', clearWorksheetPrintState);
+    return () => {
+      window.removeEventListener('afterprint', clearWorksheetPrintState);
+      clearWorksheetPrintState();
+    };
   }, []);
 
   /** Resolves a language-neutral selection id to the active language's label. */
