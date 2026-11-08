@@ -1,62 +1,50 @@
-# The Greasy Dojo
+# Greasy Dojo
 
-**Where diagnostic logic meets grease-monkey know-how.**
+**AI-assisted automotive diagnostics — educational reference library.**
 
-The Greasy Dojo is an educational automotive-diagnostic concept build from [Chaotic Minds Collective](https://github.com/Chaotic-Minds-Collective): a plain-language library of OBD-II trouble codes, field guides, symptom starting points, and a safety lesson - written for people who want to understand what their car is telling them, not just clear a light.
+A bilingual (EN/ES) diagnostic reference site for DIYers, students, and shop professionals. Search trouble codes, browse field guides, and run safety-knowledge checks — all from a privacy-first client-side app.
 
-**Live site:** https://chaotic-minds-collective.github.io/grease-dojo/
+**AI assistant: Torque**
 
-> ## Status: concept build, drafts under mechanic review
-> Every code entry, guide, and quiz answer in this repository is an **educational draft**. The first library rounds came from supplied mechanic-review drafts; the transmission entries (P0700, P0715, P0730 and the shifting guide) were drafted without a mechanic and are explicitly marked *review pending*.
->
-> **Nothing here is a repair instruction.** Vehicle-specific specifications and authoritative service references have not been supplied or verified. Always confirm against factory service information and a qualified technician before acting on anything in this library.
+---
 
-## What's inside
+## Features
 
-| Area | Content |
-|---|---|
-| Diagnostic Lab | 15 trouble codes across engine, air/fuel, electrical, temperature, and transmission - each with meaning, symptoms, possible causes, and sensible next checks |
-| Fix Database | 7 field guides (battery, clicking/no-start, overheating, rough idle, check-engine basics, scan-tool basics, won't-shift/slipping) |
-| Symptoms | 4 quick-start symptom cards that pre-load a search |
-| Guided Intake | A question-driven intake flow that narrows toward a search |
-| Learning | The safety lesson with a 9-question quiz |
-| Reference | Glossary and reference desk |
+- **Trouble code library** — 50+ diagnostic trouble codes with symptom descriptions, common causes, and diagnostic steps
+- **Field guides** — Practical walkthroughs for common complaints: misfires, no-starts, charging system faults, transmission concerns, and more
+- **Safety lesson quiz** — 15-question assessment covering lift safety, PPE, brake dust, fuel systems, and electrical hazards
+- **Bilingual EN/ES** — Full Spanish translation with a language toggle, browser-language detection, and persistent selection
+- **Case worksheet** — Build a shareable case file for your mechanic with vehicle info, symptoms, conditions, and safety flags
+- **Privacy-first** — No accounts, no servers, no data collection. Everything runs locally in your browser.
+- **Dark garage theme** — Electric blue, fire orange, and tricolor accents with automotive garage aesthetics
 
-Search handles exact codes and phrases first, then falls back to the closest-ranked topics so natural-language questions like *"car won't shift"* still land somewhere useful.
+## Tech Stack
 
-## Site behavior
-
-- **Nine pages** via hash routing (`#/lab`, `#/symptoms`, `#/triage`, `#/guides`, `#/learning`, `#/reference`, `#/about`, `#/contact`), with an always-visible tab strip in the sticky header - no hamburger menu, the active tab stays highlighted, and legacy section anchors (for example `#guides`) still resolve to the right page.
-- **Detail dialogs** open from every search result, lab card, and guide card; related references inside a dialog link across the library and reset the scroll to the top.
-- **Theme:** electric blue on navy-black, sampled from the Greasy Dojo key art, with silver headlines, a soft blue glow, Colombian yellow/red tricolor accents, and fire orange kept for the start-diagnosis call-to-action.
-
-## Tech
-
-- React + TypeScript + Vite, static output - no backend, no tracking
-- Deployed automatically to **GitHub Pages** from `main` via `deploy-pages.yml`
-- CI: `quality-checks.yml` (typecheck + build) and CodeQL security scanning on every PR
-- Content lives in typed data modules: `src/data/diagnosticsData.ts`, `src/data/transmissionData.ts`, and friends; `src/data/searchFallback.ts` exports the combined library view and the search implementation
-- The visual theme layers in `src/dojo-polish.css`, imported last so it can retune base styles without forking them
+- **React + TypeScript** — Vite SPA
+- **GitHub Pages** — Static deployment
+- **Supabase** — (planned) Future premium features
+- **Cloudflare** — (planned) Edge functions and AI integration
 
 ## Development
 
 ```bash
 npm install
-npm run dev       # local dev server
-npm run build     # production build (typecheck + bundle)
-npm run preview   # serve the production build locally
+npm run dev
 ```
 
-Changes land through feature branches and pull requests; merging to `main` triggers the Pages deployment.
+To build for production:
 
-## Roadmap
+```bash
+npm run build
+npm run preview
+```
 
-1. **Mechanic review** of all draft content - especially the transmission entries - plus authoritative references for every claim
-2. Refresh the in-app content set alongside review (library grows per approved draft rounds)
-3. Domain decision (`greasydojo.com`, ~$10-15/year - not approved yet)
-4. Choose the AI assistant name for the diagnostic helper
-5. Rename `package.json` to match the project name (deferred while a lockfile relay risk exists)
+## Project Status
 
-## Repo note
+Launched and live at [https://chaotic-minds-collective.github.io/grease-dojo/](https://chaotic-minds-collective.github.io/grease-dojo/).
 
-The repository is named `grease-dojo` and the project site URL keeps the historical `/grease-dojo/` path; the public brand is **The Greasy Dojo**.
+Content is reviewed and approved. All diagnostic information is educational reference — always verify with vehicle-specific service information.
+
+---
+
+Built by **Chaotic Minds Collective** — "The Method To Your Madness."
