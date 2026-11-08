@@ -25,6 +25,7 @@ import { SafetyLessonQuiz } from './components/SafetyLessonQuiz';
 import { SiteNotices } from './components/SiteNotices';
 import { SymptomsSection } from './components/SymptomsSection';
 import { searchWithFallback } from './data/searchFallback';
+import { useLang } from './i18n/LanguageContext';
 import { DetailSelection, SearchResultItem } from './types/diagnostics';
 
 function prefersReducedMotion(): boolean {
@@ -74,6 +75,7 @@ function scrollToTop(): void {
 }
 
 export const App: React.FC = () => {
+  const { lang } = useLang();
   const [route, setRoute] = useState<string>(readRoute);
   // Bumped on every user-initiated navigation to a page route (not on
   // history traversal), so re-activating or changing pages always re-runs
@@ -249,9 +251,10 @@ export const App: React.FC = () => {
     return () => cancelAnimationFrame(frame);
   }, [route, pageNavCounter]);
 
+  /** Runs the submitted search in the active language and scrolls to the results. */
   const handleRunSearch = useCallback(
     (queryValue: string, resultsEl?: HTMLDivElement | null) => {
-      const { status, results } = searchWithFallback(queryValue);
+      const { status, results } = searchWithFallback(queryValue, lang);
       setSearchStatus(status);
       setSearchResults(results);
 
@@ -268,12 +271,13 @@ export const App: React.FC = () => {
         });
       }
     },
-    []
+    [lang]
   );
 
+  /** Runs a symptom-driven search in the active language and scrolls to the results. */
   const handleSelectSymptom = useCallback((symptomQuery: string) => {
     setSearchQuery(symptomQuery);
-    const { status, results } = searchWithFallback(symptomQuery);
+    const { status, results } = searchWithFallback(symptomQuery, lang);
     setSearchStatus(status);
     setSearchResults(results);
 
@@ -286,7 +290,24 @@ export const App: React.FC = () => {
         block: 'start',
       });
     }
-  }, []);
+  }, [lang]);
+
+  // Re-run or clear the active search when the language changes so
+  // results and status never stay in the previous language. Typed
+  // searches keep going through handleRunSearch.
+  useEffect(() => {
+    if (searchQuery.trim()) {
+      const { status, results } = searchWithFallback(searchQuery, lang);
+      setSearchStatus(status);
+      setSearchResults(results);
+    } else {
+      setSearchResults([]);
+      setSearchStatus('');
+    }
+    // Responds to language changes by design; search submissions run
+    // through handleRunSearch and handleSelectSymptom.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
 
   const searchSection = (
     <SearchSection

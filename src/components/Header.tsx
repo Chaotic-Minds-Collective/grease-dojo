@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLang } from '../i18n/LanguageContext';
 
 // Always-visible tab navigation. Replaces the previous hamburger menu:
 // on a phone every destination is one glance and one tap away, and the
@@ -62,21 +63,22 @@ interface HeaderProps {
  */
 export const Header: React.FC<HeaderProps> = ({ route }) => {
   const resolvedPage = resolvePage(route);
+  const { lang, setLang, t } = useLang();
 
   return (
     <>
       <a className="skip-link" href="#main">
-        Skip to content
+        {t('Skip to content')}
       </a>
       <div className="announcement">
         <span className="status-dot" aria-hidden="true" />
-        <strong>CONCEPT BUILD</strong>
+        <strong>{t('CONCEPT BUILD')}</strong>
         <span>
-          Educational drafts are under mechanic review. The Greasy Dojo relaunch is in progress.
+          {t('Educational drafts are under mechanic review. The Greasy Dojo relaunch is in progress.')}
         </span>
       </div>
       <header className="site-header" id="top">
-        <a className="brand" href="#/" aria-label="The Greasy Dojo home">
+        <a className="brand" href="#/" aria-label={t('The Greasy Dojo home')}>
           <img
             src={`${import.meta.env.BASE_URL}assets/brand-mark.svg`}
             alt=""
@@ -87,10 +89,10 @@ export const Header: React.FC<HeaderProps> = ({ route }) => {
             <strong>
               THE <em>GREASY DOJO</em>
             </strong>
-            <small>WE HELP YOU FIND THE FAULT - OR TEACH YOU TO FIND IT</small>
+            <small>{t('WE HELP YOU FIND THE FAULT - OR TEACH YOU TO FIND IT')}</small>
           </span>
         </a>
-        <nav className="tab-nav" aria-label="Main navigation">
+        <nav className="tab-nav" aria-label={t('Main navigation')}>
           {TABS.map((tab) => (
             <a
               key={tab.href}
@@ -98,12 +100,34 @@ export const Header: React.FC<HeaderProps> = ({ route }) => {
               className={isTabActive(resolvedPage, tab.href) ? 'is-active' : undefined}
               aria-current={isTabActive(resolvedPage, tab.href) ? 'page' : undefined}
             >
-              {tab.label}
+              {t(tab.label)}
             </a>
           ))}
           <a className="tab-cta" href="#/symptoms">
-            Start diagnosis <span aria-hidden="true">↗</span>
+            {t('Start diagnosis')} <span aria-hidden="true">↗</span>
           </a>
+          <span className="lang-toggle" role="group" aria-label={t('Language')}>
+            <button
+              type="button"
+              className={lang === 'en' ? 'is-on' : undefined}
+              aria-pressed={lang === 'en'}
+              aria-label={t('Switch language to English')}
+              lang="en"
+              onClick={() => setLang('en')}
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              className={lang === 'es' ? 'is-on' : undefined}
+              aria-pressed={lang === 'es'}
+              aria-label={t('Switch language to Spanish')}
+              lang="es"
+              onClick={() => setLang('es')}
+            >
+              ES
+            </button>
+          </span>
         </nav>
       </header>
     </>

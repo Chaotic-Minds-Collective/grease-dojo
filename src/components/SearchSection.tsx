@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import { QUICK_SEARCHES } from '../data/diagnosticsData';
+import { useLang } from '../i18n/LanguageContext';
+import { QUICK_SEARCHES, QUICK_SEARCHES_ES } from '../data/localeData';
 import { DetailKind, DetailSelection, SearchResultItem } from '../types/diagnostics';
 
 interface SearchSectionProps {
@@ -20,6 +21,8 @@ export const SearchSection: React.FC<SearchSectionProps> = ({
   onOpenDetail,
 }) => {
   const resultsRef = useRef<HTMLDivElement | null>(null);
+  const { t, lang } = useLang();
+  const quickSearches = lang === 'es' ? QUICK_SEARCHES_ES : QUICK_SEARCHES;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -36,21 +39,20 @@ export const SearchSection: React.FC<SearchSectionProps> = ({
       <div className="section-heading">
         <div>
           <div className="eyebrow">
-            <span className="eyebrow-line" /> START YOUR INVESTIGATION
+            <span className="eyebrow-line" /> {t('START YOUR INVESTIGATION')}
           </div>
           <h2>
-            What is the vehicle <span className="text-cyan">telling you?</span>
+            {t('What is the vehicle')} <span className="text-cyan">{t('telling you?')}</span>
           </h2>
         </div>
         <p>
-          Search a trouble code, a symptom, or a guide topic. Results are drawn
-          from a small educational draft library, not live vehicle data.
+          {t('Search a trouble code, a symptom, or a guide topic. Results are drawn from a small educational draft library, not live vehicle data.')}
         </p>
       </div>
 
       <form className="search-box" id="searchForm" role="search" onSubmit={handleSubmit}>
         <label className="sr-only" htmlFor="siteSearch">
-          Search trouble codes, symptoms, and guides
+          {t('Search trouble codes, symptoms, and guides')}
         </label>
         <span className="search-icon" aria-hidden="true">
           ⌕
@@ -60,17 +62,17 @@ export const SearchSection: React.FC<SearchSectionProps> = ({
           type="search"
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
-          placeholder="Try P0300, clicking noise, dead battery…"
+          placeholder={t('Try P0300, clicking noise, dead battery…')}
           autoComplete="off"
         />
         <button className="button button-primary" type="submit">
-          Search <span aria-hidden="true">↗</span>
+          {t('Search')} <span aria-hidden="true">↗</span>
         </button>
       </form>
 
-      <div className="quick-searches" aria-label="Popular searches">
-        <span>QUICK LOOKUP</span>
-        {QUICK_SEARCHES.map((item) => (
+      <div className="quick-searches" aria-label={t('Popular searches')}>
+        <span>{t('QUICK LOOKUP')}</span>
+        {quickSearches.map((item) => (
           <button
             key={item.query}
             type="button"
