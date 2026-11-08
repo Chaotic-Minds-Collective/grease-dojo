@@ -1,10 +1,16 @@
-import { STATUS_ES, searchResult } from './localeData';
-import { allCodes, normalizeQuery } from './diagnosticsData';
-import { allGuides } from './diagnosticsData';
-import type { Lang } from './localeData';
+import { SEARCH_ES as STATUS_ES } from '../i18n/es';
+import { normalizeQuery } from './diagnosticsData';
+import { troubleCodesFor, fieldGuidesFor } from './localeData';
+import type { Lang } from '../i18n/LanguageContext';
 
-const DIAGNOSTIC_CODES = allCodes();
-const FIELD_GUIDES = allGuides();
+interface SearchResult {
+  code: string;
+  title: string;
+  type: 'code' | 'guide';
+  snippet: string;
+  meta: string;
+  score: number;
+}
 
 /**
  * Search result limit, returns up to 3 most relevant results.
@@ -22,13 +28,15 @@ const MAX_RESULTS = 3;
 export function searchWithFallback(
   query: string,
   lang: Lang
-): { results: searchResult[]; status: string } {
+): { results: SearchResult[]; status: string } {
   const q = normalizeQuery(query);
+  const DIAGNOSTIC_CODES = troubleCodesFor(lang);
+  const FIELD_GUIDES = fieldGuidesFor(lang);
 
   if (!q) return { results: [], status: '' };
 
   // Search across the diagnostic code library
-  const codeResults: searchResult[] = [];
+  const codeResults: SearchResult[] = [];
   for (const code of DIAGNOSTIC_CODES) {
     if (codeResults.length >= MAX_RESULTS) break;
 
@@ -68,7 +76,7 @@ export function searchWithFallback(
   }
 
   // Search across the field guide library
-  const guideResults: searchResult[] = [];
+  const guideResults: SearchResult[] = [];
   for (const guide of FIELD_GUIDES) {
     if (guideResults.length >= MAX_RESULTS) break;
 
@@ -94,8 +102,8 @@ export function searchWithFallback(
         type: 'guide',
         snippet:
           lang === 'es'
-            ? guide.subtitleEs ?? guide.subtitle
-            : guide.subtitle,
+            ? guide.subtitleEs ?? guide.subtitle ?? guide.summary
+            : guide.subtitle ?? guide.summary,
         meta:
           lang === 'es'
             ? 'Guía de campo'
@@ -116,7 +124,7 @@ export function searchWithFallback(
       results: merged.slice(0, MAX_RESULTS),
       status:
         lang === 'es'
-          ? `${count}${STATUS_ES.found}`
+          ? `${count}${count === 1 ? STATUS_ES.found : STATUS_ES.found_plural}`
           : `${count}${count === 1 ? ' result found. Open a result to review the guidance.' : ' results found. Open a result to review the guidance.'}`,
     };
   }
@@ -125,8 +133,8 @@ export function searchWithFallback(
   const fallback = [...DIAGNOSTIC_CODES, ...FIELD_GUIDES]
     .filter((item) => {
       const text = normalizeQuery(
-        'title' in item
-          ? item.title
+        'id' in item
+          ? [item.title, item.subtitle, item.category, item.search, item.summary].join(' ')
           : [item.code, item.symptom].join(' ')
       );
       return text && q.length >= 3 && text.includes(q.slice(0, 3));
@@ -134,20 +142,20 @@ export function searchWithFallback(
     .slice(0, MAX_RESULTS);
 
   if (fallback.length > 0) {
-    const results: searchResult[] = fallback.map((item) => ({
+    const results: SearchResult[] = fallback.map((item) => ({
       code: 'code' in item ? item.code : item.id,
-      title: 'title' in item ? item.title : item.code,
-      type: 'type' in item ? 'guide' as const : 'code' as const,
+      title: 'id' in item ? item.title : item.code,
+      type: 'id' in item ? 'guide' as const : 'code' as const,
       snippet:
-        'subtitle' in item
+        'id' in item
           ? lang === 'es'
-            ? (item.subtitleEs ?? item.subtitle)
-            : item.subtitle
+            ? (item.subtitleEs ?? item.subtitle ?? item.summary)
+            : item.subtitle ?? item.summary
           : lang === 'es'
             ? (item.symptomEs ?? item.symptom)
             : item.symptom,
       meta:
-        'subtitle' in item
+        'id' in item
           ? lang === 'es'
             ? 'Guía de campo'
             : 'Field guide'

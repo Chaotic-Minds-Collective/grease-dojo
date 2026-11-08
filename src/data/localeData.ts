@@ -1,12 +1,8 @@
-import {
-  TROUBLE_CODES, FIELD_GUIDES, QUICK_SEARCHES, FILTER_TABS, SYMPTOM_ITEMS, SAFETY_RULES,
-} from './diagnosticsData';
-import {
-  TROUBLE_CODES_ES, FIELD_GUIDES_ES, QUICK_SEARCHES_ES, FILTER_TABS_ES, SYMPTOM_ITEMS_ES, SAFETY_RULES_ES,
-} from './diagnosticsData.es';
-import { TRANSMISSION_CODES, SHIFT_GUIDES } from './transmissionData';
-import { TRANSMISSION_CODES_ES, SHIFT_GUIDES_ES } from './transmissionData.es';
+import { allCodes, allGuides, QUICK_SEARCHES, FILTER_TABS, SYMPTOM_ITEMS, SAFETY_RULES } from './diagnosticsData';
+import { TROUBLE_CODES_ES, FIELD_GUIDES_ES, QUICK_SEARCHES_ES, FILTER_TABS_ES, SYMPTOM_ITEMS_ES, SAFETY_RULES_ES } from './diagnosticsData.es';
+import { transmissionCodesEs, transmissionGuidesEs } from './transmissionData.es';
 import type { Lang } from '../i18n/LanguageContext';
+import type { DiagnosticCode, TroubleCode } from '../types/diagnostics';
 
 export { QUICK_SEARCHES, QUICK_SEARCHES_ES, FILTER_TABS, FILTER_TABS_ES, SAFETY_RULES, SAFETY_RULES_ES };
 
@@ -21,13 +17,61 @@ export const CATEGORY_LABELS_ES: Record<string, string> = {
 };
 
 /** Returns the trouble-code library for the active language. */
-export function troubleCodesFor(lang: Lang) {
-  return lang === 'es' ? [...TROUBLE_CODES_ES, ...TRANSMISSION_CODES_ES] : [...TROUBLE_CODES, ...TRANSMISSION_CODES];
+export function troubleCodesFor(lang: Lang): DiagnosticCode[] {
+  if (lang === 'en') return allCodes();
+  const localized = new Map(TROUBLE_CODES_ES.map((code) => [code.code, code]));
+  const aliases = new Map(TROUBLE_CODES_ES.flatMap((code) =>
+    (code.searchTerms ?? []).map((term) => [term, code] as const)));
+  const codes = allCodes().filter((code) => code.category !== 'transmission');
+  const identifiers = new Set(codes.map((code) => code.code));
+
+  const translate = (translation: TroubleCode, code?: DiagnosticCode): DiagnosticCode => {
+    const translatedSymptoms = [...new Set([
+      ...(translation.symptoms ?? []),
+      ...(code?.symptomEs ? [code.symptomEs] : []),
+    ])];
+    const symptomEs = translatedSymptoms.join('; ');
+    return {
+      ...code,
+      code: code?.code ?? translation.code,
+      category: code?.category ?? translation.category,
+      title: translation.title,
+      summary: translation.summary,
+      symptom: symptomEs || code?.symptom || translation.summary,
+      symptomEs: symptomEs || code?.symptomEs,
+      related: code?.related ?? translation.related,
+    reviewStatus: code?.reviewStatus ?? translation.reviewStatus,
+    sourceStatus: code?.sourceStatus ?? translation.sourceStatus,
+    sections: [
+      { heading: 'Significado', body: translation.meaning },
+      { heading: 'Posibles causas', items: translation.causes },
+      { heading: 'Qué comprobar', items: translation.checks },
+      { heading: 'Seguridad', body: translation.warning },
+      ],
+    };
+  };
+
+  // Keep stable English identifiers, including members of translated code groups.
+  return [
+    ...codes.map((code) => {
+      const translation = localized.get(code.code) ?? aliases.get(code.code);
+      return translation ? translate(translation, code) : code;
+    }),
+    ...TROUBLE_CODES_ES.filter((code) => !identifiers.has(code.code)).map((code) => translate(code)),
+    ...transmissionCodesEs(),
+  ];
 }
 
 /** Returns the field-guide library for the active language. */
 export function fieldGuidesFor(lang: Lang) {
-  return lang === 'es' ? [...FIELD_GUIDES_ES, ...SHIFT_GUIDES_ES] : [...FIELD_GUIDES, ...SHIFT_GUIDES];
+  if (lang === 'en') return allGuides();
+  const baseGuides = allGuides();
+  const baseIds = new Set(baseGuides.map((guide) => guide.id));
+  const localized = new Map([...FIELD_GUIDES_ES, ...transmissionGuidesEs()].map((guide) => [guide.id, guide]));
+  return [
+    ...baseGuides.map((guide) => localized.get(guide.id) ?? guide),
+    ...FIELD_GUIDES_ES.filter((guide) => !baseIds.has(guide.id)),
+  ];
 }
 
 /** Returns the symptom shortcuts for the active language. */

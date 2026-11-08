@@ -275,12 +275,12 @@
     margin: 16mm;
   }
 
-  body > :not(#root),
-  #root > :not(main),
-  main > :not(.case-worksheet-section),
-  .case-worksheet-section > :not(.section-wrap),
-  .case-worksheet-section > .section-wrap > :not(.case-form),
-  .case-form > :not(.case-report) {
+  body.worksheet-print > :not(#root),
+  body.worksheet-print #root > :not(main),
+  body.worksheet-print main > :not(.case-worksheet-section),
+  body.worksheet-print .case-worksheet-section > :not(.section-wrap),
+  body.worksheet-print .case-worksheet-section > .section-wrap > :not(.case-form),
+  body.worksheet-print .case-form > :not(.case-report) {
     display: none !important;
   }
 

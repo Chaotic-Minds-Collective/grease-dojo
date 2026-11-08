@@ -10,6 +10,8 @@ import { ContactPage } from './components/ContactPage';
 import { DetailDialog } from './components/DetailDialog';
 import { DiagnosticLab } from './components/DiagnosticLab';
 import { GuidedTriage } from './components/GuidedTriage';
+import { ReferenceDesk } from './components/ReferenceDesk';
+import { SiteNotices } from './components/SiteNotices';
 import { GuidesSection } from './components/GuidesSection';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
@@ -19,14 +21,13 @@ import {
   SafetySection,
   SiteFooter,
 } from './components/InfoSections';
-import { ReferenceDesk } from './components/ReferenceDesk';
 import { SearchSection } from './components/SearchSection';
 import { SafetyLessonQuiz } from './components/SafetyLessonQuiz';
-import { SiteNotices } from './components/SiteNotices';
 import { SymptomsSection } from './components/SymptomsSection';
 import { searchWithFallback } from './data/searchFallback';
+import { fieldGuidesFor, troubleCodesFor } from './data/localeData';
 import { useLang } from './i18n/LanguageContext';
-import { DetailSelection, SearchResultItem } from './types/diagnostics';
+import { DetailKind, DetailSelection, SearchResultItem } from './types/diagnostics';
 
 function prefersReducedMotion(): boolean {
   return (
@@ -34,6 +35,18 @@ function prefersReducedMotion(): boolean {
     typeof window.matchMedia === 'function' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
+}
+
+/** Converts search helper records into the card model consumed by SearchSection. */
+function toSearchResultItems(results: ReturnType<typeof searchWithFallback>['results']): SearchResultItem[] {
+  return results.map((result) => ({
+    kind: result.type === 'guide' ? DetailKind.Guide : DetailKind.Code,
+    id: result.code,
+    badge: result.type === 'guide' ? result.meta : result.code,
+    title: result.title,
+    summary: result.snippet,
+    meta: result.meta,
+  }));
 }
 
 function readRoute(): string {
@@ -256,7 +269,7 @@ export const App: React.FC = () => {
     (queryValue: string, resultsEl?: HTMLDivElement | null) => {
       const { status, results } = searchWithFallback(queryValue, lang);
       setSearchStatus(status);
-      setSearchResults(results);
+      setSearchResults(toSearchResultItems(results));
 
       // Always bring the feedback into view, even when there are no
       // results: the status message is the answer, and on a phone the
@@ -279,7 +292,7 @@ export const App: React.FC = () => {
     setSearchQuery(symptomQuery);
     const { status, results } = searchWithFallback(symptomQuery, lang);
     setSearchStatus(status);
-    setSearchResults(results);
+    setSearchResults(toSearchResultItems(results));
 
     // The search section is rendered on the symptoms page itself, so the
     // results appear right below the symptom the visitor chose.
@@ -299,7 +312,7 @@ export const App: React.FC = () => {
     if (searchQuery.trim()) {
       const { status, results } = searchWithFallback(searchQuery, lang);
       setSearchStatus(status);
-      setSearchResults(results);
+      setSearchResults(toSearchResultItems(results));
     } else {
       setSearchResults([]);
       setSearchStatus('');
@@ -380,15 +393,20 @@ export const App: React.FC = () => {
     );
   }
 
+  const selectedDetail = activeDetail
+    ? activeDetail.kind === DetailKind.Code
+      ? troubleCodesFor(lang).find((item) => item.code === activeDetail.id) ?? null
+      : fieldGuidesFor(lang).find((item) => item.id === activeDetail.id) ?? null
+    : null;
+
   return (
     <>
       <Header route={route} />
       <main id="main">{pageContent}</main>
       <SiteFooter />
       <DetailDialog
-        selection={activeDetail}
+        code={selectedDetail}
         onClose={() => setActiveDetail(null)}
-        onOpenDetail={setActiveDetail}
       />
     </>
   );

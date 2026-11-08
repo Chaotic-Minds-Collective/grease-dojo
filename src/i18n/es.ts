@@ -1,6 +1,3 @@
-import { SearchConstants } from './searchConstants';
-import { STATUS_ES } from '../data/localeData';
-
 /**
  * Spanish translations for The Greasy Dojo.
  * All entries are keyed by the English string for t(key) lookups.
@@ -124,11 +121,11 @@ const ES_TRANSLATIONS: Record<string, string> = {
 } as const;
 
 /** Spanish translations for Greasy Dojo search status constants. */
-export const SEARCH_ES: SearchConstants = {
-  found: STATUS_ES.found,
-  found_plural: STATUS_ES.found_plural,
-  close: STATUS_ES.close,
-  none: STATUS_ES.none,
+export const SEARCH_ES = {
+  found: ' resultado encontrado. Abre un resultado para revisar la guía.',
+  found_plural: ' resultados encontrados. Abre un resultado para revisar la guía.',
+  close: 'Sin coincidencia exacta: estos son los temas más cercanos en la biblioteca.',
+  none: 'Sin coincidencia exacta en esta biblioteca. Prueba un síntoma más corto, un código como P0300 o explora todas las guías.',
 };
 
 export default ES_TRANSLATIONS;
