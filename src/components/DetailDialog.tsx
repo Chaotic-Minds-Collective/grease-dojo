@@ -12,7 +12,7 @@ export const DetailDialog: React.FC<DetailDialogProps> = ({ code, onClose }) => 
 
   if (!code) return null;
 
-  const isDiagnosticCode = 'code' in code;
+  const isDiagnosticCode = 'symptom' in code;
   const heading = isDiagnosticCode ? code.code : code.title;
   const description = isDiagnosticCode ? code.symptom : code.summary;
 
