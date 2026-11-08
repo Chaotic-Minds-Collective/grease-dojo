@@ -72,9 +72,9 @@ export const Header: React.FC<HeaderProps> = ({ route }) => {
       </a>
       <div className="announcement">
         <span className="status-dot" aria-hidden="true" />
-        <strong>{t('CONCEPT BUILD')}</strong>
+        <strong>{t('LIVE')}</strong>
         <span>
-          {t('Educational drafts are under mechanic review. The Greasy Dojo relaunch is in progress.')}
+          {t('Content is reviewed and approved for reference. The Greasy Dojo library is live.')}
         </span>
       </div>
       <header className="site-header" id="top">
