@@ -266,28 +266,40 @@
   gap: 0.6rem;
 }
 
+/* Keep the flowing print copy out of the screen and accessibility layouts. */
+.case-report-print {
+  display: none;
+}
+
 @media print {
   @page {
     margin: 16mm;
   }
 
-  body * {
-    visibility: hidden !important;
+  /* Preserve normal page printing until a report has been prepared. */
+  body:has(.case-report) {
+    background: #fff;
+    color: #111;
   }
 
-  .case-report,
-  .case-report * {
-    visibility: visible !important;
+  body:has(.case-report) *:not(:has(.case-report)):not(.case-report):not(.case-report *) {
+    display: none !important;
   }
 
+  /* Keep the report in normal flow so it can span printed pages. */
+  body:has(.case-report) *:has(.case-report),
   .case-report {
-    position: absolute;
-    inset: 0;
-    width: 100%;
+    display: block;
+    position: static;
+    width: auto;
     max-width: none;
+    height: auto;
+    min-height: 0;
+    margin: 0;
     padding: 0;
     border: 0;
     border-radius: 0;
+    overflow: visible;
     background: #fff !important;
     color: #111 !important;
     box-shadow: none;
@@ -302,18 +314,17 @@
     color: #111 !important;
   }
 
-  .case-report-actions {
+  .case-report-actions,
+  .case-report-text {
     display: none !important;
   }
 
-  .case-report-text {
-    width: 100%;
-    min-height: 0;
-    border: 0;
-    background: #fff !important;
-    color: #111 !important;
-    font-size: 10pt;
-    overflow: visible;
-    resize: none;
+  .case-report-print {
+    display: block;
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font: 10pt/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: #111;
   }
 }

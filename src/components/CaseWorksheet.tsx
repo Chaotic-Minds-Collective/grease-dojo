@@ -50,12 +50,14 @@ const EMPTY_CASE: CaseDetails = {
   observations: '',
 };
 
+/** Adds or removes a checkbox value while preserving the other selections. */
 function toggleSelection(current: string[], value: string, checked: boolean) {
   return checked
     ? [...current, value]
     : current.filter((item) => item !== value);
 }
 
+/** Collects local observations and prepares notes for copying or printing. */
 export const CaseWorksheet: React.FC = () => {
   const [details, setDetails] = useState<CaseDetails>(EMPTY_CASE);
   const [reportText, setReportText] = useState('');
@@ -92,6 +94,7 @@ export const CaseWorksheet: React.FC = () => {
     setCopyStatus('');
   };
 
+  /** Formats reported observations with explicit defaults for missing details. */
   const prepareReport = () => {
     const vehicle = [
       details.year,
@@ -128,6 +131,7 @@ export const CaseWorksheet: React.FC = () => {
     setCopyStatus('Your case notes are ready. Review them before sharing.');
   };
 
+  /** Copies prepared notes, reporting a manual-copy fallback if access fails. */
   const copyReport = async () => {
     if (!reportText) return;
 
@@ -142,6 +146,7 @@ export const CaseWorksheet: React.FC = () => {
     }
   };
 
+  /** Opens the browser print dialog only after notes have been prepared. */
   const printReport = () => {
     if (reportText) window.print();
   };
@@ -363,6 +368,7 @@ export const CaseWorksheet: React.FC = () => {
                   </button>
                 </div>
               </div>
+              <pre className="case-report-print" aria-hidden="true">{reportText}</pre>
               <textarea
                 className="case-report-text"
                 aria-label="Prepared diagnostic case notes"
