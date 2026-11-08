@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useLang } from '../i18n/LanguageContext';
-import './SafetyLessonQuiz.css';
 
 interface Question {
   id: number;

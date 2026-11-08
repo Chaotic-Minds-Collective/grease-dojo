@@ -1,7 +1,6 @@
 import React from 'react';
 import { useLang } from '../i18n/LanguageContext';
 import type { DiagnosticCode, FieldGuide } from '../types/diagnostics';
-import './DetailDialog.css';
 
 type DetailDialogProps = {
   code: DiagnosticCode | FieldGuide | null;

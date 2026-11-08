@@ -3,7 +3,8 @@
  * Organized from the supplied Rounds 1–3 content. All entries are reviewed and approved for educational reference.
  */
 
-import { CodeCategory, DiagnosticCode, FieldGuide } from '../types/diagnostics';
+import { CodeCategory, DiagnosticCode, FieldGuide, SymptomItem } from '../types/diagnostics';
+import { transmissionCodes, transmissionGuides } from './transmissionData';
 
 // ---------------------------------------------------------------------------
 //  CATEGORY LABELS
@@ -1073,15 +1074,12 @@ const FIELD_GUIDES: FieldGuide[] = [
 
 /** Returns all diagnostic codes (EN) merged with transmission codes. */
 export function allCodes(): DiagnosticCode[] {
-  // Lazy import to avoid circular dependency
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { transmissionCodes } = require('./transmissionData') as typeof import('./transmissionData');
   return [...DIAGNOSTIC_CODES, ...transmissionCodes()];
 }
 
 /** Returns all field guides (EN). */
 export function allGuides(): FieldGuide[] {
-  return FIELD_GUIDES;
+  return [...FIELD_GUIDES, ...transmissionGuides()];
 }
 
 // ---------------------------------------------------------------------------
@@ -1223,4 +1221,45 @@ export function searchDiagnosticLibrary(
     status: lang === 'es' ? SEARCH_ES_CONSTANTS.none : 'No exact match in this library. Try a shorter symptom, a code such as P0300, or browse all guides.',
     results: [],
   };
+}
+
+export const QUICK_SEARCHES: { label: string; query: string }[] = [
+  { label:'Check-engine light', query:'check engine light' },
+  { label:'Battery keeps dying', query:'battery dies overnight' },
+  { label:'Clicking start', query:'clicking' },
+  { label:'Overheating', query:'overheating' },
+];
+
+export const FILTER_TABS: { label: string; value: CodeCategory }[] = [
+  { label:'All codes', value:CodeCategory.All },
+  { label:'Engine', value:CodeCategory.Engine },
+  { label:'Air & fuel', value:CodeCategory.AirFuel },
+  { label:'Electrical', value:CodeCategory.Electrical },
+  { label:'Temperature', value:CodeCategory.Temperature },
+];
+
+export const SYMPTOM_ITEMS: SymptomItem[] = [
+  {index:'SYMPTOM / 01',icon:'⌁',title:'Won’t start',subtitle:'Clicking, silence, or slow cranking',query:'clicking'},
+  {index:'SYMPTOM / 02',icon:'♨',title:'Running hot',subtitle:'Temperature warning or steam',query:'overheating'},
+  {index:'SYMPTOM / 03',icon:'≈',title:'Shaking or rough idle',subtitle:'Misfire-like symptoms and vibration',query:'rough idle'},
+  {index:'SYMPTOM / 04',icon:'ϟ',title:'Electrical trouble',subtitle:'Battery drain or low-voltage clues',query:'battery'},
+];
+
+export const SAFETY_RULES: { icon:string; title:string; body:string }[] = [
+  {icon:'⚠',title:'Never trust a jack alone',body:'Work on level, stable ground with correctly rated jack stands at approved lift points. If you cannot support the vehicle safely, stop.'},
+  {icon:'ϟ',title:'Respect electricity and fuel',body:'Short circuits can cause burns, fire, or module damage. Keep sparks and flames away from fuel and follow vehicle-specific procedures.'},
+  {icon:'◉',title:'Hot parts stay hot',body:'Let the engine and exhaust cool. Never open a hot pressurized cooling system. Never run an engine in an enclosed space.'},
+  {icon:'↗',title:'Use the right service data',body:'Pinouts, torque values, thresholds, and procedures vary by vehicle. This site will not invent specifications to fill a gap.'},
+];
+
+export function normalizeQuery(value:string):string {
+  // Fold Spanish diacritics (and any other accents) to their base
+  // letters so "arranque" and "arranqué" style variants match. English
+  // text is unchanged by this.
+  const folded = String(value || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/ñ/g, 'n');
+  return folded.replace(/[^a-z0-9]+/g,' ').trim();
 }
