@@ -25,7 +25,7 @@ export const GuidesSection: React.FC<GuidesSectionProps> = ({ onOpenDetail }) =>
             </h2>
           </div>
           <p>
-            {t('Practical starting points for common complaints. These educational drafts need qualified mechanic review and authoritative references before public release.')}
+            {t('Practical starting points for common complaints. Each guide follows a test-before-replace approach.')}
           </p>
         </div>
 
@@ -49,7 +49,7 @@ export const GuidesSection: React.FC<GuidesSectionProps> = ({ onOpenDetail }) =>
               </div>
               <h3>{guide.title}</h3>
               <p>{guide.summary}</p>
-              <span className="card-meta">{`${guide.time} ${t('read')} · ${t('Draft')}`}</span>
+              <span className="card-meta">{`${guide.time} ${t('read')}`}</span>
             </button>
           ))}
         </div>
