@@ -26,25 +26,27 @@ export function troubleCodesFor(lang: Lang): DiagnosticCode[] {
   const identifiers = new Set(codes.map((code) => code.code));
 
   const translate = (translation: TroubleCode, code?: DiagnosticCode): DiagnosticCode => {
-    const symptom = [...new Set([...(translation.symptoms ?? []), code?.symptomEs]
-      .filter((text): text is string => Boolean(text)))].join('; ')
-      || code?.symptom || translation.summary;
+    const translatedSymptoms = [...new Set([
+      ...(translation.symptoms ?? []),
+      ...(code?.symptomEs ? [code.symptomEs] : []),
+    ])];
+    const symptomEs = translatedSymptoms.join('; ');
     return {
       ...code,
       code: code?.code ?? translation.code,
       category: code?.category ?? translation.category,
       title: translation.title,
       summary: translation.summary,
-      symptom,
-      symptomEs: symptom,
+      symptom: symptomEs || code?.symptom || translation.summary,
+      symptomEs: symptomEs || code?.symptomEs,
       related: code?.related ?? translation.related,
-      reviewStatus: code?.reviewStatus ?? translation.reviewStatus,
-      sourceStatus: code?.sourceStatus ?? translation.sourceStatus,
-      sections: [
-        { heading: 'Significado', body: translation.meaning },
-        { heading: 'Posibles causas', items: translation.causes },
-        { heading: 'Qué comprobar', items: translation.checks },
-        { heading: 'Seguridad', body: translation.warning },
+    reviewStatus: code?.reviewStatus ?? translation.reviewStatus,
+    sourceStatus: code?.sourceStatus ?? translation.sourceStatus,
+    sections: [
+      { heading: 'Significado', body: translation.meaning },
+      { heading: 'Posibles causas', items: translation.causes },
+      { heading: 'Qué comprobar', items: translation.checks },
+      { heading: 'Seguridad', body: translation.warning },
       ],
     };
   };
@@ -63,12 +65,12 @@ export function troubleCodesFor(lang: Lang): DiagnosticCode[] {
 /** Returns the field-guide library for the active language. */
 export function fieldGuidesFor(lang: Lang) {
   if (lang === 'en') return allGuides();
+  const baseGuides = allGuides();
+  const baseIds = new Set(baseGuides.map((guide) => guide.id));
   const localized = new Map([...FIELD_GUIDES_ES, ...transmissionGuidesEs()].map((guide) => [guide.id, guide]));
-  const guides = allGuides();
-  const baseIds = new Set(guides.map((guide) => guide.id));
   return [
-    ...guides.map((guide) => localized.get(guide.id) ?? guide),
-    ...[...localized.values()].filter((guide) => !baseIds.has(guide.id)),
+    ...baseGuides.map((guide) => localized.get(guide.id) ?? guide),
+    ...FIELD_GUIDES_ES.filter((guide) => !baseIds.has(guide.id)),
   ];
 }
 
