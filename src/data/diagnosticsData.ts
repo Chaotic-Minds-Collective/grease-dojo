@@ -1198,17 +1198,24 @@ export function searchDiagnosticLibrary(
   if (fallback.length > 0) {
     return {
       status: lang === 'es' ? SEARCH_ES_CONSTANTS.close : 'No exact match - these are the closest topics in the library.',
-      results: fallback.map((item) => ({
-        code: 'code' in item ? item.code : item.id,
-        title: 'title' in item ? item.title : item.code,
-        type: 'type' in item ? 'guide' as const : 'code' as const,
-        snippet: 'subtitle' in item
-          ? lang === 'es' ? (item.subtitleEs ?? item.subtitle ?? '') : (item.subtitle ?? '')
-          : lang === 'es' ? (item.symptomEs ?? item.symptom) : item.symptom,
-        meta: 'subtitle' in item
-          ? lang === 'es' ? 'Guía de campo' : 'Field guide'
-          : lang === 'es' ? 'Código de falla' : 'Trouble code',
-      })),
+      results: fallback.map((item) => {
+        if ('code' in item) {
+          return {
+            code: item.code,
+            title: item.title,
+            type: 'code' as const,
+            snippet: lang === 'es' ? (item.symptomEs ?? item.symptom) : item.symptom,
+            meta: lang === 'es' ? 'Código de falla' : 'Trouble code',
+          };
+        }
+        return {
+          code: item.id,
+          title: item.title,
+          type: 'guide' as const,
+          snippet: lang === 'es' ? (item.subtitleEs ?? item.subtitle ?? item.summary) : (item.subtitle ?? item.summary),
+          meta: lang === 'es' ? 'Guía de campo' : 'Field guide',
+        };
+      }),
     };
   }
 
