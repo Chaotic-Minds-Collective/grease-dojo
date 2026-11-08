@@ -46,7 +46,7 @@ export const SearchSection: React.FC<SearchSectionProps> = ({
           </h2>
         </div>
         <p>
-          {t('Search a trouble code, a symptom, or a guide topic. Results are drawn from a small educational draft library, not live vehicle data.')}
+          {t('Search a trouble code, a symptom, or a guide topic. Results are drawn from an educational library, not live vehicle data.')}
         </p>
       </div>
 
