@@ -81,7 +81,14 @@ export function searchWithFallback(
     if (guideResults.length >= MAX_RESULTS) break;
 
     const haystack = normalizeQuery(
-      [guide.title, guide.subtitle, guide.category].join(' ')
+      [
+        guide.title,
+        guide.subtitle,
+        guide.subtitleEs,
+        guide.category,
+        guide.search,
+        guide.summary,
+      ].join(' ')
     );
 
     let score = 0;
