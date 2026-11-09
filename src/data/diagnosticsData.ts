@@ -1,6 +1,6 @@
 /**
  * Diagnostic trouble code data and field guide content.
- * Organized from the supplied Rounds 1–3 content. All entries are reviewed and approved for educational reference.
+ * Organized from the supplied Rounds 1–3 content. Entries are preliminary and await qualified mechanic review and source verification.
  */
 
 import { CodeCategory, DiagnosticCode, FieldGuide, SymptomItem } from '../types/diagnostics';
@@ -52,7 +52,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Low oil level, contaminated oil, failed VVT solenoid, wiring damage, or a faulty PCM.'},
     ],
     related:['P0011','P0013','P0014','P0020','P0021','P0022'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0011',
     category: CodeCategory.Engine,
@@ -66,7 +66,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Worn timing chain, failed cam phaser, clogged VVT oil passages, low oil pressure, or a stuck VVT solenoid.'},
     ],
     related:['P0010','P0013','P0014','P0020','P0021','P0022'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0013',
     category: CodeCategory.Engine,
@@ -80,7 +80,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Oil issues, failed solenoid, wiring fault, or PCM failure.'},
     ],
     related:['P0010','P0011','P0014','P0020','P0021','P0022'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0014',
     category: CodeCategory.Engine,
@@ -94,7 +94,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Worn timing chain, failed exhaust cam phaser, clogged oil passages, low oil pressure, or stuck solenoid.'},
     ],
     related:['P0010','P0011','P0013','P0020','P0021','P0022'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0020',
     category: CodeCategory.Engine,
@@ -108,7 +108,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Low oil, contaminated oil, failed VVT solenoid, wiring damage.'},
     ],
     related:['P0010','P0011','P0021','P0022'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0021',
     category: CodeCategory.Engine,
@@ -122,7 +122,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Worn timing chain, failed cam phaser, clogged oil passages, low oil pressure, or stuck VVT solenoid.'},
     ],
     related:['P0010','P0011','P0020','P0022'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0022',
     category: CodeCategory.Engine,
@@ -136,7 +136,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Worn timing chain, failed exhaust cam phaser, clogged oil passages, low oil pressure, or stuck solenoid.'},
     ],
     related:['P0010','P0011','P0020','P0021'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0030',
     category: CodeCategory.Engine,
@@ -150,7 +150,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed O2 sensor heater element, blown fuse, wiring fault (open or short), corroded connector, or PCM driver failure.'},
     ],
     related:['P0031','P0032','P0036','P0037','P0038','P0050','P0051','P0052'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0031',
     category: CodeCategory.Engine,
@@ -164,7 +164,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Open heater element in the sensor, blown fuse, broken wire in the harness, or corroded connector terminals.'},
     ],
     related:['P0030','P0032','P0036','P0037','P0038','P0050','P0051','P0052'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0032',
     category: CodeCategory.Engine,
@@ -178,7 +178,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Short to power in the harness, internally shorted heater element, or a failed PCM driver.'},
     ],
     related:['P0030','P0031','P0036','P0037','P0038','P0050','P0051','P0052'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0036',
     category: CodeCategory.Engine,
@@ -192,7 +192,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed downstream O2 sensor heater, wiring fault, fuse, or connector corrosion.'},
     ],
     related:['P0030','P0031','P0032','P0037','P0038','P0050','P0051','P0052'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0037',
     category: CodeCategory.Engine,
@@ -206,7 +206,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Open heater, blown fuse, broken wire, or corroded connector.'},
     ],
     related:['P0030','P0031','P0032','P0036','P0038','P0050','P0051','P0052'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0038',
     category: CodeCategory.Engine,
@@ -220,7 +220,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Short to power, shorted heater element, or PCM driver fault.'},
     ],
     related:['P0030','P0031','P0032','P0036','P0037','P0050','P0051','P0052'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0050',
     category: CodeCategory.Engine,
@@ -234,7 +234,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed heater, wiring fault, fuse, or connector corrosion.'},
     ],
     related:['P0030','P0031','P0032','P0036','P0037','P0038','P0051','P0052'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0051',
     category: CodeCategory.Engine,
@@ -248,7 +248,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Open heater, blown fuse, broken wire, or corroded connector.'},
     ],
     related:['P0030','P0031','P0032','P0036','P0037','P0038','P0050','P0052'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0052',
     category: CodeCategory.Engine,
@@ -262,7 +262,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Short to power, shorted heater element, or PCM driver fault.'},
     ],
     related:['P0030','P0031','P0032','P0036','P0037','P0038','P0050','P0051'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0100',
     category: CodeCategory.Engine,
@@ -276,7 +276,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Contaminated MAF sensor element, intake air leak, damaged wiring, or failed MAF sensor.'},
     ],
     related:['P0101','P0102','P0103','P0110','P0120','P0171','P0174'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0101',
     category: CodeCategory.Engine,
@@ -290,7 +290,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Clogged air filter, intake air leak, contaminated MAF sensor, collapsed intake hose, or aftermarket intake causing turbulent airflow.'},
     ],
     related:['P0100','P0102','P0103','P0110','P0120','P0171','P0174'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0102',
     category: CodeCategory.Engine,
@@ -304,7 +304,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Clogged air filter, restricted intake, failed MAF sensor, open signal wire, or faulty PCM.'},
     ],
     related:['P0100','P0101','P0103','P0110','P0120','P0171','P0174'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0103',
     category: CodeCategory.Engine,
@@ -318,7 +318,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Short to power in the signal circuit, contaminated sensor element reading falsely high, or PCM failure.'},
     ],
     related:['P0100','P0101','P0102','P0110','P0120','P0171','P0174'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0110',
     category: CodeCategory.Engine,
@@ -332,7 +332,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed IAT sensor, corroded connector, wiring fault, or contamination of the sensor tip.'},
     ],
     related:['P0111','P0112','P0113','P0114','P0120'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0111',
     category: CodeCategory.Engine,
@@ -346,7 +346,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed IAT sensor, sensor not fully seated, wiring issue, or contamination.'},
     ],
     related:['P0110','P0112','P0113','P0114','P0120'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0112',
     category: CodeCategory.Engine,
@@ -360,7 +360,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Shorted IAT sensor, short to ground in the signal wire, or PCM failure.'},
     ],
     related:['P0110','P0111','P0113','P0114','P0120'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0113',
     category: CodeCategory.Engine,
@@ -374,7 +374,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Open IAT sensor, open signal wire, corroded connector, or broken wire in the harness.'},
     ],
     related:['P0110','P0111','P0112','P0114','P0120'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0120',
     category: CodeCategory.Engine,
@@ -388,7 +388,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed TPS (worn potentiometer track), wiring fault (open or short), poor ground, or 5V reference short.'},
     ],
     related:['P0121','P0122','P0123','P0220','P0221','P0222','P0223','P2135'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0121',
     category: CodeCategory.Engine,
@@ -402,7 +402,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Worn TPS, throttle plate carbon buildup, throttle sticking, or wiring that causes intermittent signals.'},
     ],
     related:['P0120','P0122','P0123','P0220','P0221','P0222','P0223','P2135'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0122',
     category: CodeCategory.Engine,
@@ -416,7 +416,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Short to ground, failed TPS, open 5V reference, or poor sensor ground.'},
     ],
     related:['P0120','P0121','P0123','P0220','P0221','P0222','P0223','P2135'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0123',
     category: CodeCategory.Engine,
@@ -430,7 +430,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Short to 5V reference, short to power, misadjusted throttle stop, carbon buildup holding the throttle open, or internal TPS failure.'},
     ],
     related:['P0120','P0121','P0122','P0220','P0221','P0222','P0223','P2135'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0171',
     category: CodeCategory.Fuel,
@@ -444,7 +444,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Vacuum leak, contaminated MAF sensor, low fuel pressure, clogged fuel injector, exhaust leak before the O2 sensor, or PCV system fault.'},
     ],
     related:['P0174','P0100','P0101','P0102','P0300','P0301–P0306','P0440'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0174',
     category: CodeCategory.Fuel,
@@ -458,7 +458,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Intake gasket leak on Bank 2, clogged injector on Bank 2, exhaust leak before Bank 2 O2 sensor, or (if both banks) MAF contamination or low fuel pressure.'},
     ],
     related:['P0171','P0100','P0101','P0102','P0300','P0301–P0306','P0440'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0300',
     category: CodeCategory.Ignition,
@@ -472,7 +472,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Vacuum leak, worn spark plugs, weak ignition coil(s), low fuel pressure, clogged injector(s), low compression, or EGR system fault.'},
     ],
     related:['P0301–P0306','P0171','P0174','P0420'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0301',
     category: CodeCategory.Ignition,
@@ -486,7 +486,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Faulty spark plug or ignition coil on Cylinder 1, clogged injector, low compression, intake gasket leak, or valve train issue.'},
     ],
     related:['P0300','P0302–P0306','P0171','P0174'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0302',
     category: CodeCategory.Ignition,
@@ -500,7 +500,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Faulty spark plug/coil, injector issue, compression loss, or gasket leak on Cylinder 2.'},
     ],
     related:['P0300','P0301','P0303–P0306','P0171','P0174'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0303',
     category: CodeCategory.Ignition,
@@ -514,7 +514,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Faulty spark plug/coil, injector issue, compression loss, or gasket leak on Cylinder 3.'},
     ],
     related:['P0300','P0301','P0302','P0304–P0306','P0171','P0174'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0304',
     category: CodeCategory.Ignition,
@@ -528,7 +528,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Faulty spark plug/coil, injector issue, compression loss, or gasket leak on Cylinder 4.'},
     ],
     related:['P0300','P0301–P0303','P0305','P0306','P0171','P0174'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0305',
     category: CodeCategory.Ignition,
@@ -542,7 +542,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Faulty spark plug/coil, injector issue, compression loss, or gasket leak on Cylinder 5.'},
     ],
     related:['P0300','P0301–P0304','P0306','P0171','P0174'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0306',
     category: CodeCategory.Ignition,
@@ -556,7 +556,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Faulty spark plug/coil, injector issue, compression loss, or gasket leak on Cylinder 6.'},
     ],
     related:['P0300','P0301–P0305','P0171','P0174'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0320',
     category: CodeCategory.Ignition,
@@ -570,7 +570,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed CKP sensor, damaged reluctor ring, wiring fault, incorrect sensor air gap, or PCM failure.'},
     ],
     related:['P0335','P0336','P0340','P0341','P1300','P1390'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0335',
     category: CodeCategory.Ignition,
@@ -584,7 +584,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed CKP sensor, damaged reluctor ring, wiring fault, incorrect air gap, or debris on the sensor tip.'},
     ],
     related:['P0320','P0336','P0340','P0341','P1300','P1390'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0336',
     category: CodeCategory.Ignition,
@@ -598,7 +598,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Damaged reluctor ring, loose CKP sensor, wiring intermittency, sensor air gap incorrect, or excessive crankshaft end play.'},
     ],
     related:['P0320','P0335','P0340','P0341','P1300','P1390'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0340',
     category: CodeCategory.Ignition,
@@ -612,7 +612,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed CMP sensor, damaged trigger wheel, wiring fault, incorrect sensor air gap, or timing chain/belt slip.'},
     ],
     related:['P0320','P0335','P0336','P0341','P0365','P0390'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0341',
     category: CodeCategory.Ignition,
@@ -626,7 +626,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Slipped timing chain/belt, bent trigger wheel, loose CMP sensor, or wiring intermittency.'},
     ],
     related:['P0320','P0335','P0336','P0340','P0365','P0390'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0350',
     category: CodeCategory.Ignition,
@@ -640,7 +640,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed ignition coil, open/short in the coil winding, faulty coil driver in the PCM, or wiring issue in the coil circuit.'},
     ],
     related:['P0351–P0356','P0300','P0301–P0306'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0420',
     category: CodeCategory.Emissions,
@@ -654,7 +654,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed catalytic converter (contaminated, melted, or worn out), exhaust leak, faulty downstream O2 sensor, or engine conditions (misfire, rich running) that damaged the catalyst.'},
     ],
     related:['P0421','P0430','P0431','P0130–P0135','P0140–P0141','P0300–P0306','P0171','P0174'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0430',
     category: CodeCategory.Emissions,
@@ -668,7 +668,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed Bank 2 catalytic converter, Bank 2 exhaust leak, faulty Bank 2 downstream O2 sensor, or Bank 2 engine issues.'},
     ],
     related:['P0420','P0421','P0431','P0150–P0155','P0160–P0161','P0300–P0306','P0174'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0440',
     category: CodeCategory.Emissions,
@@ -682,7 +682,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Loose or missing gas cap, cracked EVAP hose, failed purge valve stuck open, failed vent valve stuck closed, or damaged charcoal canister.'},
     ],
     related:['P0441','P0442','P0446','P0455','P0456','P0457'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0441',
     category: CodeCategory.Emissions,
@@ -696,7 +696,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Purge valve stuck open or closed, blocked vacuum line, or electrical fault in the purge valve circuit.'},
     ],
     related:['P0440','P0442','P0446','P0455','P0456'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0442',
     category: CodeCategory.Emissions,
@@ -710,7 +710,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Small crack in an EVAP hose, loose gas cap, leaking purge or vent valve, or cracked charcoal canister.'},
     ],
     related:['P0440','P0441','P0446','P0455','P0456','P0457'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0446',
     category: CodeCategory.Emissions,
@@ -724,7 +724,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed vent valve, wiring fault (open or short), corroded connector, or PCM driver failure.'},
     ],
     related:['P0440','P0441','P0442','P0455','P0456'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0455',
     category: CodeCategory.Emissions,
@@ -738,7 +738,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Gas cap off or loose, disconnected EVAP hose, damaged charcoal canister, or purge valve stuck open.'},
     ],
     related:['P0440','P0441','P0442','P0446','P0456','P0457'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0456',
     category: CodeCategory.Emissions,
@@ -752,7 +752,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Small crack in an EVAP hose, worn gas cap gasket, leaking purge or vent valve, or pinhole leak in the charcoal canister.'},
     ],
     related:['P0440','P0441','P0442','P0446','P0455','P0457'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0457',
     category: CodeCategory.Emissions,
@@ -766,7 +766,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Gas cap not tightened after refueling, missing gas cap, worn gas cap gasket, or aftermarket gas cap that does not seal properly.'},
     ],
     related:['P0440','P0442','P0455','P0456'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0500',
     category: CodeCategory.Electrical,
@@ -780,7 +780,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed VSS, damaged reluctor ring, wiring fault, or transmission output shaft issue.'},
     ],
     related:['P0501','P0502','P0503','P0720','P0721','P0722'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0501',
     category: CodeCategory.Electrical,
@@ -794,7 +794,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Incorrect tire size, different final drive ratio, failed VSS, damaged tone wheel, or wiring issue.'},
     ],
     related:['P0500','P0502','P0503','P0720','P0721','P0722'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0502',
     category: CodeCategory.Electrical,
@@ -808,7 +808,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failing VSS sensor, high resistance in the circuit, corroded connector, or damaged reluctor ring.'},
     ],
     related:['P0500','P0501','P0503','P0720','P0721','P0722'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0503',
     category: CodeCategory.Electrical,
@@ -822,7 +822,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Loose connector, corroded terminals, damaged wire that makes intermittent contact, loose sensor mounting, or damaged reluctor ring with one missing tooth.'},
     ],
     related:['P0500','P0501','P0502','P0720','P0721','P0722'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0505',
     category: CodeCategory.Engine,
@@ -836,7 +836,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Carbon buildup in the IAC valve or throttle body, vacuum leak, failed IAC valve, or PCM idle control issue.'},
     ],
     related:['P0506','P0507','P0120','P0220','P1510','P1515','P1520'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0506',
     category: CodeCategory.Engine,
@@ -850,7 +850,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Carbon buildup in the IAC passage, sticking IAC valve, throttle plate carbon, or excessive engine load at idle.'},
     ],
     related:['P0505','P0507','P0120','P0220'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0507',
     category: CodeCategory.Engine,
@@ -864,7 +864,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Vacuum leak, carbon buildup preventing throttle closure, binding throttle cable, or IAC valve stuck open.'},
     ],
     related:['P0505','P0506','P0120','P0220'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0550',
     category: CodeCategory.Electrical,
@@ -878,7 +878,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed PSP sensor, fluid-contaminated connector, wiring damage, or 5V reference fault.'},
     ],
     related:['P0551','P0552','P0553','P0554'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0562',
     category: CodeCategory.Electrical,
@@ -892,7 +892,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Weak or dead battery, failed alternator, loose/corroded battery connections, high resistance in the charging circuit, or excessive parasitic drain.'},
     ],
     related:['P0563','P0620','P0622','P0650','P0685','P0686','P0687'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0563',
     category: CodeCategory.Electrical,
@@ -906,7 +906,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed voltage regulator, alternator internal failure, or wiring fault in the charging circuit.'},
     ],
     related:['P0562','P0620','P0622','P0650','P0685','P0686','P0687'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0600',
     category: CodeCategory.Electrical,
@@ -920,7 +920,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Damaged CAN bus wiring, faulty module taking down the bus, aftermarket accessory interference, or corrosion in connectors.'},
     ],
     related:['P0601','P0602','P0603','P0604','P0605','P0606','P0610','P0620'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0606',
     category: CodeCategory.Electrical,
@@ -934,7 +934,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Internal PCM failure, voltage irregularity causing PCM malfunction, water intrusion, or PCM ground issue.'},
     ],
     related:['P0562','P0563','P0600–P0605','P0620','P0650'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0620',
     category: CodeCategory.Electrical,
@@ -948,7 +948,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed alternator, open/short in the control circuit, blown fuse, or PCM driver failure.'},
     ],
     related:['P0562','P0563','P0622','P0650','P0685','P0686','P0687'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0650',
     category: CodeCategory.Electrical,
@@ -962,7 +962,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Burnt out MIL bulb, failed LED in the cluster, wiring fault, or PCM driver failure.'},
     ],
     related:['P0562','P0563','P0620','P0685','P0686','P0687'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0685',
     category: CodeCategory.Electrical,
@@ -976,7 +976,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed main relay, open relay coil circuit, blown fuse, or PCM driver failure.'},
     ],
     related:['P0562','P0563','P0620','P0650','P0686','P0687'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0686',
     category: CodeCategory.Electrical,
@@ -990,7 +990,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Short to ground in the control circuit, failed relay, or failed PCM driver.'},
     ],
     related:['P0562','P0563','P0620','P0650','P0685','P0687'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0687',
     category: CodeCategory.Electrical,
@@ -1004,7 +1004,7 @@ const DIAGNOSTIC_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Short to battery in the control wire, failed relay welded closed, or PCM driver failure.'},
     ],
     related:['P0562','P0563','P0620','P0650','P0685','P0686'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
 ];
 
 // ---------------------------------------------------------------------------

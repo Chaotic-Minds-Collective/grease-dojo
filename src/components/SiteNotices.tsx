@@ -50,10 +50,16 @@ export const SiteNotices: React.FC = () => {
 
           <article className="notice-card">
             <span className="notice-label">{t('EXTERNAL SERVICES')}</span>
-            <h3>{t('Third-party links have their own rules')}</h3>
+            <h3>{t('External links and the contact form')}</h3>
             <p>            {t('The Reference Desk links to external organizations. When you open an external site, that organization\'s privacy, access, and service terms apply. Availability and requirements may change.')}
             </p>
             <p>            {t('The website host may process standard connection and access logs under its own policies. The final hosting and privacy notice must be confirmed before public release.')}
+            </p>
+            <p>
+              {t('The contact form is embedded from Tally. If you submit it, the information you enter is sent to Tally and processed on behalf of the form owner. Review Tally’s Privacy Notice before submitting. The form owner controls access to and retention of submitted responses. Do not include sensitive personal information.')}{' '}
+              <a href="https://tally.so/help/privacy-policy" target="_blank" rel="noreferrer">
+                {t('Tally’s Privacy Notice')}
+              </a>.
             </p>
           </article>
         </div>

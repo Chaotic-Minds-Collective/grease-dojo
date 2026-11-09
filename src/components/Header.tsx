@@ -74,7 +74,7 @@ export const Header: React.FC<HeaderProps> = ({ route }) => {
         <span className="status-dot" aria-hidden="true" />
         <strong>{t('LIVE')}</strong>
         <span>
-          {t('Content is reviewed and approved for reference. The Greasy Dojo library is live.')}
+          {t('Library content is being prepared for mechanic review. Educational reference only.')}
         </span>
       </div>
       <header className="site-header" id="top">

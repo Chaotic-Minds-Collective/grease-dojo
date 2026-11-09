@@ -2,8 +2,6 @@ name: Manual GitHub Pages deployment
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
 
 permissions:
   contents: read
@@ -14,7 +12,7 @@ concurrency:
 
 jobs:
   build-and-deploy:
-    # Manual dispatch is accepted only from main. This workflow is never triggered by pushes or pull requests.
+    # Manual dispatch is accepted only from main; pushes and pull requests do not deploy.
     if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
