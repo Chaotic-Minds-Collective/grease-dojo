@@ -1,6 +1,7 @@
 import { allCodes, allGuides, QUICK_SEARCHES, FILTER_TABS, SYMPTOM_ITEMS, SAFETY_RULES } from './diagnosticsData';
 import { TROUBLE_CODES_ES, FIELD_GUIDES_ES, QUICK_SEARCHES_ES, FILTER_TABS_ES, SYMPTOM_ITEMS_ES, SAFETY_RULES_ES } from './diagnosticsData.es';
 import { transmissionCodesEs, transmissionGuidesEs } from './transmissionData.es';
+import { DIAGNOSTIC_CODES_ES_FULL } from './diagnosticsData.es.full';
 import type { Lang } from '../i18n/LanguageContext';
 import type { DiagnosticCode, TroubleCode } from '../types/diagnostics';
 
@@ -10,19 +11,27 @@ export { QUICK_SEARCHES, QUICK_SEARCHES_ES, FILTER_TABS, FILTER_TABS_ES, SAFETY_
  *  them from the category value itself). */
 export const CATEGORY_LABELS_ES: Record<string, string> = {
   engine: 'motor',
+  fuel: 'combustible',
+  ignition: 'encendido',
+  emissions: 'emisiones',
   'air-fuel': 'aire y combustible',
   electrical: 'eléctrico',
   temperature: 'temperatura',
+  cooling: 'refrigeración',
+  brake: 'frenos',
   transmission: 'transmisión',
 };
 
 /** Returns the trouble-code library for the active language. */
 export function troubleCodesFor(lang: Lang): DiagnosticCode[] {
   if (lang === 'en') return allCodes();
+  const completeLocalized = new Map(DIAGNOSTIC_CODES_ES_FULL.map((code) => [code.code, code]));
   const localized = new Map(TROUBLE_CODES_ES.map((code) => [code.code, code]));
   const aliases = new Map(TROUBLE_CODES_ES.flatMap((code) =>
     (code.searchTerms ?? []).map((term) => [term, code] as const)));
-  const codes = allCodes().filter((code) => code.category !== 'transmission');
+  const codes = allCodes()
+    .filter((code) => code.category !== 'transmission')
+    .map((code) => completeLocalized.get(code.code) ?? code);
   const identifiers = new Set(codes.map((code) => code.code));
 
   const translate = (translation: TroubleCode, code?: DiagnosticCode): DiagnosticCode => {
@@ -60,6 +69,7 @@ export function troubleCodesFor(lang: Lang): DiagnosticCode[] {
   // Keep stable English identifiers, including members of translated code groups.
   return [
     ...codes.map((code) => {
+      if (completeLocalized.has(code.code)) return code;
       const translation = localized.get(code.code) ?? aliases.get(code.code);
       return translation ? translate(translation, code) : code;
     }),
