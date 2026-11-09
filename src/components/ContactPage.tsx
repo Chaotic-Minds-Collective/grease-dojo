@@ -42,6 +42,12 @@ export const ContactPage: React.FC = () => {
             </div>
           )}
         </div>
+        <p className="contact-privacy-note">
+          {t('The contact form is embedded from Tally. If you submit it, the information you enter is sent to Tally and processed on behalf of the form owner. Review Tally’s Privacy Notice before submitting. The form owner controls access to and retention of submitted responses. Do not include sensitive personal information.')}{' '}
+          <a href="https://tally.so/help/privacy-policy" target="_blank" rel="noreferrer">
+            {t('Tally’s Privacy Notice')}
+          </a>.
+        </p>
         <p className="contact-safety-note">
           {t('Safety note: this form is not a repair hotline. If a vehicle has a condition that could cause injury - fuel leaks, brake failure, exposed wiring - stop and contact a qualified professional immediately.')}
         </p>

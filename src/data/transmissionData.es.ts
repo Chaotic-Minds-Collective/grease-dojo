@@ -1,6 +1,6 @@
 /**
  * Spanish transmission diagnostic codes, engine, and TCM codes.
- * Todo el contenido está revisado y aprobado para referencia.
+ * El contenido es preliminar y está pendiente de revisión por un mecánico calificado y de verificación de fuentes.
  */
 
 import { CodeCategory, DiagnosticCode, FieldGuide } from '../types/diagnostics';
@@ -19,7 +19,7 @@ const TRANSMISSION_CODES_ES: DiagnosticCode[] = [
       {heading:'Causas comunes',body:'Nivel bajo o fluido degradado de la transmisión, solenoide de cambio defectuoso, TCM averiado, arnés de cables dañado o falla interna de la transmisión.'},
     ],
     related:['P0705–P0715','P0730','P0740','P0750','P0760','P0770','P0780'],
-    reviewStatus:'Revisado y aprobado',sourceStatus:'Revisado' },
+    reviewStatus: 'Pendiente de revisión por un mecánico',sourceStatus: 'Pendiente de verificación de fuentes' },
   {
     code: 'P0705',
     category: CodeCategory.Transmission,
@@ -33,7 +33,7 @@ const TRANSMISSION_CODES_ES: DiagnosticCode[] = [
       {heading:'Causas comunes',body:'Sensor de rango defectuoso, varillaje de cambio desajustado, conector corroído, cable roto en el arnés o residuos bloqueando el mecanismo del sensor.'},
     ],
     related:['P0700','P0715','P0720','P0730'],
-    reviewStatus:'Revisado y aprobado',sourceStatus:'Revisado' },
+    reviewStatus: 'Pendiente de revisión por un mecánico',sourceStatus: 'Pendiente de verificación de fuentes' },
   {
     code: 'P0715',
     category: CodeCategory.Transmission,
@@ -47,7 +47,7 @@ const TRANSMISSION_CODES_ES: DiagnosticCode[] = [
       {heading:'Causas comunes',body:'Sensor de velocidad de entrada averiado, rueda dentada dañada, falla de cableado, nivel bajo de fluido que causa pérdida intermitente de señal o daño interno de la transmisión.'},
     ],
     related:['P0700','P0720','P0730','P0740'],
-    reviewStatus:'Revisado y aprobado',sourceStatus:'Revisado' },
+    reviewStatus: 'Pendiente de revisión por un mecánico',sourceStatus: 'Pendiente de verificación de fuentes' },
   {
     code: 'P0720',
     category: CodeCategory.Transmission,
@@ -61,7 +61,7 @@ const TRANSMISSION_CODES_ES: DiagnosticCode[] = [
       {heading:'Causas comunes',body:'Sensor de velocidad de salida averiado, anillo reluctor dañado, falla de cableado, nivel bajo de fluido o falla mecánica interna de la transmisión que causa que no haya rotación de salida.'},
     ],
     related:['P0700','P0715','P0730','P0725'],
-    reviewStatus:'Revisado y aprobado',sourceStatus:'Revisado' },
+    reviewStatus: 'Pendiente de revisión por un mecánico',sourceStatus: 'Pendiente de verificación de fuentes' },
   {
     code: 'P0730',
     category: CodeCategory.Transmission,
@@ -75,7 +75,7 @@ const TRANSMISSION_CODES_ES: DiagnosticCode[] = [
       {heading:'Causas comunes',body:'Paquete de embrague desgastado, banda averiada, cuerpo de válvulas atascado, presión de fluido baja, falla del convertidor de par o daño mecánico interno.'},
     ],
     related:['P0700','P0715','P0720','P0731–P0736','P0740','P0780'],
-    reviewStatus:'Revisado y aprobado',sourceStatus:'Revisado' },
+    reviewStatus: 'Pendiente de revisión por un mecánico',sourceStatus: 'Pendiente de verificación de fuentes' },
   {
     code: 'P0740',
     category: CodeCategory.Transmission,
@@ -89,7 +89,7 @@ const TRANSMISSION_CODES_ES: DiagnosticCode[] = [
       {heading:'Causas comunes',body:'Solenoide TCC averiado, válvula TCC pegada en el cuerpo de válvulas, convertidor de par desgastado, nivel bajo de fluido o falla de cableado al solenoide.'},
     ],
     related:['P0700','P0715','P0720','P0730','P0743','P0748','P0750'],
-    reviewStatus:'Revisado y aprobado',sourceStatus:'Revisado' },
+    reviewStatus: 'Pendiente de revisión por un mecánico',sourceStatus: 'Pendiente de verificación de fuentes' },
   {
     code: 'P0750',
     category: CodeCategory.Transmission,
@@ -103,7 +103,7 @@ const TRANSMISSION_CODES_ES: DiagnosticCode[] = [
       {heading:'Causas comunes',body:'Solenoide de cambio averiado, válvula pegada en el cuerpo de válvulas, circuito abierto/corto en el circuito del solenoide, nivel bajo de fluido o residuos internos bloqueando el solenoide.'},
     ],
     related:['P0700','P0755','P0760','P0765','P0770','P0780'],
-    reviewStatus:'Revisado y aprobado',sourceStatus:'Revisado' },
+    reviewStatus: 'Pendiente de revisión por un mecánico',sourceStatus: 'Pendiente de verificación de fuentes' },
   {
     code: 'P0755',
     category: CodeCategory.Transmission,
@@ -117,7 +117,7 @@ const TRANSMISSION_CODES_ES: DiagnosticCode[] = [
       {heading:'Causas comunes',body:'Solenoide averiado, problema en el cuerpo de válvulas, falla eléctrica o fluido de transmisión contaminado.'},
     ],
     related:['P0700','P0750','P0760','P0765','P0780'],
-    reviewStatus:'Revisado y aprobado',sourceStatus:'Revisado' },
+    reviewStatus: 'Pendiente de revisión por un mecánico',sourceStatus: 'Pendiente de verificación de fuentes' },
   {
     code: 'P0760',
     category: CodeCategory.Transmission,
@@ -131,7 +131,7 @@ const TRANSMISSION_CODES_ES: DiagnosticCode[] = [
       {heading:'Causas comunes',body:'Falla del solenoide, falla de cableado, residuos en el cuerpo de válvulas o presión de fluido baja.'},
     ],
     related:['P0700','P0750','P0755','P0765','P0770','P0780'],
-    reviewStatus:'Revisado y aprobado',sourceStatus:'Revisado' },
+    reviewStatus: 'Pendiente de revisión por un mecánico',sourceStatus: 'Pendiente de verificación de fuentes' },
   {
     code: 'P0765',
     category: CodeCategory.Transmission,
@@ -145,7 +145,7 @@ const TRANSMISSION_CODES_ES: DiagnosticCode[] = [
       {heading:'Causas comunes',body:'Falla eléctrica del solenoide, problema de cableado, contaminación del cuerpo de válvulas o desgaste interno de la transmisión.'},
     ],
     related:['P0700','P0750','P0755','P0760','P0770','P0780'],
-    reviewStatus:'Revisado y aprobado',sourceStatus:'Revisado' },
+    reviewStatus: 'Pendiente de revisión por un mecánico',sourceStatus: 'Pendiente de verificación de fuentes' },
   {
     code: 'P0770',
     category: CodeCategory.Transmission,
@@ -159,7 +159,7 @@ const TRANSMISSION_CODES_ES: DiagnosticCode[] = [
       {heading:'Causas comunes',body:'Falla del solenoide, falla de cableado, problema en el cuerpo de válvulas o nivel/presión de fluido bajo.'},
     ],
     related:['P0700','P0750','P0755','P0760','P0765','P0780'],
-    reviewStatus:'Revisado y aprobado',sourceStatus:'Revisado' },
+    reviewStatus: 'Pendiente de revisión por un mecánico',sourceStatus: 'Pendiente de verificación de fuentes' },
   {
     code: 'P0780',
     category: CodeCategory.Transmission,
@@ -173,7 +173,7 @@ const TRANSMISSION_CODES_ES: DiagnosticCode[] = [
       {heading:'Causas comunes',body:'Fluido bajo, filtro obstruido, desgaste del cuerpo de válvulas, bomba averiada, daño mecánico interno o falla de software del TCM.'},
     ],
     related:['P0700','P0730','P0740','P0750','P0755','P0760','P0765','P0770'],
-    reviewStatus:'Revisado y aprobado',sourceStatus:'Revisado' },
+    reviewStatus: 'Pendiente de revisión por un mecánico',sourceStatus: 'Pendiente de verificación de fuentes' },
 ];
 
 const TRANSMISSION_GUIDES_ES: FieldGuide[] = [

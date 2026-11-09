@@ -53,11 +53,15 @@ const ES_TRANSLATIONS: Record<string, string> = {
   // --- Dialog ---
   'Review status:': 'Estado de revisión:',
   'Pending': 'Pendiente',
+  'Pending mechanic review': 'Pendiente de revisión por un mecánico',
+  'Educational reference only · verify with vehicle-specific service information': 'Solo como referencia educativa · verifica con la información de servicio específica del vehículo',
+  'Library content is being prepared for mechanic review. Educational reference only.': 'El contenido de la biblioteca está en preparación para revisión mecánica. Solo como referencia educativa.',
+  'External links and the contact form': 'Enlaces externos y formulario de contacto',
+  'The contact form is embedded from Tally. If you submit it, the information you enter is sent to Tally and processed on behalf of the form owner. Review Tally’s Privacy Notice before submitting. The form owner controls access to and retention of submitted responses. Do not include sensitive personal information.': 'El formulario de contacto está integrado desde Tally. Si lo envías, la información que ingreses se transmite a Tally y se procesa en nombre del propietario del formulario. Revisa el aviso de privacidad de Tally antes de enviarlo. El propietario del formulario controla el acceso y el tiempo de conservación de las respuestas. No incluyas información personal sensible.',
+  'Tally’s Privacy Notice': 'Aviso de privacidad de Tally',
   'Related codes': 'Códigos relacionados',
   'Procedures and specifications vary by year, make, model, engine, and market. Always verify with authoritative service information and a qualified technician when appropriate.':
     'Los procedimientos y las especificaciones varían según el año, la marca, el modelo, el motor y el mercado. Siempre verifica con información de servicio autoritativa y un técnico calificado cuando corresponda.',
-  'Approved educational content · always verify with service information':
-    'Contenido educativo aprobado · siempre verifica con información de servicio',
 
   // --- Guides section ---
   'Practical starting points for common complaints. Each guide follows a test-before-replace approach.':
@@ -112,8 +116,6 @@ const ES_TRANSLATIONS: Record<string, string> = {
   'e.g. 2015 Honda Civic': 'ej. 2015 Honda Civic',
 
   // --- Global info ---
-  'Content is reviewed and approved for reference. The Greasy Dojo library is live.':
-    'El contenido está revisado y aprobado para referencia. La biblioteca de The Greasy Dojo ya está disponible.',
 
   // --- Legal notices ---
   'These notices are implementation drafts, not legal advice. Consult a qualified attorney for legal guidance.':

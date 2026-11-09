@@ -1,6 +1,6 @@
 /**
  * Transmission diagnostic codes, engine, and TCM codes.
- * All content is reviewed and approved for reference.
+ * Content is preliminary and awaits qualified mechanic review and source verification.
  */
 
 import { CodeCategory, DiagnosticCode, FieldGuide } from '../types/diagnostics';
@@ -19,7 +19,7 @@ const TRANSMISSION_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Low or degraded transmission fluid, failed shift solenoid, faulty TCM, damaged wiring harness, or an internal transmission failure.'},
     ],
     related:['P0705–P0715','P0730','P0740','P0750','P0760','P0770','P0780'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0705',
     category: CodeCategory.Transmission,
@@ -33,7 +33,7 @@ const TRANSMISSION_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Faulty range sensor, misadjusted shift linkage, corroded connector, broken wire in the harness, or debris blocking the sensor mechanism.'},
     ],
     related:['P0700','P0715','P0720','P0730'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0715',
     category: CodeCategory.Transmission,
@@ -47,7 +47,7 @@ const TRANSMISSION_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed input speed sensor, damaged tone wheel, wiring fault, low fluid level causing intermittent signal loss, or internal transmission damage.'},
     ],
     related:['P0700','P0720','P0730','P0740'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0720',
     category: CodeCategory.Transmission,
@@ -61,7 +61,7 @@ const TRANSMISSION_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed output speed sensor, damaged reluctor ring, wiring fault, low fluid, or internal transmission mechanical failure causing no output rotation.'},
     ],
     related:['P0700','P0715','P0730','P0725'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0730',
     category: CodeCategory.Transmission,
@@ -75,7 +75,7 @@ const TRANSMISSION_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Worn clutch pack, failed band, stuck valve body, low fluid pressure, torque converter failure, or internal mechanical damage.'},
     ],
     related:['P0700','P0715','P0720','P0731–P0736','P0740','P0780'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0740',
     category: CodeCategory.Transmission,
@@ -89,7 +89,7 @@ const TRANSMISSION_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed TCC solenoid, stuck TCC valve in the valve body, worn torque converter, low fluid level, or wiring fault to the solenoid.'},
     ],
     related:['P0700','P0715','P0720','P0730','P0743','P0748','P0750'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0750',
     category: CodeCategory.Transmission,
@@ -103,7 +103,7 @@ const TRANSMISSION_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed shift solenoid, stuck valve in the valve body, open/short in the solenoid circuit, low fluid, or internal debris blocking the solenoid.'},
     ],
     related:['P0700','P0755','P0760','P0765','P0770','P0780'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0755',
     category: CodeCategory.Transmission,
@@ -117,7 +117,7 @@ const TRANSMISSION_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Failed solenoid, valve body issue, electrical fault, or contaminated transmission fluid.'},
     ],
     related:['P0700','P0750','P0760','P0765','P0780'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0760',
     category: CodeCategory.Transmission,
@@ -131,7 +131,7 @@ const TRANSMISSION_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Solenoid failure, wiring fault, valve body debris, or low fluid pressure.'},
     ],
     related:['P0700','P0750','P0755','P0765','P0770','P0780'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0765',
     category: CodeCategory.Transmission,
@@ -145,7 +145,7 @@ const TRANSMISSION_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Solenoid electrical failure, wiring issue, valve body contamination, or internal transmission wear.'},
     ],
     related:['P0700','P0750','P0755','P0760','P0770','P0780'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0770',
     category: CodeCategory.Transmission,
@@ -159,7 +159,7 @@ const TRANSMISSION_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Solenoid failure, wiring fault, valve body issue, or low fluid level/pressure.'},
     ],
     related:['P0700','P0750','P0755','P0760','P0765','P0780'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
   {
     code: 'P0780',
     category: CodeCategory.Transmission,
@@ -173,7 +173,7 @@ const TRANSMISSION_CODES: DiagnosticCode[] = [
       {heading:'Common causes',body:'Low fluid, clogged filter, valve body wear, failing pump, internal mechanical damage, or TCM software fault.'},
     ],
     related:['P0700','P0730','P0740','P0750','P0755','P0760','P0765','P0770'],
-    reviewStatus:'Reviewed and approved',sourceStatus:'Reviewed' },
+    reviewStatus: 'Pending mechanic review',sourceStatus: 'Pending source verification' },
 ];
 
 const TRANSMISSION_GUIDES: FieldGuide[] = [

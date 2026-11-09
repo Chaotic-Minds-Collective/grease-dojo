@@ -40,8 +40,14 @@ export function troubleCodesFor(lang: Lang): DiagnosticCode[] {
       symptom: symptomEs || code?.symptom || translation.summary,
       symptomEs: symptomEs || code?.symptomEs,
       related: code?.related ?? translation.related,
-    reviewStatus: code?.reviewStatus ?? translation.reviewStatus,
-    sourceStatus: code?.sourceStatus ?? translation.sourceStatus,
+    reviewStatus:
+      code?.reviewStatus === 'Pending mechanic review'
+        ? 'Pendiente de revisión por un mecánico'
+        : code?.reviewStatus ?? translation.reviewStatus,
+    sourceStatus:
+      code?.sourceStatus === 'Pending source verification'
+        ? 'Pendiente de verificación de fuentes'
+        : code?.sourceStatus ?? translation.sourceStatus,
     sections: [
       { heading: 'Significado', body: translation.meaning },
       { heading: 'Posibles causas', items: translation.causes },

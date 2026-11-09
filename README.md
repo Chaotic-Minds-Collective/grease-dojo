@@ -11,11 +11,11 @@ A bilingual (EN/ES) diagnostic reference site for DIYers, students, and shop pro
 ## Features
 
 - **Trouble code library** — 50+ diagnostic trouble codes with symptom descriptions, common causes, and diagnostic steps
-- **Field guides** — Practical walkthroughs for common complaints: misfires, no-starts, charging system faults, transmission concerns, and more
+- **Field guide topics** — Summary-only entries for common complaints; detailed step-by-step walkthroughs are not yet available.
 - **Safety lesson quiz** — 15-question assessment covering lift safety, PPE, brake dust, fuel systems, and electrical hazards
-- **Bilingual EN/ES** — Full Spanish translation with a language toggle, browser-language detection, and persistent selection
+- **Bilingual EN/ES** — Spanish translations cover selected content; some library entries may remain in English.
 - **Case worksheet** — Build a shareable case file for your mechanic with vehicle info, symptoms, conditions, and safety flags
-- **Privacy-first** — No accounts, no servers, no data collection. Everything runs locally in your browser.
+- **Data handling** — The case worksheet stays in browser memory and is not sent to the application server. The embedded contact form is provided by Tally; submissions are sent to Tally. Review [Tally’s Privacy Notice](https://tally.so/help/privacy-policy) before submitting, and do not include sensitive personal information.
 - **Dark garage theme** — Electric blue, fire orange, and tricolor accents with automotive garage aesthetics
 
 ## Tech Stack
@@ -43,7 +43,7 @@ npm run preview
 
 Launched and live at [https://chaotic-minds-collective.github.io/grease-dojo/](https://chaotic-minds-collective.github.io/grease-dojo/).
 
-Content is reviewed and approved. All diagnostic information is educational reference — always verify with vehicle-specific service information.
+Library content is preliminary and awaiting qualified mechanic review and source verification. It is educational reference only; always verify with vehicle-specific service information.
 
 ---
 

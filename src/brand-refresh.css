@@ -204,6 +204,22 @@
   letter-spacing: 0.08em;
 }
 
+.contact-privacy-note {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: #9aa0a6;
+  border-left: 3px solid var(--cyan);
+  padding-left: 0.85rem;
+  max-width: 70ch;
+}
+
+.contact-privacy-note a {
+  color: var(--cyan);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 .contact-safety-note {
   margin: 0;
   font-size: 0.86rem;

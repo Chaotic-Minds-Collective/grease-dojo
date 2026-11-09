@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useLang } from '../i18n/LanguageContext';
 import type { DiagnosticCode, FieldGuide } from '../types/diagnostics';
 
@@ -9,6 +9,14 @@ type DetailDialogProps = {
 
 export const DetailDialog: React.FC<DetailDialogProps> = ({ code, onClose }) => {
   const { t } = useLang();
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (code && dialog && !dialog.open) {
+      dialog.showModal();
+    }
+  }, [code]);
 
   if (!code) return null;
 
@@ -42,14 +50,16 @@ export const DetailDialog: React.FC<DetailDialogProps> = ({ code, onClose }) => 
   };
 
   return (
-    <dialog className="detail-dialog-overlay" onClick={onClose}>
-      <div
-        className="detail-dialog-content"
-        onClick={(e) => e.stopPropagation()}
-        role="dialog"
-        aria-modal="true"
-        aria-label={`${heading}: ${description}`}
-      >
+    <dialog
+      ref={dialogRef}
+      className="detail-dialog"
+      aria-label={`${heading}: ${description}`}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) dialogRef.current?.close();
+      }}
+      onClose={onClose}
+    >
+      <div className="detail-dialog-content">
         <div className="dialog-header">
           <h2>{heading}</h2>
           <p>{description}</p>
@@ -74,8 +84,8 @@ export const DetailDialog: React.FC<DetailDialogProps> = ({ code, onClose }) => 
         </div>
 
         <div className="dialog-footer">
-          <span>{t('Approved educational content · always verify with service information')}</span>
-          <button className="button button-ghost" type="button" onClick={onClose}>
+          <span>{t('Educational reference only · verify with vehicle-specific service information')}</span>
+          <button className="button button-ghost" type="button" onClick={() => dialogRef.current?.close()}>
             {t('Close')}
           </button>
         </div>
