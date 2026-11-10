@@ -69,7 +69,21 @@ export function troubleCodesFor(lang: Lang): DiagnosticCode[] {
   // Keep stable English identifiers, including members of translated code groups.
   return [
     ...codes.map((code) => {
-      if (completeLocalized.has(code.code)) return code;
+      if (completeLocalized.has(code.code)) {
+        const statusTranslation = localized.get(code.code) ?? aliases.get(code.code) ?? localized.values().next().value;
+        const translated = statusTranslation ? translate(statusTranslation, code) : code;
+        const safety = localized.get(code.code) ?? aliases.get(code.code);
+        const sections = code.sections ?? [];
+        const hasSafetySection = sections.some((section) => section.heading === 'Seguridad');
+        return {
+          ...code,
+          reviewStatus: translated.reviewStatus,
+          sourceStatus: translated.sourceStatus,
+          sections: safety?.warning && !hasSafetySection
+            ? [...sections, { heading: 'Seguridad', body: safety.warning }]
+            : sections,
+        };
+      }
       const translation = localized.get(code.code) ?? aliases.get(code.code);
       return translation ? translate(translation, code) : code;
     }),
