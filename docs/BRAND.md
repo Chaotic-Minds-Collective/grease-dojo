@@ -1,6 +1,6 @@
 # The Diagnostic Bay - Brand Guide
 
-Approved by Danielle, October 31 2026.
+Approved by Danielle, November 11 2026.
 
 ## Logo
 
