@@ -108,7 +108,7 @@ export const ReferenceDesk: React.FC = () => {
         </div>
 
         <p className="reference-disclaimer">
-          {t('External resources are operated by their respective organizations. Their availability, access requirements, and content may change. Linking to a resource does not mean The Greasy Dojo has reviewed or endorsed every service it offers.')}
+          {t('External resources are operated by their respective organizations. Their availability, access requirements, and content may change. Linking to a resource does not mean Grease Dojo has reviewed or endorsed every service it offers.')}
         </p>
       </div>
     </section>

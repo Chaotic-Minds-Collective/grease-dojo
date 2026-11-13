@@ -78,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({ route }) => {
         </span>
       </div>
       <header className="site-header" id="top">
-        <a className="brand" href="#/" aria-label={t('The Greasy Dojo home')}>
+        <a className="brand" href="#/" aria-label={t('Grease Dojo home')}>
           <img
             src={`${import.meta.env.BASE_URL}assets/brand-mark.svg`}
             alt=""
