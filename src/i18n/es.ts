@@ -1,5 +1,5 @@
 /**
- * Spanish translations for The Greasy Dojo.
+ * Spanish translations for Grease Dojo.
  * All entries are keyed by the English string for t(key) lookups.
  */
 
@@ -161,7 +161,7 @@ const ES_TRANSLATIONS: Record<string, string> = {
   "Engine:": "Motor:",
   "Every time.": "Cada vez.",
   "Evidence over ego.": "La evidencia por encima del ego.",
-  "External resources are operated by their respective organizations. Their availability, access requirements, and content may change. Linking to a resource does not mean The Greasy Dojo has reviewed or endorsed every service it offers.": "Los recursos externos son administrados por sus respectivas organizaciones. Su disponibilidad, requisitos de acceso y contenido pueden cambiar. Incluir un enlace a un recurso no significa que The Greasy Dojo haya revisado o respaldado todos los servicios que ofrece.",
+  "External resources are operated by their respective organizations. Their availability, access requirements, and content may change. Linking to a resource does not mean Grease Dojo has reviewed or endorsed every service it offers.": "Los recursos externos son administrados por sus respectivas organizaciones. Su disponibilidad, requisitos de acceso y contenido pueden cambiar. Incluir un enlace a un recurso no significa que Grease Dojo haya revisado o respaldado todos los servicios que ofrece.",
   "FORM IS BEING SET UP": "EL FORMULARIO ESTÁ EN PREPARACIÓN",
   "FOUNDATIONS / PREVIEW": "FUNDAMENTOS / VISTA PREVIA",
   "Find the source.": "Encuentra el origen.",
@@ -243,8 +243,8 @@ const ES_TRANSLATIONS: Record<string, string> = {
   "THE RULES OF THE DOJO": "LAS REGLAS DEL DOJO",
   "TROUBLE CODES": "CÓDIGOS DE FALLA",
   "Tell us.": "Cuéntanos.",
-  "The Greasy Dojo home": "Inicio de The Greasy Dojo",
-  "The Greasy Dojo provides general educational information and tools for organizing observations. It cannot inspect your vehicle, verify a trouble code, read live data, or confirm a failed component. A trouble code is evidence, not proof of a particular failure.": "The Greasy Dojo ofrece información educativa general y herramientas para organizar observaciones. No puede inspeccionar tu vehículo, verificar un código de falla, leer datos en tiempo real ni confirmar que un componente esté averiado. Un código de falla es una evidencia, no una prueba de una falla específica.",
+  "Grease Dojo home": "Inicio de Grease Dojo",
+  "Grease Dojo provides general educational information and tools for organizing observations. It cannot inspect your vehicle, verify a trouble code, read live data, or confirm a failed component. A trouble code is evidence, not proof of a particular failure.": "Grease Dojo ofrece información educativa general y herramientas para organizar observaciones. No puede inspeccionar tu vehículo, verificar un código de falla, leer datos en tiempo real ni confirmar que un componente esté averiado. Un código de falla es una evidencia, no una prueba de una falla específica.",
   "The Reference Desk links to external organizations. When you open an external site, that organization's privacy, access, and service terms apply. Availability and requirements may change.": "El Centro de consulta incluye enlaces a organizaciones externas. Al abrir un sitio externo, se aplican las políticas de privacidad y los términos de acceso y servicio de esa organización. La disponibilidad y los requisitos pueden cambiar.",
   "The contact form launches shortly. Check back soon.": "El formulario de contacto estará disponible pronto. Vuelve a visitarnos.",
   "The same symptom can have several causes. Choose the closest match to explore safe first observations and possible next tests.": "Un mismo síntoma puede tener varias causas. Elige la opción más parecida para explorar observaciones iniciales seguras y posibles pruebas siguientes.",
