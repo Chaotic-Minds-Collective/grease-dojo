@@ -1,4 +1,7 @@
-# Greasy Dojo
+# Grease Dojo
+
+**Chaotic Minds Collective's AI-assisted automotive diagnostics reference project.**
+
 
 **AI-assisted automotive diagnostics — educational reference library.**
 
