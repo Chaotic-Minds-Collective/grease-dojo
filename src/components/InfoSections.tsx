@@ -182,7 +182,7 @@ export const SiteFooter: React.FC = () => {
       </div>
       <div className="footer-bottom">
         <span>
-          © <span id="year">{currentYear}</span> The Greasy Dojo · {t('Working concept')}
+          © <span id="year">{currentYear}</span> Grease Dojo · {t('Working concept')}
         </span>
         <span>
           {t('Educational resource · Not a substitute for vehicle-specific service information')}
